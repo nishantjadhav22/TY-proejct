@@ -1,0 +1,310 @@
+/* ================= PAGE ================= */
+
+.colleges-page {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  padding: 120px 60px 40px;
+  background: radial-gradient(circle at top, #0b1224, #050914);
+  color: #fff;
+}
+
+/* ================= HEADER ================= */
+
+.college-header {
+  text-align: center;
+  max-width: 900px;
+  margin: 0 auto 40px;
+}
+
+.college-header h1 {
+  font-size: 44px;
+  font-weight: 700;
+}
+
+.college-header h1 span {
+  background: linear-gradient(90deg, #00f6ff, #ff00c8);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.college-header p {
+  margin-top: 12px;
+  color: #9aa4bf;
+  font-size: 15px;
+}
+
+/* ================= SEARCH + FILTER JOINT ================= */
+
+.search-filter-wrapper {
+  width: 90%;
+  max-width: 1100px;
+  margin: 0 auto 35px;
+
+  background: rgba(15, 23, 42, 0.9);
+  border-radius: 22px;
+
+  border: 1px solid rgba(0, 246, 255, 0.35);
+  box-shadow: 0 0 40px rgba(0, 246, 255, 0.22);
+
+  overflow: hidden;
+}
+
+/* ---------- SEARCH ROW ---------- */
+
+.search-row {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 18px 22px;
+}
+
+.search-row i {
+  font-size: 20px;
+  color: #22f2ff;
+}
+
+.search-row input {
+  flex: 1;
+  background: transparent;
+  border: none;
+  outline: none;
+  color: #fff;
+  font-size: 15px;
+}
+
+.search-row input::placeholder {
+  color: #9aa4bf;
+}
+
+.search-actions {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.filter-btn {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+
+  padding: 10px 16px;
+  border-radius: 14px;
+  cursor: pointer;
+
+  background: rgba(0, 246, 255, 0.12);
+  border: 1px solid rgba(0, 246, 255, 0.35);
+  color: #00f6ff;
+
+  transition: all 0.25s ease;
+}
+
+.filter-btn:hover {
+  background: rgba(0, 246, 255, 0.22);
+}
+
+/* ---------- FILTER PANEL (INLINE) ---------- */
+
+.filters-panel {
+  padding: 22px;
+  border-top: 1px solid rgba(255, 255, 255, 0.12);
+  animation: slideDown 0.25s ease;
+}
+
+/* Grid */
+.filter-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 18px;
+}
+
+.filter-grid label {
+  font-size: 13px;
+  color: #9aa4bf;
+}
+
+.filter-grid select,
+.filter-grid input {
+  margin-top: 6px;
+  width: 100%;
+  padding: 12px;
+  border-radius: 12px;
+
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  color: #fff;
+  outline: none;
+}
+
+/* Footer */
+.filter-footer {
+  margin-top: 20px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.results-count {
+  font-size: 14px;
+  color: #9aa4bf;
+}
+
+.clear-btn {
+  background: none;
+  border: none;
+  color: #ff4d9d;
+  font-weight: 600;
+  cursor: pointer;
+    display: inline-flex;          /* Align icon + text horizontally */
+  align-items: center;           /* Center vertically */
+  gap: -3px;                      /* Space between X and text */
+  padding: 6px 12px;
+}
+
+/* ================= GRID ================= */
+
+.college-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 22px;
+  margin-top: 20px;
+  flex: 1;
+}
+
+/* ================= BUTTON ================= */
+
+.more-colleges-btn {
+  margin: 40px auto 0;
+  padding: 12px 28px;
+  font-size: 16px;
+  font-weight: 600;
+  border: none;
+  border-radius: 10px;
+  cursor: pointer;
+
+  background: linear-gradient(90deg, #00f6ff, #ff00c8);
+  color: #fff;
+  transition: all 0.3s ease;
+}
+
+.more-colleges-btn:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 8px 20px rgba(0,0,0,0.3);
+}
+.more-btn-wrapper {
+  grid-column: 1 / -1;
+  display: flex;
+  justify-content: center;
+  margin: 30px 0 10px;
+}
+
+
+/* ================= ANIMATION ================= */
+
+@keyframes slideDown {
+  from {
+    opacity: 0;
+    transform: translateY(-8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* ================= RESPONSIVE ================= */
+
+@media (max-width: 900px) {
+  .filter-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 520px) {
+  .filter-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* ===== RATING FILTER ===== */
+
+.rating-filter label {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 14px;
+  color: #cbd5f5;
+}
+
+.rating-value {
+  font-weight: 700;
+  color: #00f6ff;
+}
+
+/* Slider base */
+/* ===== CUSTOM GRADIENT SLIDER (IMAGE LIKE) ===== */
+
+.rating-slider {
+  width: 100%;
+  margin-top: 17px;
+  appearance: none;
+  height: 6px;
+  border-radius: 6px;
+  background: linear-gradient(
+    90deg,
+    #00f6ff 0%,
+    #8b5cf6 50%,
+    #ff00c8 100%
+  );
+  outline: none;
+  cursor: pointer;
+}
+
+/* ===== THUMB (CIRCLE) ===== */
+.rating-slider::-webkit-slider-thumb {
+  appearance: none;
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  background: #0b1224;
+  border: 3px solid #00f6ff;
+  box-shadow: 0 0 12px rgba(0, 246, 255, 0.8);
+  cursor: pointer;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.rating-slider::-webkit-slider-thumb:hover {
+  transform: scale(1.15);
+  box-shadow: 0 0 18px rgba(255, 0, 200, 0.9);
+}
+
+/* ===== FIREFOX ===== */
+.rating-slider::-moz-range-thumb {
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  background: #0b1224;
+  border: 3px solid #00f6ff;
+  box-shadow: 0 0 12px rgba(0, 246, 255, 0.8);
+  cursor: pointer;
+}
+
+.select-wrapper {
+  position: relative;
+  display: inline-block;
+  width: 100%;
+}
+
+.select-wrapper select {
+  width: 100%;
+  padding-right: 28px; /* space for chevron */
+  appearance: none; /* remove default arrow */
+}
+
+.select-icon {
+  position: absolute;
+  right: 8px;
+  top: 60%;
+  transform: translateY(-50%);
+  pointer-events: none;
+}

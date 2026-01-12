@@ -1,0 +1,72 @@
+.quiz-page {
+  min-height: 100vh;
+  background: radial-gradient(circle at top, #0f172a, #020617);
+  color: white;
+  padding: 60px 20px;
+  text-align: center;
+}
+
+.quiz-header h1 {
+  font-size: 32px;
+}
+
+.progress-bar {
+  height: 6px;
+  background: #1e293b;
+  border-radius: 6px;
+  margin: 20px auto;
+  max-width: 600px;
+}
+
+.progress-fill {
+  height: 100%;
+  background: linear-gradient(90deg, #22d3ee, #ec4899);
+  border-radius: 6px;
+}
+
+.quiz-card-glass {
+  max-width: 700px;
+  margin: 40px auto;
+  padding: 30px;
+  background: rgba(15, 23, 42, 0.8);
+  border-radius: 16px;
+  box-shadow: 0 0 30px rgba(34, 211, 238, 0.3);
+  border: 1px solid rgba(34, 211, 238, 0.3);
+}
+
+.quiz-options {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+  margin-top: 20px;
+}
+
+.quiz-option {
+  padding: 16px;
+  border-radius: 12px;
+  border: 1px solid #334155;
+  cursor: pointer;
+  display: flex;
+  gap: 10px;
+  align-items: center;
+}
+
+.quiz-option.active {
+  border-color: #22d3ee;
+  background: rgba(34, 211, 238, 0.15);
+}
+
+.quiz-nav {
+  max-width: 700px;
+  margin: auto;
+  display: flex;
+  justify-content: space-between;
+}
+
+.next-btn {
+  background: linear-gradient(90deg, #22d3ee, #ec4899);
+  border: none;
+  padding: 10px 20px;
+  border-radius: 10px;
+  color: black;
+}

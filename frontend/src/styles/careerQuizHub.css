@@ -1,0 +1,166 @@
+/* src/styles/careerQuizHub.css */
+
+/* Reset */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: 'Poppins', sans-serif;
+}
+
+body {
+  background-color: #0d0e17;
+  color: #fff;
+  min-height: 100vh;
+}
+
+/* PAGE CONTAINER */
+.cq-page {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 50px 20px;
+}
+
+/* HEADER / TITLE */
+.cq-header {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  margin-bottom: 50px;
+}
+
+.cq-title {
+  text-align: center;
+}
+
+/* QUIZ ICON */
+.cq-title .cq-icon {
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;                  /* circle shape */
+  display: flex;
+  justify-content: center;             /* horizontal center */
+  align-items: center;                 /* vertical center */
+  margin: 60px auto 20px auto;           /* center & spacing */
+  background: linear-gradient(135deg, #6c63ff, #ff5ca2);  /* gradient background */
+  box-shadow: 0 4px 10px rgba(0,0,0,0.3);                 /* subtle shadow */
+  transition: transform 0.3s ease;
+}
+
+.cq-title .cq-icon:hover {
+  transform: scale(1.1);               /* hover effect */
+}
+
+.cq-title .cq-icon span {
+  font-size: 40px;                      /* icon size */
+  background: none;                     /* remove previous text gradient */
+  -webkit-background-clip: unset;
+  -webkit-text-fill-color: unset;
+  color: #fff;                          /* icon color */
+}
+
+/* TITLE TEXT */
+.cq-title h1 {
+  font-size: 48px;
+  font-weight: 700;
+  margin-bottom: 15px;
+}
+
+.cq-title h1 .highlight {
+  background: linear-gradient(90deg, #00e0ff, #ff00ff);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.cq-title p {
+  font-size: 18px;
+  color: #b0b0c3;
+}
+
+/* CARDS CONTAINER */
+.cq-cards {
+  display: flex;
+  gap: 40px;
+  flex-wrap: wrap;
+  justify-content: center;
+  width: 100%;
+  max-width: 1000px;
+}
+
+/* CARD BASE STYLES */
+.cq-card {
+  background-color: #14141f;
+  border-radius: 15px;
+  padding: 30px;
+  flex: 1 1 400px;
+  max-width: 450px;
+  transition: all 0.3s ease;
+  cursor: pointer;
+  border: 1px solid transparent;
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.cq-card:hover {
+  border: 1px solid #6c63ff;
+  transform: translateY(-5px);
+}
+
+/* CARD ICONS */
+.cq-card-icon {
+  width: 60px;
+  height: 60px;
+  border-radius: 15px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 28px;
+  margin-bottom: 15px;
+}
+
+.play-icon {
+  background: linear-gradient(135deg, #00e0ff, #6c63ff);
+  color: #fff;
+}
+
+.refresh-icon {
+  background: linear-gradient(135deg, #ff5ca2, #6c63ff);
+  color: #fff;
+}
+
+/* CARD TITLES */
+.cq-card h2 {
+  font-size: 24px;
+  margin-bottom: 10px;
+}
+
+/* CARD PARAGRAPH */
+.cq-card p {
+  font-size: 16px;
+  color: #b0b0c3;
+}
+
+/* POWERED / QUIZ COUNT */
+.cq-card .powered,
+.cq-card .quiz-count {
+  font-size: 14px;
+  color: #6c63ff;
+}
+
+/* RESPONSIVE */
+@media (max-width: 900px) {
+  .cq-cards {
+    flex-direction: column;
+    gap: 25px;
+  }
+
+  .cq-title h1 {
+    font-size: 38px;
+  }
+
+  .cq-title p {
+    font-size: 16px;
+  }
+}

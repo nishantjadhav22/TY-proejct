@@ -1,0 +1,214 @@
+{
+  "appName": "Career Advisor",
+  "nav": {
+    "home": "Home",
+    "colleges": "Colleges",
+    "pricing": "Pricing",
+    "features": "Features",
+    "dashboard": "Dashboard"
+  },
+  "language": {
+    "select": "Language"
+  },
+  "auth": {
+    "signIn": "Sign In",
+    "signUp": "Sign Up",
+    "profile": "Profile",
+    "logout": "Logout"
+  },
+    
+  "featuresDropdown": {
+    "careerQuiz": {
+      "title": "Career Quiz",
+      "desc": "AI-powered career assessment"
+    },
+    "collegeFinder": {
+      "title": "College Finder",
+      "desc": "Find colleges with AI recommendations"
+    },
+    "aiRoadmap": {
+      "title": "AI Roadmap",
+      "desc": "Generate personalized career roadmaps"
+    },
+    "jobHunting": {
+      "title": "Job Hunting",
+      "desc": "AI powered job matching and outreach"
+    },
+    "careerTree": {
+      "title": "3D Career Tree",
+      "desc": "Interactive career explanation"
+    },
+    "learningResources": {
+      "title": "Learning Resources",
+      "desc": "Curated study materials"
+    },
+    "subscriptionPlans": {
+      "title": "Subscription Plans",
+      "desc": "View and upgrade your plan"
+    }
+  },
+
+
+  "jobHunting": {
+    "headerTitle": "Job Hunting Hub",
+    "headerSubtitle": "AI-powered career assistance",
+    "tabResumeAnalysis": "Resume Analysis",
+    "tabJobMatches": "Job Matches",
+    "tabOutreachDrafts": "Outreach Drafts",
+    "uploadTitle": "Upload Your Resume",
+    "uploadChooseFile": "Choose your resume file",
+    "uploadFormatOnly": "PDF format only",
+    "analyzeBtn": "Analyze Resume with AI",
+    "loadingText": "Analyzing resume...",
+    "errorNoFile": "Please select a PDF first!",
+    "errorInvalidFile": "Please upload only PDF files",
+    "resultTitle": "Analysis Result:",
+    "resultATS": "ATS Score:",
+    "resultMissingSkills": "Missing Skills:",
+    "resultRecommendedRoles": "Recommended Roles:",
+    "resultTips": "Improvement Tips:",
+    "resultRaw": "Raw AI Response:"
+  },
+
+  "hero": {
+  "headerLine1": "Your Personalized Career &",
+  "headerLine2": "College Guide",
+  "subHeader": "Discover your path with AI-powered quizzes, 3D career maps & nearby government college suggestions.",
+  "btnStartQuiz": "Start Your Quiz",
+  "btnLearnHow": "Learn How It Works",
+  "stats1Title": "10K+",
+  "stats1Desc": "Students Guided",
+  "stats2Title": "500+",
+  "stats2Desc": "Career Paths",
+  "stats3Title": "1000+",
+  "stats3Desc": "Colleges Listed"
+},
+
+  "features": {
+    "title": "Our Key Features",
+    "aiGuidance": {
+      "title": "AI-Powered Guidance",
+      "description": "Get personalized career & college suggestions with AI-driven quizzes."
+    },
+    "careerMaps": {
+      "title": "3D Career Maps",
+      "description": "Visualize your career paths with interactive 3D maps."
+    },
+    "collegeInsights": {
+      "title": "College Insights",
+      "description": "Find nearby colleges and detailed insights to choose the right fit."
+    },
+    "scholarshipAlerts": {
+      "title": "Scholarship Alerts",
+      "description": "Stay updated with the latest scholarships & exam notifications."
+    },
+    "exploreButton": "Explore All Features"
+  },
+  
+  "footer": {
+    "description": "Your comprehensive platform for career guidance and college recommendations powered by AI.",
+    "email": "📧 solutions@gmail.com",
+    "phone": "📞 +91 7000000000",
+    "address": "📍 123 Innovation Drive, Tech City",
+    "featuresTitle": "FEATURES",
+    "careerQuiz": "Career Quiz",
+    "careerTree": "3D Career Tree",
+    "collegeFinder": "College Finder",
+    "timeline": "Timeline Tracker",
+    "companyTitle": "COMPANY",
+    "about": "About",
+    "team": "Team",
+    "careers": "Careers",
+    "contact": "Contact",
+    "supportTitle": "SUPPORT",
+    "help": "Help",
+    "studyMaterials": "Study Materials",
+    "careerGuides": "Career Guides",
+    "apiDocs": "API Docs",
+    "legalTitle": "LEGAL",
+    "privacyPolicy": "Privacy Policy",
+    "terms": "Terms of Service",
+    "cookie": "Cookie Policy",
+    "gdpr": "GDPR",
+    "bottomText": "© 2025 CareerGuide. Built with ❤️ for students everywhere."
+  },
+  
+  "signin": {
+    "welcomeBack": "Welcome Back",
+    "signInToContinue": "Sign in to continue your career journey",
+    "emailLabel": "Email Address",
+    "passwordLabel": "Password",
+    "forgotPassword": "Forgot your password?",
+    "signInButton": "Sign In →",
+    "noAccount": "Don’t have an account?",
+    "signUpNow": "Sign Up Now",
+    "loginSuccess": "Login successful!",
+    "loginFailed": "Login failed"
+  },
+  
+  "register": {
+    "createAccount": "Create Your Account",
+    "signUpToContinue": "Sign up to start your career journey",
+    "fullName": "Full Name",
+    "emailLabel": "Email Address",
+    "passwordLabel": "Password",
+    "confirmPasswordLabel": "Confirm Password",
+    "createAccountBtn": "Create Account →",
+    "alreadyAccount": "Already have an account?",
+    "signInNow": "Sign In",
+    "passwordMismatch": "Passwords do not match!",
+    "accountCreated": "Account created successfully!",
+    "accountError": "Error creating account"
+  },
+  
+  "colleges": {
+    "headerTitle": "Find Your Perfect",
+    "headerSpan": "College",
+    "headerDesc": "Discover top engineering colleges across India with detailed information and insights",
+    "searchPlaceholder": "Search colleges or cities...",
+    "filters": "Filters",
+    "moreBtn": "More Colleges"
+  },
+  
+  "collegeCard": {
+    "est": "Est.",
+    "annualFees": "Annual Fees",
+    "cutoff": "Cutoff",
+    "popularCourses": "Popular Courses",
+    "more": "more",
+    "viewDetails": "View Details",
+    "visit": "Visit",
+    "compare": "Compare"
+  },
+
+  "Back": "Back",
+  "Filters": "Filters",
+  "Learning Resources": "Learning Resources",
+  "Curated courses, videos & practice material": "Curated courses, videos & practice material",
+  "Search resources, topics...": "Search resources, topics...",
+  "All": "All",
+  "Programming": "Programming",
+  "Data Science": "Data Science",
+  "Design": "Design",
+  "Marketing": "Marketing",
+  "Finance": "Finance",
+  "Management": "Management",
+  "course": "course",
+  "video": "video",
+  "article": "article",
+  "book": "book",
+  "practice": "practice",
+  "Beginner": "Beginner",
+  "Intermediate": "Intermediate",
+  "Advanced": "Advanced",
+  "by": "by",
+  "Free": "Free",
+  "Paid": "Paid",
+  "Access": "Access",
+  "No resources found": "No resources found",
+  "Ready to Start Learning?": "Ready to Start Learning?",
+  "Take Career Quiz": "Take Career Quiz",
+  "Create Learning Path": "Create Learning Path"
+}
+
+ 

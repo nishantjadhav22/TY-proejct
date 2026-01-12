@@ -1,0 +1,40 @@
+.reset-container {
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: #05070d;
+}
+
+.reset-box {
+  width: 360px;
+  padding: 30px;
+  background: #121826;
+  border-radius: 10px;
+}
+
+.reset-box h2 {
+  color: #ff00c8;
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+.reset-box input {
+  width: 100%;
+  padding: 12px;
+  margin-bottom: 15px;
+  background: #0b0f1a;
+  border: 1px solid #ff00c8;
+  color: #fff;
+  border-radius: 6px;
+}
+
+.reset-box button {
+  width: 100%;
+  padding: 12px;
+  background: #ff00c8;
+  border: none;
+  font-weight: bold;
+  cursor: pointer;
+  border-radius: 6px;
+}

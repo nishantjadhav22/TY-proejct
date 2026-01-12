@@ -1,0 +1,197 @@
+/* ================= THEME ================= */
+:root {
+  --bg-dark: #0b0f1a;
+  --card-bg: rgba(255, 255, 255, 0.06);
+  --border-glass: rgba(255, 255, 255, 0.15);
+  --neon-cyan: #00f6ff;
+  --neon-pink: #ff00c8;
+  --text-light: #ffffff;
+  --text-muted: #9ca3af;
+}
+
+/* ================= PAGE ================= */
+.register-page {
+  position: relative;
+  min-height: 100vh;
+  background: var(--bg-dark);
+  background: 
+    linear-gradient(rgba(11,15,26,0.35), rgba(11,15,26,0.35)), /* overlay */
+    url('../assets/register-bg.png'); /* yahan apni image ka path daale */
+    
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: 20px;
+  overflow: hidden;
+}
+
+/* ================= HEADER ================= */
+.register-header {
+  text-align: center;
+  color: var(--text-light);
+  margin-bottom: 25px;
+  z-index: 2;
+}
+
+.register-logo {
+  width: 65px;
+  height: 65px;
+  margin: 0 auto 12px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, var(--neon-cyan), var(--neon-pink));
+  color: #000;
+  font-weight: 800;
+  font-size: 22px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.register-header h2 {
+  font-size: 26px;
+  margin-bottom: 6px;
+}
+
+.register-header p {
+  font-size: 14px;
+  color: var(--text-muted);
+}
+
+/* ================= CARD ================= */
+.register-card {
+  width: 100%;
+  max-width: 400px;
+  background: var(--card-bg);
+  backdrop-filter: blur(18px);
+  border: 1px solid var(--border-glass);
+  border-radius: 20px;
+  padding: 30px;
+  box-shadow: 0 0 50px rgba(0, 246, 255, 0.15);
+  z-index: 2;
+}
+
+/* ================= INPUT ================= */
+.input-group {
+  margin-bottom: 22px;
+}
+
+.input-icon-wrapper {
+  position: relative;
+}
+
+/* INPUT FIELD */
+.input-icon-wrapper input {
+  width: 100%;
+  padding: 15px 46px;
+  background: rgba(0, 0, 0, 0.45);
+  border: 1px solid #374151;
+  border-radius: 14px;
+  color: var(--text-light);
+  font-size: 15px;
+  outline: none;
+  transition: all 0.25s ease;
+}
+
+.input-icon-wrapper input:focus {
+  border-color: var(--neon-cyan);
+  box-shadow: 0 0 0 2px rgba(0, 246, 255, 0.25);
+}
+
+/* FLOAT LABEL */
+.input-icon-wrapper label {
+  position: absolute;
+  left: 46px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: var(--text-muted);
+  font-size: 14px;
+  pointer-events: none;
+  transition: all 0.25s ease;
+}
+
+.input-group.filled label,
+.input-icon-wrapper input:focus + label {
+  top: -8px;
+  font-size: 12px;
+  color: var(--neon-cyan);
+  background: var(--bg-dark);
+  padding: 0 6px;
+}
+
+/* LEFT ICON */
+.input-icon {
+  position: absolute;
+  left: 14px;
+  top: 50%;
+  transform: translateY(-50%);
+  font-size: 18px;
+  color: var(--text-muted);
+}
+
+/* RIGHT ICON (EYE) */
+.input-icon.clickable {
+  left: auto;
+  right: 14px;
+  cursor: pointer;
+  transition: color 0.2s ease;
+}
+
+.input-icon.clickable:hover {
+  color: var(--neon-cyan);
+}
+
+/* ICON GLOW */
+.input-icon-wrapper:focus-within .input-icon {
+  filter: drop-shadow(0 0 6px var(--neon-cyan));
+}
+
+/* ================= BUTTON ================= */
+.register-btn {
+  width: 100%;
+  padding: 15px;
+  border-radius: 14px;
+  border: none;
+  background: linear-gradient(135deg, var(--neon-cyan), var(--neon-pink));
+  color: #000;
+  font-weight: 800;
+  font-size: 16px;
+  cursor: pointer;
+  transition: all 0.25s ease;
+}
+
+.register-btn:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 0 25px rgba(0, 246, 255, 0.5);
+}
+
+/* ================= SIGN IN TEXT ================= */
+.signin-text {
+  margin-top: 22px;
+  font-size: 14px;
+  color: var(--text-muted);
+}
+
+.signin-text span {
+  color: var(--neon-cyan);
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.signin-text span:hover {
+  color: var(--neon-pink);
+}
+
+/* ================= MOBILE ================= */
+@media (max-width: 480px) {
+  .register-card {
+    padding: 24px;
+  }
+
+  .register-header h2 {
+    font-size: 22px;
+  }
+}

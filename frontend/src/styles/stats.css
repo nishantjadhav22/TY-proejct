@@ -1,0 +1,32 @@
+.stats {
+  display: flex;
+  justify-content: center;
+  gap: 80px;
+  padding-bottom: 80px;
+}
+
+.stat-box {
+  padding: 25px 35px;
+  border-radius: 14px;
+  transition: 0.4s ease;
+  cursor: pointer;
+  background: rgba(255, 255, 255, 0.03);
+}
+
+.stat-box:hover {
+  box-shadow: 0 0 30px rgba(0, 246, 255, 0.5);
+  transform: translateY(-12px) scale(1.05);
+}
+
+.stat-box h2 {
+  color: #00f6ff;
+  font-size: 34px;
+  text-align: center;
+  text-shadow: 0 0 10px #00f6ff;
+}
+
+.stat-box p {
+  text-align: center;
+  opacity: 0.75;
+  margin-top: 8px;
+}

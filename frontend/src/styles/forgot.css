@@ -1,0 +1,53 @@
+.forgot-page {
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-size: cover;
+  background-position: center;
+}
+
+.forgot-card {
+  width: 380px;
+  padding: 32px;
+  background: rgba(18, 24, 38, 0.95);
+  border-radius: 14px;
+  box-shadow: 0 0 30px rgba(0, 246, 255, 0.25);
+  text-align: center;
+}
+
+.forgot-card h2 {
+  color: #00f6ff;
+  margin-bottom: 8px;
+}
+
+.forgot-sub {
+  font-size: 14px;
+  color: #cbd5f5;
+  margin-bottom: 20px;
+}
+
+.forgot-card input {
+  width: 100%;
+  padding: 12px;
+  margin-bottom: 16px;
+  background: #0b0f1a;
+  border: 1px solid rgba(0, 246, 255, 0.4);
+  border-radius: 8px;
+  color: #fff;
+}
+
+.forgot-card button {
+  width: 100%;
+  padding: 12px;
+  background: linear-gradient(90deg, #00f6ff, #00c8ff);
+  border: none;
+  border-radius: 8px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.forgot-card button:disabled {
+  opacity: 0.7;
+  cursor: not-allowed;
+}

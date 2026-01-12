@@ -1,0 +1,122 @@
+/* ===== Particles Canvas ===== */
+#particle-canvas {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 0; /* behind Hero content */
+  pointer-events: none; /* clicks pass through */
+}
+
+/* ===== Hero Section ===== */
+.hero {
+  text-align: center;
+  padding: 120px 20px;
+  background: rgba(10, 10, 10, 0.7); /* semi-transparent dark */
+  position: relative;
+  z-index: 1; /* content above particles */
+}
+
+.hero h1 {
+  font-size: 48px;
+  color: #00f6ff;
+  text-shadow: 0 0 20px rgba(0, 246, 255, 0.7);
+  animation: glow 2s infinite alternate;
+}
+
+@keyframes glow {
+  from {
+    text-shadow: 0 0 10px #00f6ff;
+  }
+  to {
+    text-shadow: 0 0 30px #00f6ff;
+  }
+}
+
+.hero p {
+  margin-top: 20px;
+  font-size: 18px;
+  opacity: 0.8;
+  color: white;
+}
+
+.hero-buttons {
+  margin-top: 40px;
+}
+
+.btn-primary {
+  padding: 14px 28px;
+  margin-right: 15px;
+  background: linear-gradient(90deg, #00f6ff, #ff00c8);
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+.btn-primary:hover {
+  box-shadow: 0 0 25px #ff00c8;
+  transform: scale(1.1);
+}
+
+.btn-secondary {
+  padding: 14px 28px;
+  background: transparent;
+  border: 1px solid white;
+  border-radius: 8px;
+  color: white;
+  transition: 0.3s;
+}
+
+.btn-secondary:hover {
+  border-color: #00f6ff;
+  box-shadow: 0 0 15px #00f6ff;
+}
+
+/* ===== Stats Section ===== */
+.hero-stats {
+  margin-top: 60px; /* space below buttons */
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 30px;
+}
+
+.stat-card {
+  width: 200px;
+  padding: 25px 20px;
+  background: rgba(255, 255, 255, 0.05); /* transparent card */
+  border-radius: 12px;
+  text-align: center;
+  transition: transform 0.3s, box-shadow 0.3s;
+}
+
+.stat-card:hover {
+  transform: translateY(-10px);
+  box-shadow: 0 0 25px #00f6ff;
+}
+
+.stat-number {
+  font-size: 36px;
+  color: #00f6ff;
+  font-weight: bold;
+  text-shadow: 0 0 15px #00f6ff, 0 0 25px #00f6ff;
+  animation: glow 2s infinite alternate;
+}
+
+.stat-label {
+  margin-top: 8px;
+  font-size: 16px;
+  color: white;
+  opacity: 0.8;
+}
+
+.hero {
+  padding-top: 80px; /* adjust to your navbar height */
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}

@@ -1,0 +1,188 @@
+* {
+  box-sizing: border-box;
+  font-family: "Inter", sans-serif;
+}
+
+body {
+  background: radial-gradient(circle at top, #020617, #000);
+  color: #e5e7eb;
+}
+
+/* PAGE */
+.jh-page {
+  padding: 40px 60px;
+  margin-top: 90px; /* navbar ke niche spacing */
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+/* HEADER */
+.jh-header {
+  margin-bottom: 30px;
+}
+
+.jh-title {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.jh-icon {
+  background: linear-gradient(135deg, #22d3ee, #7c3aed);
+  padding: 10px;
+  border-radius: 10px;
+  font-size: 20px;
+}
+
+.jh-title h2 {
+  margin: 0;
+  font-size: 22px;
+}
+
+.jh-title p {
+  margin: 0;
+  font-size: 13px;
+  color: #94a3b8;
+}
+
+/* TABS */
+.jh-tabs {
+  display: flex;
+  gap: 18px;
+  margin-bottom: 35px;
+}
+
+.jh-tabs button {
+  background: transparent;
+  border: none;
+  color: #94a3b8;
+  font-size: 14px;
+  cursor: pointer;
+  padding-bottom: 6px;
+}
+
+.jh-tabs .active {
+  color: #22d3ee;
+  border-bottom: 2px solid #22d3ee;
+}
+
+/* CARD */
+.jh-card {
+  border: 1px solid #1e293b;
+  border-radius: 18px;
+  padding: 32px;
+  max-width: 950px;
+  width: 100%;
+  background: linear-gradient(
+    180deg,
+    rgba(15, 23, 42, 0.7),
+    rgba(2, 6, 23, 0.95)
+  );
+  box-shadow: 0 0 45px rgba(34, 211, 238, 0.18);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+/* TITLE */
+.jh-card h3 {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 28px;
+  font-size: 18px;
+}
+
+/* UPLOAD BOX */
+.jh-upload-box {
+  border: 2px dashed #1e293b;
+  border-radius: 16px;
+  padding: 55px;
+  text-align: center;
+  margin-bottom: 30px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  width: 100%;
+  max-width: 500px;
+}
+
+.jh-upload-box:hover {
+  border-color: #22d3ee;
+  background: rgba(34, 211, 238, 0.05);
+}
+
+.jh-file-icon {
+  font-size: 40px;
+  margin-bottom: 12px;
+}
+
+.jh-main-text {
+  font-size: 16px;
+  margin-bottom: 4px;
+}
+
+.jh-upload-box span {
+  font-size: 12px;
+  color: #64748b;
+}
+
+.jh-file-name {
+  font-size: 16px;
+  color: #fff;
+}
+
+/* BUTTON */
+.jh-analyze-btn {
+  width: 100%;
+  max-width: 500px;
+  padding: 15px;
+  font-size: 15px;
+  border-radius: 12px;
+  border: none;
+  cursor: pointer;
+  color: white;
+  background: linear-gradient(90deg, #22d3ee, #7c3aed);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  margin-bottom: 20px;
+}
+
+.jh-analyze-btn:hover {
+  transform: scale(1.02);
+  box-shadow: 0 0 25px rgba(124, 58, 237, 0.4);
+}
+
+/* RESULT BOX */
+.jh-result {
+  background-color: #1e1e2f;
+  padding: 20px;
+  border-radius: 12px;
+  width: 100%;
+  max-width: 500px;
+  margin-top: 20px;
+  text-align: left;
+}
+
+.jh-result h4 {
+  margin-bottom: 12px;
+}
+
+.jh-result p {
+  margin: 4px 0;
+}
+
+.jh-result pre {
+  margin-top: 10px;
+  background: #111827;
+  padding: 12px;
+  border-radius: 8px;
+  overflow-x: auto;
+  color: #d1d5db;
+}
+
+/* ERROR / LOADING */
+.error {
+  color: #f87171;
+  margin-top: 10px;
+}
+

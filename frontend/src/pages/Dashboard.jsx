@@ -1,0 +1,140 @@
+import { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom"; // ✅ Added
+import "../styles/dashboard.css";
+import { getDashboardData } from "../services/dashboardApi";
+import DashboardProgressSection from "../components/DashboardProgress";
+import {
+  Bell,
+  GraduationCap,
+  Bookmark,
+  Zap,
+  Trophy,
+  Map
+} from "lucide-react";
+
+export default function Dashboard({ userId = "demoUser" }) {
+  const navigate = useNavigate(); // ✅ Added
+  const [data, setData] = useState(null);
+  const [error, setError] = useState("");
+  const [hasNotification, setHasNotification] = useState(false);
+  const [savedColleges, setSavedColleges] = useState([]);
+
+  // ✅ fetch dashboard data including saved colleges
+  const fetchData = async () => {
+    try {
+      const dashboardData = await getDashboardData();
+
+      // 🔖 fetch saved colleges from backend for this user
+      const res = await fetch(
+        `http://localhost:5000/api/colleges/bookmark/count/${userId}`
+      );
+      const savedData = await res.json();
+
+      // ✅ update dashboardData with accurate saved count
+      dashboardData.colleges = savedData.count || 0;
+      setSavedColleges(savedData.savedColleges || []);
+
+      setData(dashboardData);
+
+      setHasNotification(dashboardData.notifications > 0);
+    } catch (err) {
+      console.error(err);
+      setError("Failed to load dashboard. Make sure you are logged in.");
+    }
+  };
+
+  useEffect(() => {
+    fetchData();
+
+    // 🔥 listen for realtime bookmark updates
+    const handleSavedUpdate = () => {
+      fetchData();
+    };
+    window.addEventListener("saved-colleges-updated", handleSavedUpdate);
+
+    return () => {
+      window.removeEventListener("saved-colleges-updated", handleSavedUpdate);
+    };
+  }, [userId]);
+
+  if (error) return <p className="error">{error}</p>;
+  if (!data) return <p className="loading">Loading...</p>;
+
+  return (
+    <div className="dashboard-container">
+
+      {/* TOP RIGHT ACTIONS */}
+      <div className="dashboard-actions">
+        <div className="notification">
+          <Bell size={18} />
+          {hasNotification && <span className="dot" />}
+        </div>
+        <button className="view-profile" onClick={() => navigate("/profile")}>
+          View Profile
+        </button>
+      </div>
+
+      {/* HEADER */}
+      <div className="dashboard-header">
+        <h1>
+          Welcome back, <span>{data.username}</span> !
+        </h1>
+        <p>Continue your career discovery journey</p>
+      </div>
+
+      {/* STATS */}
+      <div className="stats-grid">
+        <div className="stat-card">
+          <div className="icon blue"><GraduationCap /></div>
+          <h2>{data.quizzes}</h2>
+          <p>Quiz Completions</p>
+        </div>
+
+        <div className="stat-card">
+          <div className="icon pink"><Bookmark /></div>
+          <h2>{savedColleges.length}</h2>
+          <p>Saved Colleges</p>
+        </div>
+
+        <div className="stat-card">
+          <div className="icon purple"><Zap /></div>
+          <h2>{data.skills}</h2>
+          <p>Skills Acquired</p>
+        </div>
+
+        <div className="stat-card">
+          <div className="icon yellow"><Trophy /></div>
+          <h2>{data.achievements}</h2>
+          <p>Achievements</p>
+        </div>
+      </div>
+
+      {/* ROADMAP */}
+      <div className="roadmap-card">
+        <div className="roadmap-header">
+          <h3>Your 3D Roadmap Preview</h3>
+          <span className="link">Explore Full Roadmap →</span>
+        </div>
+
+        <div className="roadmap-content">
+          <Map size={40} />
+          <h4>Generate Your First Roadmap</h4>
+          <p>
+            Create an AI-powered career roadmap to visualize your learning path
+            and track progress.
+          </p>
+          <button className="primary-btn">
+            Generate Your First Roadmap
+          </button>
+        </div>
+      </div>
+
+      {/* 🔥 NEW SECTION: Weekly Progress + Recent Activity */}
+      <DashboardProgressSection
+        weeklyProgress={data.weeklyProgress}
+        recentActivity={data.recentActivity}
+      />
+
+    </div>
+  );
+}
