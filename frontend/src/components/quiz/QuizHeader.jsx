@@ -1,14 +1,18 @@
 import QuizProgress from "./QuizProgress";
 
-const QuizHeader = ({ current, total }) => {
+const QuizHeader = ({ currentIndex, total, topic }) => {
+  const currentQuestion = currentIndex + 1;
+  const progress = total > 0 ? currentQuestion / total : 0;
+
   return (
     <div className="quiz-header">
-      <h1>Career Discovery Quiz</h1>
+      <h1>{topic ? `${topic} Quiz` : "Career Discovery Quiz"}</h1>
       <p>
-        Question {current + 1} of {total} •{" "}
-        {Math.round(((current + 1) / total) * 100)}% Complete
+        Question {currentQuestion} of {total} • {Math.round(progress * 100)}%
+        {" "}
+        Complete
       </p>
-      <QuizProgress value={(current + 1) / total} />
+      <QuizProgress value={progress} />
     </div>
   );
 };

@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { useParams } from "react-router-dom";
-import axios from "axios";
 import "../styles/reset.css";
+import apiClient from "../services/apiClient";
 
 const ResetPassword = () => {
   const { token } = useParams();
@@ -11,9 +11,10 @@ const ResetPassword = () => {
   const submitHandler = async (e) => {
     e.preventDefault();
     try {
-      const res = await axios.post(
-        `http://localhost:5000/api/auth/reset-password/${token}`,
-        { password }
+      const res = await apiClient.post(
+        `/api/auth/reset-password/${token}`,
+        { password },
+        { skipAuthRefresh: true }
       );
       setMsg(res.data.message);
     } catch (err) {

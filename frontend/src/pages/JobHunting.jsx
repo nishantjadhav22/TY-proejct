@@ -1,8 +1,8 @@
 import "../styles/jobHunting.css";
 import { Upload } from "lucide-react";
 import { useRef, useState } from "react";
-import axios from "axios";
 import { useTranslation } from "react-i18next";
+import apiClient from "../services/apiClient";
 
 const JobHunting = () => {
   const { t } = useTranslation();
@@ -49,9 +49,12 @@ const JobHunting = () => {
       setError("");
       setResult(null);
 
-      const res = await axios.post(
-        "http://localhost:5000/api/resume/analyze",
-        formData
+      const res = await apiClient.post(
+        "/api/resume/analyze",
+        formData,
+        {
+          headers: { "Content-Type": "multipart/form-data" },
+        }
       );
 
       if (res.data?.error) {

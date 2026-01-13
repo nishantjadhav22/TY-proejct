@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom"; // ✅ Added
 import "../styles/dashboard.css";
 import { getDashboardData } from "../services/dashboardApi";
+import apiClient from "../services/apiClient";
 import DashboardProgressSection from "../components/DashboardProgress";
 import {
   Bell,
@@ -12,7 +13,7 @@ import {
   Map
 } from "lucide-react";
 
-export default function Dashboard({ userId = "demoUser" }) {
+export default function Dashboard() {
   const navigate = useNavigate(); // ✅ Added
   const [data, setData] = useState(null);
   const [error, setError] = useState("");
@@ -25,10 +26,8 @@ export default function Dashboard({ userId = "demoUser" }) {
       const dashboardData = await getDashboardData();
 
       // 🔖 fetch saved colleges from backend for this user
-      const res = await fetch(
-        `http://localhost:5000/api/colleges/bookmark/count/${userId}`
-      );
-      const savedData = await res.json();
+      const res = await apiClient.get("/api/colleges/bookmark/count");
+      const savedData = res.data || {};
 
       // ✅ update dashboardData with accurate saved count
       dashboardData.colleges = savedData.count || 0;
@@ -55,7 +54,7 @@ export default function Dashboard({ userId = "demoUser" }) {
     return () => {
       window.removeEventListener("saved-colleges-updated", handleSavedUpdate);
     };
-  }, [userId]);
+  }, []);
 
   if (error) return <p className="error">{error}</p>;
   if (!data) return <p className="loading">Loading...</p>;

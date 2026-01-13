@@ -3,6 +3,7 @@ import "../styles/colleges.css";
 import CollegeCard from "../components/CollegeCard";
 import Footer from "../components/Footer";
 import { useTranslation } from "react-i18next";
+import apiClient from "../services/apiClient";
 
 // ✅ Lucide React icons
 import { Filter, ChevronDown, X, Search } from "lucide-react";
@@ -22,10 +23,18 @@ const Colleges = () => {
 
   // Fetch colleges
   useEffect(() => {
-    fetch("http://localhost:5000/api/colleges")
-      .then(res => res.json())
-      .then(data => setColleges(data))
-      .catch(err => console.error(err));
+    let active = true;
+
+    apiClient
+      .get("/api/colleges")
+      .then((res) => {
+        if (active) setColleges(res.data || []);
+      })
+      .catch((err) => console.error(err));
+
+    return () => {
+      active = false;
+    };
   }, []);
 
   // ✅ APPLY FILTERS

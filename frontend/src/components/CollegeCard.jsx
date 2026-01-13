@@ -1,9 +1,10 @@
 import "../styles/CollegeCard.css";
-import { Heart, MapPin, Bookmark } from "lucide-react"; 
+import { Heart, MapPin, Bookmark } from "lucide-react";
 import { useTranslation } from "react-i18next";
 import { useEffect, useState } from "react";
+import apiClient from "../services/apiClient";
 
-const CollegeCard = ({ college, userId = "demoUser" }) => {
+const CollegeCard = ({ college }) => {
   const { t } = useTranslation();
   const [bookmarked, setBookmarked] = useState(false);
 
@@ -16,13 +17,11 @@ const CollegeCard = ({ college, userId = "demoUser" }) => {
   // 🔖 toggle bookmark via backend API
   const toggleBookmark = async () => {
     try {
-      const res = await fetch("http://localhost:5000/api/colleges/bookmark", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ userId, collegeId: college.id }),
+      const res = await apiClient.post("/api/colleges/bookmark", {
+        collegeId: college.id,
       });
 
-      const data = await res.json();
+      const data = res.data;
 
       // ✅ Update state from backend response
       setBookmarked(data.saved);

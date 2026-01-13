@@ -1,5 +1,6 @@
 import express from "express";
 import mongoose from "mongoose";
+import { protect } from "../middleware/authMiddleware.js";
 const router = express.Router();
 
 /* ===============================
@@ -98,19 +99,24 @@ router.get("/:id", (req, res) => {
 /* ===============================
    🔖 SAVE / UNSAVE COLLEGE (UPDATED)
 ================================ */
-router.post("/bookmark", async (req, res) => {
+router.post("/bookmark", protect, async (req, res) => {
   try {
-    const { userId, collegeId } = req.body;
+    const { collegeId } = req.body;
+    const userId = req.user?._id?.toString();
 
-    // 🔹 ObjectId conversion
-    const objectUserId = mongoose.Types.ObjectId.isValid(userId)
-      ? mongoose.Types.ObjectId(userId)
-      : userId;
+    if (!userId) {
+      return res.status(401).json({ message: "Not authorized" });
+    }
 
-    const college = colleges.find(c => c.id === Number(collegeId));
+    const numericCollegeId = Number(collegeId);
+    if (!collegeId || Number.isNaN(numericCollegeId)) {
+      return res.status(400).json({ message: "College id is required" });
+    }
+
+    const college = colleges.find(c => c.id === numericCollegeId);
     if (!college) return res.status(404).json({ message: "College not found" });
 
-    const existing = await SavedCollege.findOne({ userId: objectUserId, collegeId });
+    const existing = await SavedCollege.findOne({ userId, collegeId: numericCollegeId });
 
     if (existing) {
       await SavedCollege.deleteOne({ _id: existing._id });
@@ -118,8 +124,8 @@ router.post("/bookmark", async (req, res) => {
     }
 
     await SavedCollege.create({
-      userId: objectUserId,
-      collegeId,
+      userId,
+      collegeId: numericCollegeId,
       collegeName: college.name
     });
 
@@ -133,13 +139,15 @@ router.post("/bookmark", async (req, res) => {
 /* ===============================
    📊 DASHBOARD COUNT (UPDATED)
 ================================ */
-router.get("/bookmark/count/:userId", async (req, res) => {
+router.get("/bookmark/count", protect, async (req, res) => {
   try {
-    const objectUserId = mongoose.Types.ObjectId.isValid(req.params.userId)
-      ? mongoose.Types.ObjectId(req.params.userId)
-      : req.params.userId;
+    const userId = req.user?._id?.toString();
 
-    const savedColleges = await SavedCollege.find({ userId: objectUserId });
+    if (!userId) {
+      return res.status(401).json({ message: "Not authorized" });
+    }
+
+    const savedColleges = await SavedCollege.find({ userId });
     const count = savedColleges.length;
 
     res.json({ count, savedColleges: savedColleges.map(c => c.collegeId) });

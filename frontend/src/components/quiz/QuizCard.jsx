@@ -1,6 +1,6 @@
 import QuizOption from "./QuizOption";
 
-const QuizCard = ({ question, options, selected, onSelect }) => {
+const QuizCard = ({ question, options = [], selected, onSelect }) => {
   return (
     <div className="quiz-card-glass">
       <h2>{question}</h2>

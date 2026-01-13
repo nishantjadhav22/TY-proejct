@@ -1,8 +1,8 @@
 import { useState } from "react";
-import axios from "axios";
 import { useTranslation } from "react-i18next";
 import toast from "react-hot-toast";
 import "../styles/forgot.css";
+import apiClient from "../services/apiClient";
 
 import bgImage from "../assets/signin-bg.png";
 
@@ -20,9 +20,10 @@ const ForgotPassword = () => {
 
     setLoading(true);
     try {
-      const res = await axios.post(
-        `${process.env.REACT_APP_API_URL}/api/auth/forgot-password`,
-        { email }
+      const res = await apiClient.post(
+        "/api/auth/forgot-password",
+        { email },
+        { skipAuthRefresh: true }
       );
       toast.success(res.data.message || "Reset link sent to your email");
     } catch (err) {

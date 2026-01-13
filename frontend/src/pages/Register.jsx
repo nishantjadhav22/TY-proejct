@@ -2,7 +2,7 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import "../styles/register.css";
 import { FiMail, FiLock, FiUser, FiEye, FiEyeOff } from "react-icons/fi";
-import axios from "axios";
+import apiClient, { storeSession } from "../services/apiClient";
 import { useTranslation } from "react-i18next";
 
 /* 🔥 TOAST (ADDED) */
@@ -30,12 +30,21 @@ const Register = () => {
     }
 
     try {
-      const res = await axios.post(
-        `${process.env.REACT_APP_API_URL}/api/auth/register`,
-        { name, email, password }
+      const res = await apiClient.post(
+        "/api/auth/register",
+        { name, email, password },
+        { skipAuthRefresh: true }
       );
 
       if (res.status === 201) {
+        const { user, accessToken } = res.data || {};
+
+        if (!user || !accessToken) {
+          throw new Error("Invalid registration response");
+        }
+
+        storeSession(accessToken, user);
+
         toast.success(
           t(
             "register.accountCreated",
@@ -43,7 +52,7 @@ const Register = () => {
           )
         ); // 🔥 ADDED
 
-        navigate("/signin");
+        navigate("/dashboard");
       }
     } catch (err) {
       toast.error(

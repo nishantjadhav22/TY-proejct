@@ -226,6 +226,95 @@
   }
 }
 
+@media (max-width: 1080px) {
+  .colleges-page {
+    padding: 110px 40px 40px;
+  }
+
+  .search-filter-wrapper {
+    width: 95%;
+  }
+
+  .college-header h1 {
+    font-size: 38px;
+  }
+}
+
+@media (max-width: 820px) {
+  .colleges-page {
+    padding: 100px 28px 36px;
+  }
+
+  .search-row {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .search-actions {
+    justify-content: space-between;
+  }
+
+  .filter-btn {
+    width: 100%;
+    justify-content: center;
+  }
+
+  .filters-panel {
+    padding: 20px 18px;
+  }
+
+  .filter-footer {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 14px;
+  }
+}
+
+@media (max-width: 620px) {
+  .colleges-page {
+    padding: 90px 20px 30px;
+  }
+
+  .college-header {
+    margin-bottom: 30px;
+  }
+
+  .college-header h1 {
+    font-size: 32px;
+  }
+
+  .search-filter-wrapper {
+    width: 100%;
+    border-radius: 18px;
+  }
+
+  .search-row {
+    gap: 12px;
+    padding: 18px 16px;
+  }
+
+  .search-actions {
+    flex-direction: column;
+    gap: 12px;
+  }
+
+  .filter-btn {
+    width: 100%;
+  }
+
+  .filters-panel {
+    padding: 18px 16px;
+  }
+
+  .results-count {
+    font-size: 13px;
+  }
+
+  .more-colleges-btn {
+    width: 100%;
+  }
+}
+
 /* ===== RATING FILTER ===== */
 
 .rating-filter label {

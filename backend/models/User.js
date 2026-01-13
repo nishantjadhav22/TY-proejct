@@ -42,6 +42,10 @@ const UserSchema = new mongoose.Schema(
       {
         quizName: String,
         score: Number,
+        totalQuestions: {
+          type: Number,
+          default: 0,
+        },
         date: { type: Date, default: Date.now },
       },
     ],
@@ -107,6 +111,11 @@ const UserSchema = new mongoose.Schema(
 
     resetTokenExpiry: {
       type: Date,
+      default: null,
+    },
+
+    refreshToken: {
+      type: String,
       default: null,
     },
   },

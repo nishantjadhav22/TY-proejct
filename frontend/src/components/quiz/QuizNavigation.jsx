@@ -4,19 +4,23 @@ const QuizNavigation = ({
   onPrev,
   onNext,
   disabled,
+  submitting,
 }) => {
+  const isFirst = index === 0;
+  const isLast = index === total - 1;
+
   return (
     <div className="quiz-nav">
-      <button disabled={index === 0} onClick={onPrev}>
+      <button disabled={isFirst || submitting} onClick={onPrev}>
         ← Previous
       </button>
 
       <button
         className="next-btn"
-        disabled={disabled}
+        disabled={disabled || submitting}
         onClick={onNext}
       >
-        Next →
+        {submitting ? "Submitting..." : isLast ? "Submit Quiz" : "Next →"}
       </button>
     </div>
   );

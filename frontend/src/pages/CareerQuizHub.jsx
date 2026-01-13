@@ -2,17 +2,42 @@ import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import "../styles/careerQuizHub.css";
 import { Play, RefreshCw } from "lucide-react";
-
-const userId = "demoUser"; // replace with logged-in user id
+import apiClient from "../services/apiClient";
 
 const CareerQuizHub = () => {
   const navigate = useNavigate();
-  const [recentActivity, setRecentActivity] = useState([]);
+  const [quizHistory, setQuizHistory] = useState([]);
 
   useEffect(() => {
-    fetch(`http://localhost:5000/api/dashboard/${userId}`)
-      .then(res => res.json())
-      .then(data => setRecentActivity(data.recentActivity));
+    let active = true;
+
+    const loadHistory = () => {
+      apiClient
+        .get("/api/quiz/history")
+        .then((res) => {
+          if (active) {
+            setQuizHistory(res.data?.history || []);
+          }
+        })
+        .catch(() => {
+          if (active) {
+            setQuizHistory([]);
+          }
+        });
+    };
+
+    loadHistory();
+
+    const handleQuizCompleted = () => {
+      loadHistory();
+    };
+
+    window.addEventListener("quiz:completed", handleQuizCompleted);
+
+    return () => {
+      active = false;
+      window.removeEventListener("quiz:completed", handleQuizCompleted);
+    };
   }, []);
 
   return (
@@ -38,8 +63,24 @@ const CareerQuizHub = () => {
           <h2>View Quiz History</h2>
           <p>Track your assessment progress over time.</p>
           <span className="quiz-count">
-            {recentActivity.filter(a => a.type==="quiz").length} Quizzes Completed
+            {quizHistory.length} Quizzes Completed
           </span>
+
+          {quizHistory.length > 0 ? (
+            <ul className="quiz-history-list">
+              {quizHistory.slice().reverse().map((entry, idx) => (
+                <li key={`${entry.testNumber}-${idx}`}>
+                  <span className="quiz-history-test">Test {entry.testNumber}</span>
+                  <span className="quiz-history-topic">{entry.topic}</span>
+                  <span className="quiz-history-score">
+                    {entry.score}/{entry.totalQuestions}
+                  </span>
+                </li>
+              ))}
+            </ul>
+          ) : (
+            <span className="quiz-history-empty">No quizzes taken yet.</span>
+          )}
         </div>
       </div>
     </div>

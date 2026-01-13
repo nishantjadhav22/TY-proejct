@@ -1,12 +1,32 @@
 import User from "../models/User.js";
 import bcrypt from "bcryptjs";
-import jwt from "jsonwebtoken";
 import crypto from "crypto";
 import nodemailer from "nodemailer";
+import {
+  generateAccessToken,
+  generateRefreshToken,
+  hashToken,
+  setRefreshTokenCookie,
+  clearRefreshTokenCookie,
+  verifyRefreshToken,
+  REFRESH_COOKIE_KEY,
+} from "../utils/tokenUtils.js";
 
-// Helper to generate JWT token
-const generateToken = (id) => {
-  return jwt.sign({ id }, process.env.JWT_SECRET, { expiresIn: "7d" });
+const buildUserResponse = (user) => ({
+  id: user._id,
+  name: user.name,
+  email: user.email,
+});
+
+const issueSessionTokens = async (user, res) => {
+  const accessToken = generateAccessToken(user._id);
+  const refreshToken = generateRefreshToken(user._id);
+
+  user.refreshToken = hashToken(refreshToken);
+  await user.save();
+
+  setRefreshTokenCookie(res, refreshToken);
+  return accessToken;
 };
 
 // ================= REGISTER =================
@@ -31,14 +51,12 @@ export const register = async (req, res) => {
       password: hashedPassword,
     });
 
+    const accessToken = await issueSessionTokens(user, res);
+
     res.status(201).json({
       message: "User registered successfully",
-      user: {
-        id: user._id,
-        name: user.name,
-        email: user.email,
-      },
-      token: generateToken(user._id),
+      user: buildUserResponse(user),
+      accessToken,
     });
   } catch (error) {
     console.log("Register Error:", error);
@@ -61,14 +79,12 @@ export const login = async (req, res) => {
       return res.status(400).json({ message: "Invalid credentials" });
     }
 
+    const accessToken = await issueSessionTokens(user, res);
+
     res.json({
       message: "Login successful",
-      user: {
-        id: user._id,
-        name: user.name,
-        email: user.email,
-      },
-      token: generateToken(user._id),
+      user: buildUserResponse(user),
+      accessToken,
     });
   } catch (error) {
     console.log("Login Error:", error);
@@ -161,5 +177,67 @@ export const resetPassword = async (req, res) => {
   } catch (error) {
     console.log("Reset Password Error:", error);
     res.status(500).json({ message: error.message });
+  }
+};
+
+export const refreshAccessToken = async (req, res) => {
+  try {
+    const refreshToken = req.cookies?.[REFRESH_COOKIE_KEY];
+    if (!refreshToken) {
+      return res.status(401).json({ message: "Authentication required" });
+    }
+
+    const decoded = verifyRefreshToken(refreshToken);
+    const user = await User.findById(decoded.id);
+
+    if (!user) {
+      return res.status(401).json({ message: "User not found" });
+    }
+
+    const hashedIncomingToken = hashToken(refreshToken);
+    if (!user.refreshToken || user.refreshToken !== hashedIncomingToken) {
+      return res.status(401).json({ message: "Refresh token mismatch" });
+    }
+
+    const newRefreshToken = generateRefreshToken(user._id);
+    user.refreshToken = hashToken(newRefreshToken);
+    await user.save();
+
+    setRefreshTokenCookie(res, newRefreshToken);
+
+    const accessToken = generateAccessToken(user._id);
+
+    res.json({
+      accessToken,
+      user: buildUserResponse(user),
+    });
+  } catch (error) {
+    console.log("Refresh Token Error:", error);
+    return res.status(401).json({ message: "Invalid or expired refresh token" });
+  }
+};
+
+export const logout = async (req, res) => {
+  try {
+    const refreshToken = req.cookies?.[REFRESH_COOKIE_KEY];
+    if (refreshToken) {
+      try {
+        const decoded = verifyRefreshToken(refreshToken);
+        const user = await User.findById(decoded.id);
+
+        if (user) {
+          user.refreshToken = null;
+          await user.save();
+        }
+      } catch (innerError) {
+        // Ignore errors from invalid or expired tokens during logout
+        console.log("Logout token cleanup skipped:", innerError.message);
+      }
+    }
+  } catch (error) {
+    console.log("Logout Error:", error);
+  } finally {
+    clearRefreshTokenCookie(res);
+    res.json({ message: "Logged out successfully" });
   }
 };

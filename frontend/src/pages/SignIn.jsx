@@ -7,7 +7,7 @@ import {
   FiEye,
   FiEyeOff
 } from "react-icons/fi";
-import axios from "axios";
+import apiClient, { storeSession } from "../services/apiClient";
 import { useTranslation } from "react-i18next";
 
 /* 🔥 TOAST (ADDED) */
@@ -54,17 +54,20 @@ const SignIn = ({ setUser }) => {
     setLoading(true);
 
     try {
-      const res = await axios.post(
-        `${process.env.REACT_APP_API_URL}/api/auth/login`,
-        { email, password }
+      const res = await apiClient.post(
+        "/api/auth/login",
+        { email, password },
+        { skipAuthRefresh: true }
       );
 
-      localStorage.setItem("user", JSON.stringify(res.data.user));
-      if (res.data.token) {
-        localStorage.setItem("token", res.data.token);
+      const { user: userData, accessToken } = res.data || {};
+
+      if (!userData || !accessToken) {
+        throw new Error("Invalid authentication response");
       }
 
-      setUser(res.data.user);
+      storeSession(accessToken, userData);
+      setUser(userData);
 
       toast.success("Login successful !"); // 🔥 ADDED
       navigate("/");

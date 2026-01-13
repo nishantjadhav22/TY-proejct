@@ -37,15 +37,32 @@ import CareerQuizPage from "./pages/CareerQuizPage";
 
 /* HOOKS */
 import useScrollToTop from "./hooks/useScrollToTop";
+import { getStoredUser } from "./services/apiClient";
 
 function AppContent() {
   const location = useLocation();
   const navigate = useNavigate();
   useScrollToTop();
 
-  const [user, setUser] = useState(
-    JSON.parse(localStorage.getItem("user")) || null
-  );
+  const [user, setUser] = useState(getStoredUser());
+  useEffect(() => {
+    const handleUserUpdated = (event) => {
+      setUser(event.detail);
+    };
+
+    const handleLogout = () => {
+      setUser(null);
+    };
+
+    window.addEventListener("auth:user-updated", handleUserUpdated);
+    window.addEventListener("auth:logout", handleLogout);
+
+    return () => {
+      window.removeEventListener("auth:user-updated", handleUserUpdated);
+      window.removeEventListener("auth:logout", handleLogout);
+    };
+  }, []);
+
 
   // refresh / direct load → Home
   useEffect(() => {
@@ -91,7 +108,7 @@ function AppContent() {
         <Route path="/forgot-password" element={<ForgotPassword />} />
         <Route path="/reset-password/:token" element={<ResetPassword />} />
 
-        <Route path="/dashboard" element={<Dashboard user={user} />} />
+        <Route path="/dashboard" element={<Dashboard />} />
         <Route path="/profile" element={<ProfileSettings />} />
         <Route path="/colleges" element={<Colleges />} />
         <Route path="/job-hunting" element={<JobHunting />} />

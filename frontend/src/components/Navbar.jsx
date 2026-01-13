@@ -5,6 +5,7 @@ import { useTranslation } from "react-i18next";
 
 /* ✅ ADD: TOAST */
 import toast from "react-hot-toast";
+import apiClient, { clearSession } from "../services/apiClient";
 
 /* ✅ LUCIDE ICONS */
 import {
@@ -16,6 +17,8 @@ import {
   Layers,
   BookOpen,
   Crown,
+  Menu,
+  X,
 } from "lucide-react";
 
 /* ================= NAVBAR ================= */
@@ -27,6 +30,8 @@ const Navbar = ({ user, setUser }) => {
   /* STATE */
   const [dropdownOpen, setDropdownOpen] = useState(false);
   const [userMenuOpen, setUserMenuOpen] = useState(false);
+  const [menuOpen, setMenuOpen] = useState(false);
+  const [featuresOpen, setFeaturesOpen] = useState(false);
 
   /* AUTH PAGE CHECK */
   const isAuthPage =
@@ -59,22 +64,65 @@ const Navbar = ({ user, setUser }) => {
       document.removeEventListener("mousedown", handleClickOutside);
   }, []);
 
+  /* RESET STATES ON NAV CHANGE */
+  useEffect(() => {
+    setMenuOpen(false);
+    setFeaturesOpen(false);
+    setDropdownOpen(false);
+    setUserMenuOpen(false);
+  }, [location.pathname]);
+
+  /* BREAKPOINT CLEANUP */
+  useEffect(() => {
+    const handleResize = () => {
+      if (window.innerWidth >= 1024) {
+        setMenuOpen(false);
+        setFeaturesOpen(false);
+      }
+    };
+
+    window.addEventListener("resize", handleResize);
+    return () => window.removeEventListener("resize", handleResize);
+  }, []);
+
+  useEffect(() => {
+    if (!menuOpen) {
+      setFeaturesOpen(false);
+      setDropdownOpen(false);
+    }
+  }, [menuOpen]);
+
   /* LOGOUT */
-  const handleLogout = () => {
-    localStorage.removeItem("user");
-    localStorage.removeItem("token"); // ✅ ADD (safe)
-
-    setUser(null);
-
-    toast.success("Logged out successfully 👋"); // ✅ ADD
-
-    navigate("/");
+  const handleLogout = async () => {
+    try {
+      await apiClient.post(
+        "/api/auth/logout",
+        {},
+        { skipAuthRefresh: true }
+      );
+    } catch (error) {
+      console.error("Logout request failed:", error);
+    } finally {
+      clearSession();
+      setUser(null);
+      toast.success("Logged out successfully 👋");
+      navigate("/");
+    }
   };
 
-  /* 🔐 PROTECTED NAV */
-  const handleProtectedNav = (path) => {
-    if (!user) navigate("/signin");
-    else navigate(path);
+  const closeMenuAndNavigate = (path, needsAuth) => {
+    if (needsAuth && !user) {
+      setMenuOpen(false);
+      navigate("/signin");
+      return;
+    }
+    setMenuOpen(false);
+    navigate(path);
+  };
+
+  const handleFeaturesToggle = () => {
+    if (window.innerWidth > 1024) return;
+    setFeaturesOpen((prev) => !prev);
   };
 
   return (
@@ -102,172 +150,193 @@ const Navbar = ({ user, setUser }) => {
         <h2 className="logo-text">{t("appName")}</h2>
       </div>
 
-      {/* ================= NAV LINKS ================= */}
-      <ul className="nav-links">
-        <li
-          className={location.pathname === "/" ? "active" : ""}
-          onClick={() => navigate("/")}
-        >
-          {t("nav.home")}
-        </li>
+      <button
+        className="menu-toggle"
+        onClick={() => setMenuOpen((prev) => !prev)}
+        aria-label="Toggle navigation menu"
+      >
+        {menuOpen ? <X size={20} /> : <Menu size={20} />}
+      </button>
 
-        <li
-          className={location.pathname === "/colleges" ? "active" : ""}
-          onClick={() => navigate("/colleges")}
-        >
-          {t("nav.colleges")}
-        </li>
-
-        {user && (
+      <div className={`nav-right ${menuOpen ? "open" : ""}`}>
+        {/* ================= NAV LINKS ================= */}
+        <ul className="nav-links">
           <li
-            className={location.pathname === "/pricing" ? "active" : ""}
-            onClick={() => navigate("/pricing")}
+            className={location.pathname === "/" ? "active" : ""}
+            onClick={() => closeMenuAndNavigate("/")}
           >
-            {t("nav.pricing")}
+            {t("nav.home")}
           </li>
-        )}
 
-        {/* ================= FEATURES DROPDOWN ================= */}
-        <li className="dropdown-item">
-          {t("nav.features")}
-          <ChevronDown className="dropdown-icon" size={14} />
-
-          <div className="features-dropdown">
-            <FeatureItem
-              icon={<Sparkles size={16} />}
-              title={t("featuresDropdown.careerQuiz.title")}
-              desc={t("featuresDropdown.careerQuiz.desc")}
-              onClick={() => handleProtectedNav("/career-quiz")}
-            />
-
-            <FeatureItem
-              icon={<MapPin size={16} />}
-              title={t("featuresDropdown.collegeFinder.title")}
-              desc={t("featuresDropdown.collegeFinder.desc")}
-              onClick={() => navigate("/colleges")}
-            />
-
-            <FeatureItem
-              icon={<Target size={16} />}
-              title={t("featuresDropdown.aiRoadmap.title")}
-              desc={t("featuresDropdown.aiRoadmap.desc")}
-              locked={!user}
-              onClick={() => handleProtectedNav("/ai-roadmap")}
-            />
-
-            <FeatureItem
-              icon={<Zap size={16} />}
-              title={t("featuresDropdown.jobHunting.title")}
-              desc={t("featuresDropdown.jobHunting.desc")}
-              locked={!user}
-              onClick={() => handleProtectedNav("/job-hunting")}
-            />
-
-            <FeatureItem
-              icon={<Layers size={16} />}
-              title={t("featuresDropdown.careerTree.title")}
-              desc={t("featuresDropdown.careerTree.desc")}
-              onClick={() => navigate("/career-tree")}
-            />
-
-            <FeatureItem
-              icon={<BookOpen size={16} />}
-              title={t("featuresDropdown.learningResources.title")}
-              desc={t("featuresDropdown.learningResources.desc")}
-              onClick={() => navigate("/resources")}
-            />
-
-            <FeatureItem
-              icon={<Crown size={16} />}
-              title={t("featuresDropdown.subscriptionPlans.title")}
-              desc={t("featuresDropdown.subscriptionPlans.desc")}
-              onClick={() => navigate("/pricing")}
-            />
-          </div>
-        </li>
-
-        {user && (
           <li
-            className="btn-dashboard"
-            onClick={() => navigate("/dashboard")}
+            className={location.pathname === "/colleges" ? "active" : ""}
+            onClick={() => closeMenuAndNavigate("/colleges")}
           >
-            {t("nav.dashboard")}
+            {t("nav.colleges")}
           </li>
-        )}
-      </ul>
 
-      {/* ================= LANGUAGE SWITCHER ================= */}
-      <div className="language-switcher" ref={dropdownRef}>
-        <button
-          className="language-btn"
-          onClick={() => setDropdownOpen(!dropdownOpen)}
-        >
-          {t("language.select")}
-          <ChevronDown
-            className={`dropdown-icon ${dropdownOpen ? "rotate" : ""}`}
-            size={14}
-          />
-        </button>
+          {user && (
+            <li
+              className={location.pathname === "/pricing" ? "active" : ""}
+              onClick={() => closeMenuAndNavigate("/pricing")}
+            >
+              {t("nav.pricing")}
+            </li>
+          )}
 
-        {dropdownOpen && (
-          <ul className="language-dropdown">
-            {languages.map((lang) => (
-              <li
-                key={lang.code}
-                onClick={() => {
-                  i18n.changeLanguage(lang.code);
-                  setDropdownOpen(false);
-                }}
-              >
-                {lang.label}
-              </li>
-            ))}
-          </ul>
-        )}
-      </div>
+          {/* ================= FEATURES DROPDOWN ================= */}
+          <li
+            className={`dropdown-item ${featuresOpen ? "open" : ""}`}
+            onClick={handleFeaturesToggle}
+          >
+            {t("nav.features")}
+            <ChevronDown className="dropdown-icon" size={14} />
 
-      {/* ================= AUTH / USER ================= */}
-      <div className="nav-buttons">
-        {!user ? (
-          <>
-            <button
-              className="btn-login"
-              onClick={() => navigate("/signin")}
+            <div
+              className={`features-dropdown ${featuresOpen ? "show" : ""}`}
             >
-              {t("auth.signIn")}
-            </button>
-            <button
-              className="btn-signup"
-              onClick={() => navigate("/register")}
-            >
-              {t("auth.signUp")}
-            </button>
-          </>
-        ) : (
-          <div className="user-dropdown" ref={userRef}>
-            <button
-              className="user-btn btn-dashboard"
-              onClick={() => setUserMenuOpen(!userMenuOpen)}
-            >
-              {user.name}
-              <ChevronDown
-                className={`dropdown-icon ${userMenuOpen ? "rotate" : ""}`}
-                size={14}
+              <FeatureItem
+                icon={<Sparkles size={16} />}
+                title={t("featuresDropdown.careerQuiz.title")}
+                desc={t("featuresDropdown.careerQuiz.desc")}
+                onClick={() => closeMenuAndNavigate("/career-quiz", true)}
               />
-            </button>
 
-            {userMenuOpen && (
-              <div className="user-menu">
-                <button onClick={() => navigate("/profile")}>
-                  {t("auth.profile")}
-                </button>
-                <button onClick={handleLogout}>
-                  {t("auth.logout")}
-                </button>
-              </div>
-            )}
-          </div>
-        )}
+              <FeatureItem
+                icon={<MapPin size={16} />}
+                title={t("featuresDropdown.collegeFinder.title")}
+                desc={t("featuresDropdown.collegeFinder.desc")}
+                onClick={() => closeMenuAndNavigate("/colleges")}
+              />
+
+              <FeatureItem
+                icon={<Target size={16} />}
+                title={t("featuresDropdown.aiRoadmap.title")}
+                desc={t("featuresDropdown.aiRoadmap.desc")}
+                locked={!user}
+                onClick={() => closeMenuAndNavigate("/ai-roadmap", true)}
+              />
+
+              <FeatureItem
+                icon={<Zap size={16} />}
+                title={t("featuresDropdown.jobHunting.title")}
+                desc={t("featuresDropdown.jobHunting.desc")}
+                locked={!user}
+                onClick={() => closeMenuAndNavigate("/job-hunting", true)}
+              />
+
+              <FeatureItem
+                icon={<Layers size={16} />}
+                title={t("featuresDropdown.careerTree.title")}
+                desc={t("featuresDropdown.careerTree.desc")}
+                onClick={() => closeMenuAndNavigate("/career-tree")}
+              />
+
+              <FeatureItem
+                icon={<BookOpen size={16} />}
+                title={t("featuresDropdown.learningResources.title")}
+                desc={t("featuresDropdown.learningResources.desc")}
+                onClick={() => closeMenuAndNavigate("/resources")}
+              />
+
+              <FeatureItem
+                icon={<Crown size={16} />}
+                title={t("featuresDropdown.subscriptionPlans.title")}
+                desc={t("featuresDropdown.subscriptionPlans.desc")}
+                onClick={() => closeMenuAndNavigate("/pricing")}
+              />
+            </div>
+          </li>
+
+          {user && (
+            <li
+              className="btn-dashboard"
+              onClick={() => closeMenuAndNavigate("/dashboard")}
+            >
+              {t("nav.dashboard")}
+            </li>
+          )}
+        </ul>
+
+        {/* ================= LANGUAGE SWITCHER ================= */}
+        <div className="language-switcher" ref={dropdownRef}>
+          <button
+            className="language-btn"
+            onClick={() => setDropdownOpen(!dropdownOpen)}
+          >
+            {t("language.select")}
+            <ChevronDown
+              className={`dropdown-icon ${dropdownOpen ? "rotate" : ""}`}
+              size={14}
+            />
+          </button>
+
+          {dropdownOpen && (
+            <ul className="language-dropdown">
+              {languages.map((lang) => (
+                <li
+                  key={lang.code}
+                  onClick={() => {
+                    i18n.changeLanguage(lang.code);
+                    setDropdownOpen(false);
+                    setMenuOpen(false);
+                  }}
+                >
+                  {lang.label}
+                </li>
+              ))}
+            </ul>
+          )}
+        </div>
+
+        {/* ================= AUTH / USER ================= */}
+        <div className="nav-buttons">
+          {!user ? (
+            <>
+              <button
+                className="btn-login"
+                onClick={() => closeMenuAndNavigate("/signin")}
+              >
+                {t("auth.signIn")}
+              </button>
+              <button
+                className="btn-signup"
+                onClick={() => closeMenuAndNavigate("/register")}
+              >
+                {t("auth.signUp")}
+              </button>
+            </>
+          ) : (
+            <div className="user-dropdown" ref={userRef}>
+              <button
+                className="user-btn btn-dashboard"
+                onClick={() => setUserMenuOpen(!userMenuOpen)}
+              >
+                {user.name}
+                <ChevronDown
+                  className={`dropdown-icon ${userMenuOpen ? "rotate" : ""}`}
+                  size={14}
+                />
+              </button>
+
+              {userMenuOpen && (
+                <div className="user-menu">
+                  <button onClick={() => closeMenuAndNavigate("/profile")}>
+                    {t("auth.profile")}
+                  </button>
+                  <button
+                    onClick={() => {
+                      setMenuOpen(false);
+                      handleLogout();
+                    }}
+                  >
+                    {t("auth.logout")}
+                  </button>
+                </div>
+              )}
+            </div>
+          )}
+        </div>
       </div>
     </nav>
   );
@@ -276,7 +345,13 @@ const Navbar = ({ user, setUser }) => {
 /* ================= FEATURE ITEM ================= */
 const FeatureItem = ({ icon, title, desc, onClick, locked }) => {
   return (
-    <div className="feature-item" onClick={onClick}>
+    <div
+      className="feature-item"
+      onClick={(event) => {
+        event.stopPropagation();
+        if (onClick) onClick();
+      }}
+    >
       <div className="feature-icon">{icon}</div>
       <div>
         <h4>{title}</h4>

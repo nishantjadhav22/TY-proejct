@@ -72,7 +72,7 @@
 .stats-grid {
   margin-top: 40px;
   display: grid;
-   grid-template-columns: repeat(4, minmax(0, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
   gap: 24px;
 }
 
@@ -166,5 +166,85 @@
   color: #fff;
   font-weight: 600;
   cursor: pointer;
+}
+
+@media (max-width: 1200px) {
+  .dashboard-container {
+    padding: 90px 28px 40px;
+  }
+
+  .dashboard-actions {
+    right: 28px;
+  }
+}
+
+@media (max-width: 1024px) {
+  .dashboard-container {
+    padding-top: 110px;
+  }
+
+  .dashboard-actions {
+    position: static;
+    justify-content: flex-end;
+    margin-bottom: 20px;
+  }
+
+  .dashboard-header h1 {
+    font-size: 28px;
+  }
+
+  .stats-grid {
+    gap: 20px;
+  }
+}
+
+@media (max-width: 768px) {
+  .dashboard-container {
+    padding: 100px 24px 40px;
+  }
+
+  .dashboard-actions {
+    flex-direction: row;
+    justify-content: space-between;
+  }
+
+  .dashboard-header {
+    margin-bottom: 20px;
+  }
+
+  .roadmap-header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 12px;
+  }
+
+  .roadmap-content p {
+    margin: 10px 0 20px;
+  }
+}
+
+@media (max-width: 600px) {
+  .dashboard-container {
+    padding: 90px 18px 36px;
+  }
+
+  .dashboard-actions {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 12px;
+  }
+
+  .view-profile,
+  .primary-btn {
+    width: 100%;
+  }
+
+  .stats-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .roadmap-card {
+    padding: 24px;
+  }
 }
 
