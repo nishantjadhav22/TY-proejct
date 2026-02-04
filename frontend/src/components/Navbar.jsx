@@ -19,6 +19,8 @@ import {
   Crown,
   Menu,
   X,
+  Settings,
+  Globe,
 } from "lucide-react";
 
 /* ================= NAVBAR ================= */
@@ -239,12 +241,13 @@ const Navbar = ({ user, setUser }) => {
                 onClick={() => closeMenuAndNavigate("/resources")}
               />
 
-              <FeatureItem
-                icon={<Crown size={16} />}
-                title={t("featuresDropdown.subscriptionPlans.title")}
-                desc={t("featuresDropdown.subscriptionPlans.desc")}
-                onClick={() => closeMenuAndNavigate("/pricing")}
-              />
+             <FeatureItem
+              icon={<Crown size={16} />}
+              title={t("featuresDropdown.subscriptionPlans.title")}
+              desc={t("featuresDropdown.subscriptionPlans.desc")}
+              locked={!user}
+              onClick={() => closeMenuAndNavigate("/subscription", true)}
+            />
             </div>
           </li>
 
@@ -253,41 +256,45 @@ const Navbar = ({ user, setUser }) => {
               className="btn-dashboard"
               onClick={() => closeMenuAndNavigate("/dashboard")}
             >
-              {t("nav.dashboard")}
+              <Settings size={16} />
+              <span>{t("nav.dashboard")}</span>
             </li>
           )}
         </ul>
 
         {/* ================= LANGUAGE SWITCHER ================= */}
-        <div className="language-switcher" ref={dropdownRef}>
-          <button
-            className="language-btn"
-            onClick={() => setDropdownOpen(!dropdownOpen)}
-          >
-            {t("language.select")}
-            <ChevronDown
-              className={`dropdown-icon ${dropdownOpen ? "rotate" : ""}`}
-              size={14}
-            />
-          </button>
+        {/* ================= LANGUAGE SWITCHER (NEXT.JS STYLE) ================= */}
+<div className="language-switcher" ref={dropdownRef}>
+  <button
+    className="language-btn-next"
+    onClick={() => setDropdownOpen(!dropdownOpen)}
+  >
+    <Globe size={16} /> {/* 🌐 Globe icon */}
+    <span>{t("language.select")}</span>
+    <ChevronDown
+      className={`dropdown-icon ${dropdownOpen ? "rotate" : ""}`}
+      size={14}
+    />
+  </button>
 
-          {dropdownOpen && (
-            <ul className="language-dropdown">
-              {languages.map((lang) => (
-                <li
-                  key={lang.code}
-                  onClick={() => {
-                    i18n.changeLanguage(lang.code);
-                    setDropdownOpen(false);
-                    setMenuOpen(false);
-                  }}
-                >
-                  {lang.label}
-                </li>
-              ))}
-            </ul>
-          )}
-        </div>
+  {dropdownOpen && (
+    <ul className="language-dropdown-next">
+      {languages.map((lang) => (
+        <li
+          key={lang.code}
+          onClick={() => {
+            i18n.changeLanguage(lang.code);
+            setDropdownOpen(false);
+            setMenuOpen(false);
+          }}
+        >
+          {lang.label}
+        </li>
+      ))}
+    </ul>
+  )}
+</div>
+
 
         {/* ================= AUTH / USER ================= */}
         <div className="nav-buttons">

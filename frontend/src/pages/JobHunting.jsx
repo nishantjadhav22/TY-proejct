@@ -1,8 +1,38 @@
 import "../styles/jobHunting.css";
-import { Upload } from "lucide-react";
-import { useRef, useState } from "react";
+import {
+  Upload,
+  Search,
+  Briefcase,
+  FileText,
+} from "lucide-react";
+import { useRef, useState, useEffect } from "react";
 import { useTranslation } from "react-i18next";
 import apiClient from "../services/apiClient";
+import { motion, animate } from "framer-motion";
+
+/* ================= FRAMER VARIANTS ================= */
+const container = {
+  hidden: { opacity: 0 },
+  show: { opacity: 1, transition: { staggerChildren: 0.15 } },
+};
+
+const fadeUp = {
+  hidden: { opacity: 0, y: 25 },
+  show: {
+    opacity: 1,
+    y: 0,
+    transition: { duration: 0.6, ease: "easeOut" },
+  },
+};
+
+const scaleIn = {
+  hidden: { opacity: 0, scale: 0.8 },
+  show: {
+    opacity: 1,
+    scale: 1,
+    transition: { duration: 0.6, ease: "easeOut" },
+  },
+};
 
 const JobHunting = () => {
   const { t } = useTranslation();
@@ -14,11 +44,29 @@ const JobHunting = () => {
   const [result, setResult] = useState(null);
   const [error, setError] = useState("");
 
+  /* ATS COUNT-UP */
+  const [animatedScore, setAnimatedScore] = useState(0);
+
+  useEffect(() => {
+    if (!result?.atsScore) return;
+
+    setAnimatedScore(0);
+
+    const controls = animate(0, result.atsScore, {
+      duration: 1.2,
+      ease: "easeOut",
+      onUpdate(value) {
+        setAnimatedScore(Math.round(value));
+      },
+    });
+
+    return () => controls.stop();
+  }, [result]);
+
   const handleBoxClick = () => fileInputRef.current.click();
 
   const handleFileChange = (e) => {
     const selectedFile = e.target.files[0];
-
     if (!selectedFile) return;
 
     if (
@@ -49,13 +97,9 @@ const JobHunting = () => {
       setError("");
       setResult(null);
 
-      const res = await apiClient.post(
-        "/api/resume/analyze",
-        formData,
-        {
-          headers: { "Content-Type": "multipart/form-data" },
-        }
-      );
+      const res = await apiClient.post("/api/resume/analyze", formData, {
+        headers: { "Content-Type": "multipart/form-data" },
+      });
 
       if (res.data?.error) {
         setError(res.data.error);
@@ -63,8 +107,7 @@ const JobHunting = () => {
       }
 
       setResult(res.data);
-    } catch (err) {
-      console.error("Frontend ERROR:", err);
+    } catch {
       setError("Resume analysis failed. Please try again.");
     } finally {
       setLoading(false);
@@ -76,7 +119,9 @@ const JobHunting = () => {
       {/* HEADER */}
       <div className="jh-header">
         <div className="jh-title">
-          <div className="jh-icon">💼</div>
+          <div className="jh-icon">
+            <Briefcase size={20} />
+          </div>
           <div>
             <h2>{t("jobHunting.headerTitle")}</h2>
             <p>{t("jobHunting.headerSubtitle")}</p>
@@ -100,11 +145,17 @@ const JobHunting = () => {
 
         <div className="jh-upload-box" onClick={handleBoxClick}>
           {fileName ? (
-            <div className="jh-file-name">📄 {fileName}</div>
+            <div className="jh-file-name">
+               <FileText size={16} /> {fileName}
+            </div>
           ) : (
             <>
-              <div className="jh-file-icon">📄</div>
-              <p className="jh-main-text">{t("jobHunting.uploadChooseFile")}</p>
+              <div className="jh-file-icon">
+                 <FileText size={28} />
+              </div>
+              <p className="jh-main-text">
+                {t("jobHunting.uploadChooseFile")}
+              </p>
               <span>{t("jobHunting.uploadFormatOnly")}</span>
             </>
           )}
@@ -120,36 +171,119 @@ const JobHunting = () => {
 
         {error && <p className="error">{error}</p>}
 
+        {/* ================= RESULT ================= */}
         {result && (
-          <div className="jh-result">
-            <h4>{t("jobHunting.resultTitle")}</h4>
+          <>
+            <div className="resume-analysis-header">
+              <h2>Resume Analysis</h2>
+              <p>{fileName}</p>
+            </div>
 
-            <p>
-              <strong>{t("jobHunting.resultATS")}:</strong>{" "}
-              {result.atsScore ?? "N/A"}
-            </p>
+            <motion.div
+              className="resume-analysis"
+              variants={container}
+              initial="hidden"
+              animate="show"
+            >
+              {/* ATS SCORE */}
+              <motion.div className="ats-card" variants={scaleIn}>
+                <div className="ats-circle">
+                  <svg width="160" height="160">
+                    <circle
+                      cx="80"
+                      cy="80"
+                      r="70"
+                      stroke="url(#gradGlow)"
+                      strokeWidth="14"
+                      fill="none"
+                      opacity="0.35"
+                    />
+                    <circle
+                      cx="80"
+                      cy="80"
+                      r="70"
+                      stroke="#1e293b"
+                      strokeWidth="12"
+                      fill="none"
+                    />
+                    <motion.circle
+                      cx="80"
+                      cy="80"
+                      r="70"
+                      stroke="url(#grad)"
+                      strokeWidth="12"
+                      fill="none"
+                      strokeDasharray="440"
+                      strokeDashoffset={
+                        440 - (result.atsScore || 0) * 4.4
+                      }
+                      strokeLinecap="round"
+                      initial={{ strokeDashoffset: 440 }}
+                      animate={{
+                        strokeDashoffset:
+                          440 - (result.atsScore || 0) * 4.4,
+                      }}
+                      transition={{ duration: 1.2, ease: "easeOut" }}
+                    />
+                    <defs>
+                      <linearGradient id="grad">
+                        <stop offset="0%" stopColor="#facc15" />
+                        <stop offset="100%" stopColor="#fb7185" />
+                      </linearGradient>
+                      <linearGradient id="gradGlow">
+                        <stop offset="0%" stopColor="#facc15" />
+                        <stop offset="100%" stopColor="#fb7185" />
+                      </linearGradient>
+                    </defs>
+                  </svg>
 
-            <p>
-              <strong>{t("jobHunting.resultMissingSkills")}:</strong>{" "}
-              {Array.isArray(result.missingSkills)
-                ? result.missingSkills.join(", ")
-                : "N/A"}
-            </p>
+                  <div className="ats-text">
+                    <motion.h2
+                      initial={{ opacity: 0, scale: 0.6 }}
+                      animate={{ opacity: 1, scale: 1 }}
+                      transition={{ delay: 0.8 }}
+                    >
+                      {animatedScore}
+                    </motion.h2>
+                    <span>ATS Score</span>
+                  </div>
+                </div>
+              </motion.div>
 
-            <p>
-              <strong>{t("jobHunting.resultRecommendedRoles")}:</strong>{" "}
-              {Array.isArray(result.recommendedRoles)
-                ? result.recommendedRoles.join(", ")
-                : "N/A"}
-            </p>
+              {/* DETAILS */}
+              <motion.div className="analysis-details">
+                <motion.div className="analysis-box" variants={fadeUp}>
+                  <h4 className="missing-title">
+                    Missing Skills
+                    <Search size={16} className="missing-search" />
+                  </h4>
+                  <ul>
+                    {result.missingSkills?.map((s, i) => (
+                      <li key={i}>{s}</li>
+                    ))}
+                  </ul>
+                </motion.div>
 
-            <p>
-              <strong>{t("jobHunting.resultTips")}:</strong>{" "}
-              {Array.isArray(result.improvementTips)
-                ? result.improvementTips.join(", ")
-                : "N/A"}
-            </p>
-          </div>
+                <motion.div className="analysis-box" variants={fadeUp}>
+                  <h4>Recommended Roles</h4>
+                  <ul>
+                    {result.recommendedRoles?.map((r, i) => (
+                      <li key={i}>{r}</li>
+                    ))}
+                  </ul>
+                </motion.div>
+
+                <motion.div className="analysis-box" variants={fadeUp}>
+                  <h4>Improvement Tips</h4>
+                  <ul>
+                    {result.improvementTips?.map((t, i) => (
+                      <li key={i}>{t}</li>
+                    ))}
+                  </ul>
+                </motion.div>
+              </motion.div>
+            </motion.div>
+          </>
         )}
       </div>
     </div>

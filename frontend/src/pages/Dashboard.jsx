@@ -89,7 +89,12 @@ export default function Dashboard() {
           <p>Quiz Completions</p>
         </div>
 
-        <div className="stat-card">
+        {/* ✅ ONLY ADDITION: clickable Saved Colleges */}
+        <div
+          className="stat-card"
+          onClick={() => navigate("/saved-colleges")}
+          style={{ cursor: "pointer" }}   // ✅ added
+        >
           <div className="icon pink"><Bookmark /></div>
           <h2>{savedColleges.length}</h2>
           <p>Saved Colleges</p>

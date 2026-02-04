@@ -126,17 +126,54 @@ export const forgotPassword = async (req, res) => {
       },
     });
 
-    const info = await transporter.sendMail({
-      from: `"Career Advisor" <${process.env.EMAIL_USER}>`,
-      to: user.email,
-      subject: "Reset Your Password",
-      html: `
-        <h3>Password Reset Request</h3>
-        <p>Click the link below to reset your password:</p>
-        <a href="${resetUrl}">${resetUrl}</a>
-        <p>This link will expire in 15 minutes.</p>
-      `,
-    });
+   const info = await transporter.sendMail({
+  from: `"CareerPilot Support" <${process.env.EMAIL_USER}>`,
+  to: user.email,
+  subject: "Reset Your Password – CareerPilot",
+  html: `
+    <div style="font-family: Arial, sans-serif; line-height: 1.6; color: #333;">
+      <h3>Password Reset Request</h3>
+
+      <p>Dear User,</p>
+
+      <p>
+        We received a request to reset the password for your
+        <strong>CareerPilot</strong> account.
+      </p>
+
+      <p>
+        To proceed, please click the link below to create a new password.
+        This link is valid for a limited time for security reasons.
+      </p>
+
+      <p>
+        <a href="${resetUrl}" 
+           style="display: inline-block; padding: 10px 16px; background-color: #2563eb; color: #ffffff; text-decoration: none; border-radius: 4px;">
+          Reset Your Password
+        </a>
+      </p>
+
+      <p>
+        This link will expire in <strong>15 minutes</strong>.
+      </p>
+
+      <p>
+        If you did not request a password reset, please ignore this email.
+        Your account will remain secure, and no changes will be made.
+      </p>
+
+      <p>
+        For any assistance, feel free to contact our support team.
+      </p>
+
+      <p>
+        Best regards,<br />
+        <strong>CareerPilot Support Team</strong><br />
+        CareerPilot
+      </p>
+    </div>
+  `,
+});
 
     console.log("ENVELOPE TO:", info.envelope.to);
 

@@ -8,7 +8,7 @@
   min-height: 100vh;
   background: radial-gradient(circle at top, #0f172a, #020617);
   color: white;
-  padding: 60px 20px;
+  padding: 130px 20px;
   text-align: center;
 }
 
@@ -48,26 +48,104 @@
 }
 
 .quiz-option {
-  padding: 16px;
-  border-radius: 12px;
-  border: 1px solid #334155;
-  cursor: pointer;
   display: flex;
-  gap: 10px;
   align-items: center;
+  gap: 14px;
+  padding: 16px 18px;
+  margin-bottom: 14px;
+  border-radius: 12px;
+  border: 1.5px solid rgba(255, 255, 255, 0.2);
+  background: rgba(15, 18, 30, 0.9);
+  color: #ffffff;
+  font-size: 15px;
+  cursor: pointer;
+  transition: all 0.25s ease;
+}
+
+.quiz-option:hover {
+  border-color: #2ee6ff;
 }
 
 .quiz-option.active {
-  border-color: #22d3ee;
-  background: rgba(34, 211, 238, 0.15);
+  background: linear-gradient(
+    135deg,
+    rgba(46, 230, 255, 0.18),
+    rgba(255, 0, 204, 0.18)
+  );
+  border-color: #2ee6ff;
+  box-shadow: 0 0 14px rgba(46, 230, 255, 0.4);
+}
+
+/* RADIO BUTTON */
+.radio {
+  width: 18px;
+  height: 18px;
+  min-width: 18px;
+
+  border-radius: 50%;
+  border: 2px solid #2ee6ff;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* RADIO DOT WHEN SELECTED */
+.quiz-option.active .radio::after {
+  content: "";
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #2ee6ff, #ff00cc);
+}
+
+.quiz-nav button:first-child {
+  background: transparent;
+  border: none;
+  color: #94a3b8;
+  font-size: 14px;
+  padding: 8px 0;
+  cursor: pointer;
+  transition: color 0.2s ease;
+}
+
+.quiz-nav button:first-child:hover:not(:disabled) {
+  color: #22d3ee;
+}
+
+/* Disabled previous (exact image jaisa faded) */
+.quiz-nav button:first-child:disabled {
+  color: rgba(148, 163, 184, 0.35);
+  cursor: not-allowed;
 }
 
 .quiz-nav {
-  max-width: 700px;
-  margin: auto;
+  max-width: 720px;
+  margin: 24px auto 0;
   display: flex;
   justify-content: space-between;
+  align-items: center;
 }
+
+.quiz-back {
+  margin-top: 24px;
+  display: flex;
+  justify-content: center;
+}
+
+.back-to-hub {
+  background: transparent;
+  border: none;
+  color: #94a3b8;
+  font-size: 14px;
+  cursor: pointer;
+  transition: color 0.2s ease;
+}
+
+.back-to-hub:hover {
+  color: #22d3ee;
+}
+
 
 .next-btn {
   background: linear-gradient(90deg, #22d3ee, #ec4899);
@@ -230,3 +308,5 @@
     font-size: 16px;
   }
 }
+
+

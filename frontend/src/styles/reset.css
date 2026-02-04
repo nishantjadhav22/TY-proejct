@@ -3,38 +3,144 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  background: #05070d;
+  background: radial-gradient(circle at top, #0b0f1a, #05070d);
 }
 
 .reset-box {
-  width: 360px;
-  padding: 30px;
-  background: #121826;
-  border-radius: 10px;
+  width: 400px;
+  padding: 34px;
+  background: rgba(18, 24, 38, 0.9);
+  border-radius: 14px;
+  box-shadow: 0 0 35px rgba(255, 0, 200, 0.25);
+  animation: fade 0.4s ease;
+}
+
+@keyframes fade {
+  from {
+    opacity: 0;
+    transform: scale(0.96);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
 }
 
 .reset-box h2 {
-  color: #ff00c8;
+  color: #ff4dd2;
   text-align: center;
+}
+
+.reset-sub {
+  text-align: center;
+  font-size: 14px;
+  color: #cbd5f5;
   margin-bottom: 20px;
+}
+
+.input-group {
+  position: relative;
+  margin-bottom: 10px;
+}
+
+.input-group span {
+  position: absolute;
+  right: 10px;
+  top: 40%;
+  transform: translateY(-50%);
+  color: #ff4dd2;
+  cursor: pointer;
 }
 
 .reset-box input {
   width: 100%;
   padding: 12px;
-  margin-bottom: 15px;
   background: #0b0f1a;
-  border: 1px solid #ff00c8;
+  border: 1px solid #ff4dd2;
   color: #fff;
-  border-radius: 6px;
+  border-radius: 8px;
+  margin-bottom: 14px;
+}
+
+.strength {
+  font-size: 13px;
+  margin-bottom: 12px;
+}
+
+.strength.weak {
+  color: #ff4d4d;
+}
+
+.strength.medium {
+  color: #facc15;
+}
+
+.strength.strong {
+  color: #22c55e;
 }
 
 .reset-box button {
   width: 100%;
-  padding: 12px;
-  background: #ff00c8;
+  height: 44px;
+  background: linear-gradient(90deg, #ff4dd2, #ff00c8);
   border: none;
-  font-weight: bold;
+  border-radius: 10px;
+  font-weight: 600;
   cursor: pointer;
-  border-radius: 6px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.reset-box button:disabled {
+  opacity: 0.7;
+  cursor: not-allowed;
+}
+
+.btn-spinner {
+  width: 18px;
+  height: 18px;
+  border: 3px solid rgba(255,255,255,0.3);
+  border-top-color: #fff;
+  border-radius: 50%;
+  animation: spin 0.8s linear infinite;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.msg {
+  margin-top: 12px;
+  font-size: 14px;
+  text-align: center;
+  color: #cbd5f5;
+}
+
+.back-link {
+  display: flex;
+  justify-content: center;
+  gap: 6px;
+  margin-top: 16px;
+  font-size: 14px;
+  color: #9bdcff;
+  text-decoration: none;
+}
+
+.password-rules {
+  margin-top: 8px;
+  margin-bottom: 12px;
+  padding-left: 18px;
+  font-size: 13px;
+  color: #94a3b8;
+}
+
+.password-rules li {
+  margin-bottom: 4px;
+}
+
+.password-rules li.done {
+  color: #22c55e;
 }

@@ -1,0 +1,145 @@
+.team-page {
+  min-height: 100vh;
+  background: radial-gradient(circle at top, #0f172a, #020617);
+  color: white;
+  padding-bottom: 80px;
+}
+
+/* Hero */
+.team-hero {
+  text-align: center;
+  padding: 120px 20px 80px;
+}
+
+.hero-icon {
+  color: #22d3ee;
+  margin-bottom: 20px;
+}
+
+.team-hero h1 {
+  font-size: 56px;
+  font-weight: 700;
+}
+
+.team-hero p {
+  max-width: 600px;
+  margin: 16px auto 0;
+  color: #cbd5f5;
+}
+
+/* Grid */
+.team-grid {
+  max-width: 1200px;
+  margin: auto;
+  padding: 0 20px;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 30px;
+}
+
+/* Card */
+.team-card {
+  background: rgba(255, 255, 255, 0.05);
+  border-radius: 20px;
+  padding: 30px;
+  text-align: center;
+  position: relative;
+  transition: transform 0.3s ease;
+}
+
+.team-card:hover {
+  transform: translateY(-8px);
+}
+
+.team-card.leader {
+  border: 2px solid #22d3ee;
+}
+
+.leader-badge {
+  position: absolute;
+  top: -10px;
+  right: -10px;
+  background: linear-gradient(135deg, #22d3ee, #ec4899);
+  color: #020617;
+  border-radius: 50%;
+  padding: 8px;
+}
+
+/* Image */
+.team-card img {
+  width: 110px;
+  height: 110px;
+  object-fit: cover;
+  border-radius: 50%;
+  margin-bottom: 16px;
+  border: 3px solid #22d3ee;
+}
+
+.team-card h3 {
+  font-size: 22px;
+  margin-bottom: 4px;
+}
+
+.role {
+  color: #22d3ee;
+  font-weight: 600;
+  font-size: 14px;
+}
+
+.bio {
+  font-size: 14px;
+  color: #cbd5f5;
+  margin: 14px 0;
+}
+
+/* Skills */
+.skills {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-bottom: 16px;
+}
+
+.skills span {
+  background: rgba(255, 255, 255, 0.08);
+  padding: 4px 10px;
+  border-radius: 999px;
+  font-size: 12px;
+}
+
+/* Contact */
+.contact-buttons {
+  display: flex;
+  gap: 10px;
+  justify-content: center;
+  margin-bottom: 14px;
+}
+
+.contact-buttons a {
+  background: linear-gradient(135deg, #22d3ee, #ec4899);
+  color: #020617;
+  padding: 8px 14px;
+  border-radius: 10px;
+  font-size: 13px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  text-decoration: none;
+  font-weight: 600;
+}
+
+.social-links {
+  display: flex;
+  justify-content: center;
+  gap: 12px;
+}
+
+.social-links a {
+  color: #94a3b8;
+  transition: color 0.3s;
+}
+
+.social-links a:hover {
+  color: #22d3ee;
+}

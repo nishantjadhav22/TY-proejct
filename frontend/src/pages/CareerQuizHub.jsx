@@ -51,6 +51,7 @@ const CareerQuizHub = () => {
       </header>
 
       <div className="cq-cards">
+        {/* Start New Assessment Card */}
         <div className="cq-card start-assessment" onClick={() => navigate("/quiz")}>
           <div className="cq-card-icon play-icon"><Play /></div>
           <h2>Start New Assessment</h2>
@@ -58,29 +59,18 @@ const CareerQuizHub = () => {
           <span className="powered">Powered by AI</span>
         </div>
 
-        <div className="cq-card view-history">
+        {/* View Quiz History Card */}
+        <div
+          className="cq-card view-history"
+          onClick={() => navigate("/quiz-history")} // ✅ click navigates to full history page
+          style={{ cursor: "pointer" }}
+        >
           <div className="cq-card-icon refresh-icon"><RefreshCw /></div>
           <h2>View Quiz History</h2>
           <p>Track your assessment progress over time.</p>
           <span className="quiz-count">
             {quizHistory.length} Quizzes Completed
           </span>
-
-          {quizHistory.length > 0 ? (
-            <ul className="quiz-history-list">
-              {quizHistory.slice().reverse().map((entry, idx) => (
-                <li key={`${entry.testNumber}-${idx}`}>
-                  <span className="quiz-history-test">Test {entry.testNumber}</span>
-                  <span className="quiz-history-topic">{entry.topic}</span>
-                  <span className="quiz-history-score">
-                    {entry.score}/{entry.totalQuestions}
-                  </span>
-                </li>
-              ))}
-            </ul>
-          ) : (
-            <span className="quiz-history-empty">No quizzes taken yet.</span>
-          )}
         </div>
       </div>
     </div>

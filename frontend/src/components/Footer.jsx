@@ -1,120 +1,197 @@
+// src/components/Footer.jsx
 import "../styles/footer.css";
 import {
-  FaFacebookF,
-  FaTwitter,
-  FaInstagram,
-  FaLinkedinIn,
-  FaGithub,
-  FaArrowUp,
-} from "react-icons/fa";
+  Facebook,
+  Twitter,
+  Instagram,
+  Linkedin,
+  Github,
+  ArrowUp,
+  Sparkles,
+  Mail,
+  Phone,
+  MapPin,
+} from "lucide-react";
 import { Link } from "react-router-dom";
 import { useTranslation } from "react-i18next";
-import { useEffect, useRef, useState } from "react"; // ✅ ADDED
+import { useEffect, useRef, useState } from "react";
+import toast from "react-hot-toast";
 
 const Footer = () => {
   const { t } = useTranslation();
+  const footerRef = useRef(null);
+  const [showScrollBtn, setShowScrollBtn] = useState(false);
 
-  const footerRef = useRef(null); // ✅ ADDED
-  const [showScrollBtn, setShowScrollBtn] = useState(false); // ✅ ADDED
+  // ================== SUBSCRIBE STATES ==================
+  const [email, setEmail] = useState("");
+  const [agreed, setAgreed] = useState(false);
+  const [loading, setLoading] = useState(false);
+  // ======================================================
 
   const scrollToTop = () => {
-    window.scrollTo({
-      top: 0,
-      behavior: "smooth",
-    });
+    window.scrollTo({ top: 0, behavior: "smooth" });
   };
 
-  // ✅ ADDED: footer visible hone par hi button show
-  useEffect(() => {
-    const observer = new IntersectionObserver(
-      ([entry]) => {
-        setShowScrollBtn(entry.isIntersecting);
-      },
-      { threshold: 0.3 }
-    );
+  const validateEmail = (email) =>
+    /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
 
-    if (footerRef.current) {
-      observer.observe(footerRef.current);
+  const handleSubscribe = async () => {
+    if (!email || !validateEmail(email)) {
+      toast.error("Please enter a valid email!");
+      return;
+    }
+    if (!agreed) {
+      toast.error("You must accept the privacy policy!");
+      return;
     }
 
+    try {
+      setLoading(true);
+
+      const res = await fetch("http://localhost:5000/api/subscribe", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ email }),
+      });
+
+      if (res.status === 409) {
+        toast("You're already subscribed! 🎉", { icon: "🎉" });
+        return;
+      }
+
+      if (!res.ok) throw new Error("Failed");
+
+      toast.success("Subscribed successfully! 🎉");
+      setEmail("");
+      setAgreed(false);
+
+    } catch (error) {
+      toast.error("Something went wrong. Please try again.");
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      ([entry]) => setShowScrollBtn(entry.isIntersecting),
+      { threshold: 0.3 }
+    );
+    if (footerRef.current) observer.observe(footerRef.current);
     return () => observer.disconnect();
   }, []);
 
   return (
     <footer className="footer" ref={footerRef}>
-      {/* Main Footer */}
+      {/* ✅ Removed Toaster - using App.js global Toaster */}
+
       <div className="footer-content">
-        {/* Brand */}
+        {/* BRAND */}
         <div className="footer-brand">
-          <h3>✨ CareerGuide</h3>
-          <p>
+          <h3 className="footer-logo">
+            <Sparkles className="logo-icon" />
+            <span className="logo-text">
+              Career<span>Guide</span>
+            </span>
+          </h3>
+          <p className="brand-desc">
             {t(
               "footer.description",
               "Your comprehensive platform for career guidance and college recommendations powered by AI."
             )}
           </p>
-
           <div className="footer-contact">
-            <p>{t("footer.email", "📧 solutions@gmail.com")}</p>
-            <p>{t("footer.phone", "📞 +91 7000000000")}</p>
-            <p>{t("footer.address", "📍 123 Innovation Drive, Tech City")}</p>
-          </div>
-
-          <div className="footer-social">
-            <a href="https://www.facebook.com/your-facebook-username" target="_blank" rel="noopener noreferrer"><FaFacebookF /></a>
-            <a href="https://twitter.com/your-twitter-username" target="_blank" rel="noopener noreferrer"><FaTwitter /></a>
-            <a href="https://www.instagram.com/nishant_jadhav45" target="_blank" rel="noopener noreferrer"><FaInstagram /></a>
-            <a href="https://www.linkedin.com/in/shubham-prajapati-492122291" target="_blank" rel="noopener noreferrer"><FaLinkedinIn /></a>
-            <a href="https://github.com/your-github-username" target="_blank" rel="noopener noreferrer"><FaGithub /></a>
+            <p><Mail size={16} /> cpcommunityhub@gmail.com</p>
+            <p><Phone size={16} /> +91 7000000000</p>
+            <p><MapPin size={16} /> 123 Innovation Drive, Tech City</p>
           </div>
         </div>
 
-        {/* Links */}
+        {/* LINKS */}
         <div className="footer-links">
-          <h4>{t("footer.featuresTitle", "FEATURES")}</h4>
-          <a href="career-quiz">{t("footer.careerQuiz", "Career Quiz")}</a>
-          <a href="#">{t("footer.careerTree", "3D Career Tree")}</a>
-          <Link to="/colleges">{t("footer.collegeFinder", "College Finder")}</Link>
-          <a href="#">{t("footer.timeline", "Timeline Tracker")}</a>
+          <h4>FEATURES</h4>
+          <a href="#">Features</a>
+          <a href="/career-quiz">Career Quiz</a>
+          <a href="#">3D Career Tree</a>
+          <Link to="/colleges">College Finder</Link>
+          <a href="#">Timeline Tracker</a>
         </div>
 
         <div className="footer-links">
-          <h4>{t("footer.companyTitle", "COMPANY")}</h4>
-          <a href="#">{t("footer.about", "About")}</a>
-          <a href="#">{t("footer.team", "Team")}</a>
-          <a href="#">{t("footer.careers", "Careers")}</a>
-          <a href="#">{t("footer.contact", "Contact")}</a>
+          <h4>COMPANY</h4>
+          <a href="#">About</a>
+          <Link to="/team">Team</Link>
+          <a href="#">Careers</a>
+          <a href="#">Press</a>
+          <a href="#">Contact</a>
         </div>
 
         <div className="footer-links">
-          <h4>{t("footer.supportTitle", "SUPPORT")}</h4>
-          <a href="#">{t("footer.help", "Help")}</a>
-          <a href="#">{t("footer.studyMaterials", "Study Materials")}</a>
-          <a href="#">{t("footer.careerGuides", "Career Guides")}</a>
-          <a href="#">{t("footer.apiDocs", "API Docs")}</a>
+          <h4>SUPPORT</h4>
+          <a href="#">Help</a>
+          <a href="#">Study Materials</a>
+          <a href="#">Career Guides</a>
+          <a href="#">Blog</a>
+          <a href="#">API Docs</a>
         </div>
 
         <div className="footer-links">
-          <h4>{t("footer.legalTitle", "LEGAL")}</h4>
-          <a href="#">{t("footer.privacyPolicy", "Privacy Policy")}</a>
-          <a href="#">{t("footer.terms", "Terms of Service")}</a>
-          <a href="#">{t("footer.cookie", "Cookie Policy")}</a>
-          <a href="#">{t("footer.gdpr", "GDPR")}</a>
+          <h4>LEGAL</h4>
+          <a href="#">Privacy Policy</a>
+          <a href="#">Terms of Service</a>
+          <a href="#">Cookie Policy</a>
+          <a href="#">GDPR</a>
         </div>
       </div>
 
-      {/* Bottom */}
+      {/* SOCIAL + SUBSCRIBE ROW */}
+      <div className="footer-lower-row">
+        <div className="footer-social">
+          <Facebook />
+          <Twitter />
+          <Instagram />
+          <Linkedin />
+          <Github />
+        </div>
+
+        {/* SUBSCRIBE */}
+        <div className="footer-subscribe">
+          <div className="subscribe-row">
+            <span className="subscribe-label">Stay updated:</span>
+            <div className="subscribe-input-wrapper">
+              <input
+                type="email"
+                placeholder="Enter your email"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                disabled={loading}
+              />
+              <button onClick={handleSubscribe} disabled={loading}>
+                {loading ? <span className="spinner"></span> : "Subscribe"}
+              </button>
+            </div>
+          </div>
+
+          <label className="gdpr-checkbox">
+            <input
+              type="checkbox"
+              checked={agreed}
+              onChange={() => setAgreed(!agreed)}
+              disabled={loading}
+            />
+            I agree to receive emails and accept the privacy policy.
+          </label>
+        </div>
+      </div>
+
+      <div className="footer-divider" />
       <div className="footer-bottom">
-        {t(
-          "footer.bottomText",
-          "© 2025 CareerGuide. Built with ❤️ for students everywhere."
-        )}
+        © {new Date().getFullYear()} CareerGuide. All rights reserved. Built with ❤️ for students everywhere.
       </div>
 
-      {/* ✅ ADDED: footer visible hone par hi */}
       {showScrollBtn && (
         <button className="scroll-top-btn" onClick={scrollToTop}>
-          <FaArrowUp />
+          <ArrowUp />
         </button>
       )}
     </footer>

@@ -7,32 +7,7 @@
   padding-top: 90px;
   position: relative;
   overflow: hidden;
-  font-family: Arial, sans-serif;
-}
-
-/* =========================
-   TOP CTA BUTTON
-========================= */
-.footer-top-btn {
-  text-align: center;
-  margin-bottom: 70px;
-}
-
-.footer-top-btn button {
-  background: linear-gradient(90deg, #00f0ff, #ff3cac);
-  color: #000;
-  padding: 14px 36px;
-  border: none;
-  border-radius: 12px;
-  font-size: 16px;
-  font-weight: 600;
-  cursor: pointer;
-  transition: transform 0.2s ease, box-shadow 0.2s ease;
-}
-
-.footer-top-btn button:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 0 25px rgba(0, 240, 255, 0.4);
+  font-family: "Inter", Arial, sans-serif;
 }
 
 /* =========================
@@ -48,14 +23,37 @@
 }
 
 /* =========================
-   BRAND SECTION
+   BRAND / LOGO
 ========================= */
-.footer-brand h3 {
-  color: #00f0ff;
-  font-size: 20px;
+.footer-logo {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 26px;
+  font-weight: 700;
   margin-bottom: 14px;
 }
 
+.logo-icon {
+  width: 22px;
+  height: 22px;
+  color: #22f3ff;
+  filter: drop-shadow(0 0 8px rgba(34, 243, 255, 0.6));
+}
+
+.logo-text {
+  color: #ffffff;
+}
+
+.logo-text span {
+  background: linear-gradient(135deg, #22f3ff, #3b82f6);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+/* =========================
+   BRAND TEXT
+========================= */
 .footer-brand p {
   font-size: 14px;
   line-height: 1.7;
@@ -64,31 +62,105 @@
   max-width: 320px;
 }
 
+/* =========================
+   CONTACT INFO
+========================= */
 .footer-contact p {
-  font-size: 13px;
-  margin-bottom: 8px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 14px;
   color: #9ca3af;
+  margin-bottom: 8px;
+}
+
+.footer-contact svg {
+  color: #22f3ff;
 }
 
 /* =========================
-   SOCIAL ICONS
+   DIVIDER LINE
+========================= */
+.footer-divider {
+  width: 100%;
+  height: 1px;
+  background: rgba(255, 255, 255, 0.08);
+  margin: 18px 0;
+}
+
+/* =========================
+   SOCIAL + SUBSCRIBE ROW
+========================= */
+.footer-lower-row {
+  display: flex;
+  justify-content: space-between; /* Social left, subscribe right */
+  align-items: center;
+  gap: 20px;
+  flex-wrap: wrap;
+  max-width: 1200px;
+  margin: 0 auto 20px; /* centered under columns */
+}
+
+/* =========================
+   SOCIAL ICONS (IMAGE STYLE)
 ========================= */
 .footer-social {
   display: flex;
-  gap: 14px;
-  margin-top: 18px;
+  gap: 15px;
+  justify-content: flex-start;
 }
 
 .footer-social svg {
-  font-size: 16px;
+  width: 20px;
+  height: 20px;
   color: #9ca3af;
   cursor: pointer;
-  transition: color 0.2s ease, transform 0.2s ease;
+  transition: all 0.25s ease;
 }
 
 .footer-social svg:hover {
-  color: #00f0ff;
+  color: #22f3ff;
   transform: translateY(-2px);
+}
+
+/* =========================
+   SUBSCRIBE (STAY UPDATED)
+========================= */
+.footer-subscribe {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.footer-subscribe span {
+  font-size: 13px;
+  color: #9ca3af;
+}
+
+.footer-subscribe input {
+  background: #0b1220;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  color: #e5e7eb;
+  padding: 10px 14px;
+  border-radius: 10px;
+  font-size: 13px;
+  outline: none;
+  width: 200px;
+}
+
+.footer-subscribe input::placeholder {
+  color: #6b7280;
+}
+
+.footer-subscribe button {
+  background: linear-gradient(135deg, #22f3ff, #ff22f3); 
+  border: none;
+  color: #000;
+  font-size: 13px;
+  padding: 10px 18px;
+  border-radius: 10px;
+  cursor: pointer;
+  font-weight: 600;
 }
 
 /* =========================
@@ -106,11 +178,11 @@
   color: #9ca3af;
   text-decoration: none;
   margin-bottom: 10px;
-  transition: color 0.2s ease, transform 0.2s ease;
+  transition: all 0.2s ease;
 }
 
 .footer-links a:hover {
-  color: #00f0ff;
+  color: #22f3ff;
   transform: translateX(4px);
 }
 
@@ -123,6 +195,36 @@
   padding: 22px 16px;
   border-top: 1px solid rgba(255, 255, 255, 0.06);
   color: #9ca3af;
+}
+
+/* =========================
+   SCROLL TO TOP (IMAGE STYLE)
+========================= */
+.scroll-top-btn {
+  position: fixed;
+  right: 40px;
+  bottom: 12px;
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #22f3ff, #3b82f6);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: none;
+  cursor: pointer;
+  z-index: 100;
+  transition: transform 0.25s ease;
+}
+
+.scroll-top-btn:hover {
+  transform: translateY(-4px);
+}
+
+.scroll-top-btn svg {
+  color: #000;
+  width: 18px;
+  height: 18px;
 }
 
 /* =========================
@@ -140,13 +242,15 @@
 }
 
 @media (max-width: 600px) {
-  .footer {
-    padding-top: 70px;
-  }
-
   .footer-content {
     grid-template-columns: 1fr;
     text-align: center;
+  }
+
+  .footer-lower-row {
+    flex-direction: column;
+    justify-content: center;
+    gap: 15px;
   }
 
   .footer-social {
@@ -158,31 +262,147 @@
   }
 }
 
-/* Scroll To Top Button */
-.scroll-top-btn {
-  position: fixed;
-  right: 25px;
-  bottom: 80px;
+.brand-desc {
+  max-width: 300px;
+  opacity: 0.85;
+}
 
-  width: 45px;
-  height: 45px;
+.logo-icon {
+  stroke-width: 1.6;
+}
 
+.footer-social {
+  align-items: center;
+}
+
+.footer-lower-row {
+  align-items: center;
+}
+
+.footer-subscribe {
+  align-items: center;
+}
+
+.footer-bottom {
+  opacity: 0.7;
+  font-size: 12.5px;
+}
+
+/* subtle vignette depth */
+.footer::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(
+    circle at top,
+    rgba(255, 255, 255, 0.04),
+    transparent 60%
+  );
+  pointer-events: none;
+}
+
+/* Spinner */
+.spinner {
+  border: 2px solid rgba(255,255,255,0.2);
+  border-top: 2px solid #fff;
+  border-radius: 50%;
+  width: 16px;
+  height: 16px;
+  animation: spin 0.8s linear infinite;
+  display: inline-block;
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+/* Toast popup */
+.subscribe-toast {
+  position: absolute;
+  top: -40px;
+  left: 0;
+  background: #333;
+  color: #fff;
+  padding: 6px 12px;
+  border-radius: 6px;
+  font-size: 14px;
+  animation: fadeInOut 3s forwards;
+}
+
+.subscribe-toast.success { background: #4caf50; }
+.subscribe-toast.error { background: #f44336; }
+
+@keyframes fadeInOut {
+  0% { opacity: 0; transform: translateY(-10px); }
+  10%, 90% { opacity: 1; transform: translateY(0); }
+  100% { opacity: 0; transform: translateY(-10px); }
+}
+
+.footer-subscribe {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  font-family: Inter, sans-serif;
+}
+
+.subscribe-row {
   display: flex;
   align-items: center;
-  justify-content: center;
+  gap: 8px;
+}
 
-  background: #1a1f2e;
-  color: #ffffff;
+.subscribe-label {
+  font-size: 14px;
+  color: #ccc;
+  white-space: nowrap;
+}
 
+.subscribe-input-wrapper {
+  display: flex;
+  flex: 1;
+  gap: 8px;
+}
+
+.subscribe-input-wrapper input[type="email"] {
+  flex: 1;
+  padding: 8px 12px;
+  border-radius: 6px;
+  border: 1px solid #555;
+  background-color: #1a1c2b;
+  color: #fff;
+  font-size: 14px;
+}
+
+.subscribe-input-wrapper input[type="email"]::placeholder {
+  color: #888;
+}
+
+.subscribe-input-wrapper button {
+  padding: 8px 16px;
+  border-radius: 6px;
   border: none;
-  border-radius: 8px;
   cursor: pointer;
-
-  font-size: 18px;
+  background: linear-gradient(90deg, #00f6ff, #ff00d4);
+  color: #000;
+  font-weight: 600;
   transition: all 0.3s ease;
 }
 
-.scroll-top-btn:hover {
-  background: #2563eb;
-  transform: translateY(-4px);
+.subscribe-input-wrapper button:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.gdpr-checkbox {
+  font-size: 12px; /* smaller font under input */
+  color: #aaa;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.gdpr-checkbox input[type="checkbox"] {
+  width: 14px;
+  height: 14px;
 }

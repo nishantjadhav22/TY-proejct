@@ -397,3 +397,80 @@
   transform: translateY(-50%);
   pointer-events: none;
 }
+
+/* ------------------------------
+   Container for Saved Colleges Page
+---------------------------------*/
+.colleges-container {
+  padding-top: 100px;
+  max-width: 1200px;
+  margin: 0 auto;
+  font-family: 'Inter', sans-serif;
+}
+
+/* Page Title */
+.page-title {
+  font-size: 28px;
+  font-weight: 700;
+  margin-bottom: 24px;
+  color: #111;
+}
+
+/* Grid for College Cards */
+.colleges-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 20px;
+}
+
+/* Empty State Styling */
+.empty-state {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  margin-top: 80px;
+  color: #555;
+  text-align: center;
+}
+
+.empty-state h3 {
+  font-size: 22px;
+  margin: 12px 0;
+  font-weight: 600;
+}
+
+.empty-state p {
+  font-size: 16px;
+  color: #777;
+  max-width: 400px;
+}
+
+.empty-state svg {
+  color: #ff6b81; /* nice accent color for empty icon */
+  margin-bottom: 12px;
+}
+
+/* Loader / Loading State */
+.loading {
+  text-align: center;
+  font-size: 18px;
+  color: #666;
+  margin-top: 60px;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .colleges-container {
+    padding: 16px;
+  }
+  .page-title {
+    font-size: 24px;
+  }
+  .empty-state h3 {
+    font-size: 20px;
+  }
+  .empty-state p {
+    font-size: 14px;
+  }
+}

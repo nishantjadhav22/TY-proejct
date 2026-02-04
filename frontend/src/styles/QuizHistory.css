@@ -1,0 +1,100 @@
+/* Page */
+.qh-page {
+  max-width: 900px;
+  margin: 40px auto;
+  padding: 20px;
+  font-family: 'Inter', sans-serif;
+  color: #333;
+}
+
+/* Header */
+.qh-header {
+  text-align: center;
+  margin-bottom: 30px;
+}
+
+.qh-back-btn {
+  background-color: transparent;
+  border: none;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  font-size: 1rem;
+  color: #0077ff;
+  margin-bottom: 10px;
+}
+
+.qh-back-btn:hover { color: #0056cc; }
+
+.qh-header h1 { font-size: 2rem; color: #0077ff; margin-bottom: 5px; }
+.qh-highlight { color: #ff6600; }
+.qh-subtitle { font-size: 0.95rem; color: #555; }
+
+/* Sort/Filter */
+.qh-sort-filter { margin: 15px 0; }
+.qh-sort-filter select {
+  padding: 6px 10px;
+  border-radius: 8px;
+  border: 1px solid #0077ff;
+  background-color: #f0f4ff;
+  color: #333;
+  font-size: 0.9rem;
+}
+
+/* Cards */
+.qh-cards { display: flex; flex-direction: column; gap: 15px; }
+.qh-empty {
+  text-align: center;
+  font-size: 1rem;
+  color: #888;
+  padding: 40px 0;
+  background-color: #f0f4ff;
+  border-radius: 12px;
+}
+
+.qh-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 20px;
+}
+
+.qh-card {
+  background-color: #f0f4ff;
+  border-radius: 12px;
+  padding: 20px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.08);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.qh-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.12);
+}
+
+.qh-card-info { display: flex; flex-direction: column; gap: 6px; }
+.qh-card-title { margin: 0 0 5px 0; font-size: 1.2rem; color: #0056cc; }
+.qh-card-test { margin: 0; font-size: 0.9rem; color: #555; }
+
+/* Progress Bar */
+.qh-progress-bar {
+  width: 100%;
+  height: 10px;
+  background-color: #d0d8ff;
+  border-radius: 6px;
+  margin-top: 6px;
+}
+
+.qh-progress-filled {
+  height: 100%;
+  background: linear-gradient(90deg, #0077ff, #ff6600);
+  border-radius: 6px;
+  transition: width 0.3s ease;
+}
+
+.qh-card-score { font-weight: bold; font-size: 1rem; color: #0077ff; }

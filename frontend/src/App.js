@@ -25,7 +25,12 @@ import Colleges from "./pages/Colleges";
 import JobHunting from "./pages/JobHunting";
 import Dashboard from "./pages/Dashboard";
 import ProfileSettings from "./pages/ProfileSettings";
+import SavedColleges from "./pages/SavedColleges";
 import LearningResources from "./pages/LearningResources";
+import Team from "./pages/Team";
+import QuizHistory from "./pages/QuizHistory";
+import SimplePricingPage from "./pages/SimplePricingPage";
+
 
 /* 🔐 FORGOT PASSWORD PAGES (ADDED ONLY) */
 import ForgotPassword from "./pages/ForgotPassword";
@@ -115,6 +120,11 @@ function AppContent() {
         <Route path="/career-quiz" element={<CareerQuizHub />} />
         <Route path="/quiz" element={<CareerQuizPage />} />
         <Route path="/resources" element={<LearningResources />} />
+        <Route path="/saved-colleges" element={<SavedColleges />} />
+        <Route path="/team" element={<Team />} />
+        <Route path="/quiz-history" element={<QuizHistory />} />
+        <Route path="/subscription" element={<SimplePricingPage />} />
+
       </Routes>
     </>
   );

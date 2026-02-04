@@ -8,7 +8,7 @@ import { GoogleGenerativeAI } from "@google/generative-ai";
 import path from "path";
 
 // ✅ CONFIRMED WORKING MODEL (v1beta + generateContent)
-const GEMINI_MODEL = "gemini-3-flash";
+const GEMINI_MODEL = "gemini-2.5-flash";
 
 // ✅ Initialize Gemini safely
 const genAI = process.env.GEMINI_API_KEY

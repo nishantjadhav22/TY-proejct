@@ -12,6 +12,7 @@ import {
 } from "lucide-react";
 import { Link } from "react-router-dom";
 import { useTranslation } from "react-i18next";
+import { motion, AnimatePresence } from "framer-motion";
 import "../styles/LearningResources.css";
 import Footer from "../components/Footer";
 
@@ -245,8 +246,12 @@ const ResourceCard = ({ resource }) => {
   const Icon = typeIcons[resource.type];
 
   return (
-    <div
+    <motion.div
       className="resource-card"
+      initial={{ opacity: 0, y: 20 }}
+      animate={{ opacity: 1, y: 0 }}
+      whileHover={{ y: -6, scale: 1.02 }}
+      transition={{ duration: 0.3, ease: "easeOut" }}
       onClick={() => window.open(resource.link, "_blank")}
       tabIndex={0}
     >
@@ -296,7 +301,7 @@ const ResourceCard = ({ resource }) => {
       >
         {t("Access")} <ExternalLink size={16} />
       </button>
-    </div>
+    </motion.div>
   );
 };
 
@@ -336,10 +341,23 @@ const LearningResources = () => {
         </button>
       </div>
 
-      <h1 className="page-title">{t("Learning Resources")}</h1>
-      <p className="subtitle">
+      <motion.h1
+        className="page-title"
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.4 }}
+      >
+        {t("Learning Resources")}
+      </motion.h1>
+
+      <motion.p
+        className="subtitle"
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        transition={{ delay: 0.2 }}
+      >
         {t("Curated courses, videos & practice material")}
-      </p>
+      </motion.p>
 
       <div className="search-box">
         <Search size={18} />
@@ -350,45 +368,71 @@ const LearningResources = () => {
         />
       </div>
 
-      {showFilters && (
-        <div className="filters">
-          <select value={category} onChange={(e) => setCategory(e.target.value)}>
-            {categories.map((c) => (
-              <option key={c}>{t(c)}</option>
-            ))}
-          </select>
-
-          <select value={type} onChange={(e) => setType(e.target.value)}>
-            {types.map((tp) => (
-              <option key={tp}>{t(tp)}</option>
-            ))}
-          </select>
-
-          <select
-            value={difficulty}
-            onChange={(e) => setDifficulty(e.target.value)}
+      <AnimatePresence>
+        {showFilters && (
+          <motion.div
+            className="filters"
+            initial={{ opacity: 0, height: 0 }}
+            animate={{ opacity: 1, height: "auto" }}
+            exit={{ opacity: 0, height: 0 }}
+            transition={{ duration: 0.3 }}
           >
-            {difficulties.map((d) => (
-              <option key={d}>{t(d)}</option>
-            ))}
-          </select>
-        </div>
-      )}
+            <select value={category} onChange={(e) => setCategory(e.target.value)}>
+              {categories.map((c) => (
+                <option key={c}>{t(c)}</option>
+              ))}
+            </select>
 
-      <div className="resources-grid">
+            <select value={type} onChange={(e) => setType(e.target.value)}>
+              {types.map((tp) => (
+                <option key={tp}>{t(tp)}</option>
+              ))}
+            </select>
+
+            <select
+              value={difficulty}
+              onChange={(e) => setDifficulty(e.target.value)}
+            >
+              {difficulties.map((d) => (
+                <option key={d}>{t(d)}</option>
+              ))}
+            </select>
+          </motion.div>
+        )}
+      </AnimatePresence>
+
+      <motion.div
+        className="resources-grid"
+        initial="hidden"
+        animate="show"
+        variants={{
+          hidden: {},
+          show: { transition: { staggerChildren: 0.08 } },
+        }}
+      >
         {filtered.map((r) => (
           <ResourceCard key={r.id} resource={r} />
         ))}
-      </div>
+      </motion.div>
 
       {filtered.length === 0 && (
-        <div className="no-results">
+        <motion.div
+          className="no-results"
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+        >
           <Search size={40} />
           <p>{t("No resources found")}</p>
-        </div>
+        </motion.div>
       )}
 
-      <div className="cta">
+      <motion.div
+        className="cta"
+        initial={{ opacity: 0, y: 20 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        viewport={{ once: true }}
+        transition={{ duration: 0.4 }}
+      >
         <h2>{t("Ready to Start Learning?")}</h2>
         <div className="cta-actions">
           <Link to="/quiz">{t("Take Career Quiz")}</Link>
@@ -396,7 +440,7 @@ const LearningResources = () => {
             {t("Create Learning Path")}
           </Link>
         </div>
-      </div>
+      </motion.div>
 
       <Footer />
     </div>
