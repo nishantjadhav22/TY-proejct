@@ -1,20 +1,10 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import "../styles/signin.css";
-import {
-  FiMail,
-  FiLock,
-  FiEye,
-  FiEyeOff
-} from "react-icons/fi";
+import { FiMail, FiLock, FiEye, FiEyeOff } from "react-icons/fi";
 import apiClient, { storeSession } from "../services/apiClient";
 import { useTranslation } from "react-i18next";
-
-/* 🔥 TOAST (ADDED) */
 import toast from "react-hot-toast";
-
-// ✅ FIX-1: Background image imported via React
-import bgImage from "../assets/signin-bg.png";
 
 const SignIn = ({ setUser }) => {
   const { t } = useTranslation();
@@ -26,17 +16,23 @@ const SignIn = ({ setUser }) => {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
 
+  // ✅ SAME AS OLD LOGIC
   const validate = () => {
-    if (!email) return t("signin.emailRequired", "Email is required");
+    if (!email)
+      return t("signin.emailRequired", "Email is required");
+
     if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email))
       return t("signin.emailInvalid", "Invalid email format");
+
     if (!password)
       return t("signin.passwordRequired", "Password is required");
-    if (password.length < 2)
+
+    if (password.length < 1)
       return t(
         "signin.passwordShort",
         "Password must be at least 6 characters"
       );
+
     return null;
   };
 
@@ -47,7 +43,7 @@ const SignIn = ({ setUser }) => {
     const validationError = validate();
     if (validationError) {
       setError(validationError);
-      toast.error(validationError); // 🔥 ADDED
+      toast.error(validationError); // 🔥 OLD BEHAVIOR
       return;
     }
 
@@ -60,8 +56,8 @@ const SignIn = ({ setUser }) => {
         { skipAuthRefresh: true }
       );
 
+      // ✅ OLD SAFETY CHECK
       const { user: userData, accessToken } = res.data || {};
-
       if (!userData || !accessToken) {
         throw new Error("Invalid authentication response");
       }
@@ -69,116 +65,91 @@ const SignIn = ({ setUser }) => {
       storeSession(accessToken, userData);
       setUser(userData);
 
-      toast.success("Login successful !"); // 🔥 ADDED
+      toast.success("Login successful !");
       navigate("/");
     } catch (err) {
+      // ✅ OLD ERROR LOGIC
       const msg =
         err.response?.data?.message ||
         t("signin.loginFailed", "Login failed. Try again.");
 
       setError(msg);
-      toast.error(msg); // 🔥 ADDED
+      toast.error(msg);
     } finally {
       setLoading(false);
     }
   };
 
   return (
-    <div
-      className="signin-page"
-      style={{
-        backgroundImage: `
-          linear-gradient(
-            rgba(11, 15, 26, 0.55),
-            rgba(11, 15, 26, 0.55)
-          ),
-          url(${bgImage})
-        `,
-      }}
-    >
-      {/* ===== HEADER ===== */}
-      <div className="signin-header">
-        <div className="signin-logo">CP</div>
-        <h2>{t("signin.welcomeBack", "Welcome Back")}</h2>
-        <p>
-          {t(
-            "signin.signInToContinue",
-            "Sign in to continue your career journey"
-          )}
-        </p>
-      </div>
+    <div className="signin-page">
+      <div className="signin-hero">
 
-      {/* ===== CARD ===== */}
-      <div className="signin-card">
-        {error && <div className="error-box">{error}</div>}
+        <div className="shape shape-left" />
+        <div className="shape shape-right" />
 
-        <form onSubmit={handleSubmit}>
-          {/* EMAIL */}
-          <div className={`input-group ${email ? "filled" : ""}`}>
-            <div className="input-icon-wrapper">
-              <input
-                type="email"
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-                disabled={loading}
-              />
-              <label>{t("signin.emailLabel", "Email Address")}</label>
-              <span className="input-icon">
+        <div className="signin-container">
+
+          <div className="cp-circle">CP</div>
+
+          <h2 className="title">Welcome Back</h2>
+          <p className="subtitle">
+            Sign in to continue your career journey
+          </p>
+
+          <div className="signin-card">
+            <form onSubmit={handleSubmit}>
+
+              <div className="input-box">
                 <FiMail />
-              </span>
-            </div>
-          </div>
+                <input
+                  type="email"
+                  placeholder="Email Address"
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
+                  disabled={loading}
+                />
+              </div>
 
-          {/* PASSWORD */}
-          <div className={`input-group ${password ? "filled" : ""}`}>
-            <div className="input-icon-wrapper">
-              <input
-                type={showPassword ? "text" : "password"}
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
-                disabled={loading}
-              />
-              <label>{t("signin.passwordLabel", "Password")}</label>
-
-              {/* LEFT LOCK ICON */}
-              <span className="input-icon">
+              <div className="input-box">
                 <FiLock />
-              </span>
+                <input
+                  type={showPassword ? "text" : "password"}
+                  placeholder="Password"
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)}
+                  disabled={loading}
+                />
+                <span
+                  className="eye"
+                  onClick={() => setShowPassword(!showPassword)}
+                >
+                  {showPassword ? <FiEyeOff /> : <FiEye />}
+                </span>
+              </div>
 
-              {/* RIGHT EYE ICON */}
-              <span
-                className="input-icon clickable"
-                onClick={() => setShowPassword(!showPassword)}
+              <div
+                className="forgot"
+                onClick={() => navigate("/forgot-password")}
               >
-                {showPassword ? <FiEyeOff /> : <FiEye />}
-              </span>
-            </div>
+                Forgot your password?
+              </div>
+
+              <button className="signin-btn" disabled={loading}>
+                {loading ? "Signing In..." : "Sign In →"}
+              </button>
+
+            </form>
           </div>
 
-          <span className="forgot"  onClick={() => navigate("/forgot-password")}
-            style={{ cursor: "pointer" }}>
-            {t("signin.forgotPassword", "Forgot your password?")}
-          </span>
+          <p className="signup-text">
+            Don’t have an account?
+            <span onClick={() => navigate("/register")}>
+              Sign Up Now
+            </span>
+          </p>
 
-          <button
-            className="signin-btn"
-            type="submit"
-            disabled={loading}
-          >
-            {loading
-              ? t("signin.signingIn", "Signing In...")
-              : t("signin.signInButton", "Sign In →")}
-          </button>
-        </form>
+        </div>
       </div>
-
-      {/* ===== SIGN UP ===== */}
-      <p className="signup-text">
-        {t("signin.noAccount", "Don’t have an account?")}{" "}
-        <span onClick={() => navigate("/register")}>
-          {t("signin.signUpNow", "Sign Up Now")}
-        </span>
-      </p>
     </div>
   );
 };

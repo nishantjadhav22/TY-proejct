@@ -4,22 +4,46 @@
 }
 
 body {
-  background: radial-gradient(circle at top, #020617, #000);
-  color: #e5e7eb;
+  background: #F8FAFC; /* light grey */
+  color: #1E293B;     /* dark text */
+  background-color: transparent;
 }
+
 
 /* PAGE */
 .jh-page {
   padding: 40px 60px;
-  margin-top: 90px; /* navbar ke niche spacing */
+  width: 100%;
+  min-height: 100vh;
+  margin-top: 65px; /* navbar ke niche spacing */
   display: flex;
   flex-direction: column;
   align-items: center;
+  background: #F8FAFC;
 }
 
 /* HEADER */
 .jh-header {
-  margin-bottom: 30px;
+  margin-bottom: 40px;
+  text-align: center;
+
+}
+
+.jh-hero-title {
+  font-size: 34px;
+  font-weight: 700;
+  color: #0f172a;
+  margin: 0;
+}
+
+.jh-hero-title span {
+  color: #2563EB;
+}
+
+.jh-hero-subtitle {
+  margin-top: 8px;
+  font-size: 14px;
+  color: #64748b;
 }
 
 .jh-title {
@@ -28,22 +52,28 @@ body {
   gap: 12px;
 }
 
-.jh-icon {
-  background: linear-gradient(135deg, #22d3ee, #7c3aed);
-  padding: 10px;
-  border-radius: 10px;
-  font-size: 20px;
+.jh-hero-icon {
+  width: 44px;
+  height: 44px;
+  margin: 0 auto 14px;
+  border-radius: 12px;
+  background: #e0f2fe;
+  color: #2563EB;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .jh-title h2 {
   margin: 0;
   font-size: 22px;
+  color:  #0F172A;
 }
 
 .jh-title p {
   margin: 0;
   font-size: 13px;
-  color: #94a3b8;
+  color: #64748B;
 }
 
 /* TABS */
@@ -63,23 +93,19 @@ body {
 }
 
 .jh-tabs .active {
-  color: #22d3ee;
-  border-bottom: 2px solid #22d3ee;
+  color: #3B82F6;
+  border-bottom: 2px solid #3B82F6;
 }
 
 /* CARD */
 .jh-card {
-  border: 1px solid #1e293b;
-  border-radius: 18px;
-  padding: 32px;
+  border: 1px solid #e5e7eb;
+  border-radius: 20px;
+  padding: 36px;
   max-width: 950px;
   width: 100%;
-  background: linear-gradient(
-    180deg,
-    rgba(15, 23, 42, 0.7),
-    rgba(2, 6, 23, 0.95)
-  );
-  box-shadow: 0 0 45px rgba(34, 211, 238, 0.18);
+  background: #ffffff;
+  box-shadow:  0 8px 24px rgba(15, 23, 42, 0.06);
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -96,30 +122,50 @@ body {
 
 /* UPLOAD BOX */
 .jh-upload-box {
-  border: 2px dashed #1e293b;
+  border: 2px dashed #cbd5e1;
   border-radius: 16px;
-  padding: 55px;
+  padding: 56px;
   text-align: center;
-  margin-bottom: 30px;
+  margin-bottom: 28px;
   cursor: pointer;
-  transition: all 0.3s ease;
   width: 100%;
-  max-width: 500px;
+  max-width: 520px;
+  background: #F1F5F9;
+  transition: all 0.25s ease;
 }
 
 .jh-upload-box:hover {
-  border-color: #22d3ee;
-  background: rgba(34, 211, 238, 0.05);
+  border-color: #3B82F6;
+  background: #eef2ff;
 }
+
+.jh-upload-title {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 16px;
+  font-weight: 600;
+  color: #0F172A; /* text-heading */
+}
+
+.jh-upload-title-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #3B82F6; /* text-muted */
+}
+
 
 .jh-file-icon {
   font-size: 40px;
   margin-bottom: 12px;
+  color:  #3B82F6;
 }
 
 .jh-main-text {
   font-size: 16px;
-  margin-bottom: 4px;
+  font-weight: 500;
+  color:  #1E293B;
 }
 
 .jh-upload-box span {
@@ -127,40 +173,52 @@ body {
   color: #64748b;
 }
 
+
 .jh-file-name {
   font-size: 16px;
-  color: #fff;
+  color: #0F172A;
 }
 
 /* BUTTON */
 .jh-analyze-btn {
   width: 100%;
-  max-width: 500px;
-  padding: 15px;
+  max-width: 520px;
+  padding: 14px;
   font-size: 15px;
+  font-weight: 500;
   border-radius: 12px;
   border: none;
   cursor: pointer;
-  color: white;
-  background: linear-gradient(90deg, #22d3ee, #7c3aed);
-  transition: transform 0.2s ease, box-shadow 0.2s ease;
-  margin-bottom: 20px;
+  color: #ffffff;
+  background: #3B82F6;
+  box-shadow: 0 6px 18px rgba(59, 130, 246, 0.35);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: -2px;
+  transition: all 0.25s ease;
 }
 
+
 .jh-analyze-btn:hover {
-  transform: scale(1.02);
-  box-shadow: 0 0 25px rgba(124, 58, 237, 0.4);
+  background:  #2563EB;
+  transform: translateY(-1px);
+  box-shadow: 0 10px 20px rgba(37, 99, 235, 0.25);
 }
+
 
 /* RESULT BOX */
 .jh-result {
-  background-color: #1e1e2f;
+  background-color:#FFFFFF;
   padding: 20px;
   border-radius: 12px;
   width: 100%;
   max-width: 500px;
   margin-top: 20px;
   text-align: left;
+  border: 1px solid #E5E7EB;
+  box-shadow: 0 8px 24px rgba(15, 23, 42, 0.06);
+  color: #1E293B;
 }
 
 .jh-result h4 {
@@ -198,10 +256,12 @@ body {
 
 /* ATS CARD */
 .ats-card {
-  display: flex;
-  justify-content: center;
-  align-items: center;
+  background: #ffffff;
+  border-radius: 18px;
+  padding: 24px;
+  box-shadow: 0 8px 24px rgba(15, 23, 42, 0.06);
 }
+
 
 .ats-circle {
   position: relative;
@@ -237,8 +297,9 @@ body {
 }
 
 .analysis-box {
-  background: rgba(15, 23, 42, 0.75);
-  border: 1px solid #2a2f3d; /* slightly lighter border */
+  background: #FFFFFF;
+  border: 1px solid #E5E7EB; /* slightly lighter border */
+  color: #1E293B;
   border-radius: 16px;
   padding: 20px;
   backdrop-filter: blur(14px);
@@ -254,7 +315,7 @@ body {
 .analysis-box h4 {
   margin-bottom: 10px;
   font-size: 15px;
-  color: #f8fafc;
+  color: #0F172A;
 }
 
 .analysis-box ul {
@@ -264,7 +325,7 @@ body {
 
 .analysis-box li {
   font-size: 13px;
-  color: #cbd5f5;
+  color:  #64748B;
   margin-bottom: 6px;
 }
 
@@ -320,7 +381,7 @@ body {
 
 .ats-text span {
   font-size: 13px;
-  color: #94a3b8;
+  color:  #0F172A; 
 }
 
 /* RIGHT SIDE */
@@ -372,6 +433,7 @@ body {
   width: 100%;
   max-width: 900px;
   margin: 50px auto 8px;
+  color: #0F172A;
 }
 
 .resume-analysis-header h2 {
@@ -381,7 +443,7 @@ body {
 
 .resume-analysis-header p {
   font-size: 14px;
-  color: #94a3b8;
+  color:  #64748B;
 }
 
 /* ===== ATS IMAGE MATCH ===== */
@@ -416,4 +478,88 @@ body {
   border: 1.5px solid #fb7185;
   box-shadow: 0 0 28px rgba(251, 113, 133, 0.4);
   padding: 22px 24px;
+}
+
+/* ================= WHAT YOU’LL GET ================= */
+.jh-benefits {
+  margin-top: 70px;
+  text-align: center;
+}
+
+.jh-benefits-title {
+  font-size: 22px;
+  font-weight: 600;
+  color: #0f172a;
+  margin-bottom: 32px;
+}
+
+/* GRID */
+.jh-benefits-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 24px;
+  max-width: 900px;
+  margin: 0 auto;
+}
+
+/* CARD */
+.jh-benefit-card {
+  background: #ffffff;
+  border: 1px solid #e5e7eb;
+  border-radius: 16px;
+  padding: 26px 22px;
+  text-align: left;
+  box-shadow: 0 8px 24px rgba(15, 23, 42, 0.06);
+  transition: all 0.25s ease;
+}
+
+.jh-benefit-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 14px 32px rgba(15, 23, 42, 0.08);
+}
+
+.jh-benefit-card h4 {
+  margin: 14px 0 6px;
+  font-size: 15px;
+  color: #0f172a;
+}
+
+.jh-benefit-card p {
+  font-size: 13px;
+  line-height: 1.6;
+  color: #64748b;
+}
+
+/* ICON */
+.jh-benefit-icon {
+  width: 36px;
+  height: 36px;
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #ffffff;
+}
+
+.jh-benefit-icon.success {
+  background: #22c55e;
+}
+
+.jh-benefit-icon.info {
+  background: #60a5fa;
+}
+
+.jh-benefit-icon.warning {
+  background: #facc15;
+}
+
+/* RESPONSIVE */
+@media (max-width: 768px) {
+  .jh-benefits-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .jh-benefit-card {
+    text-align: center;
+  }
 }

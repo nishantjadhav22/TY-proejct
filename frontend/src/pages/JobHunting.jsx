@@ -4,11 +4,14 @@ import {
   Search,
   Briefcase,
   FileText,
+  Sparkles,
 } from "lucide-react";
 import { useRef, useState, useEffect } from "react";
 import { useTranslation } from "react-i18next";
 import apiClient from "../services/apiClient";
 import { motion, animate } from "framer-motion";
+import Footer from "../components/Footer";
+
 
 /* ================= FRAMER VARIANTS ================= */
 const container = {
@@ -115,25 +118,38 @@ const JobHunting = () => {
   };
 
   return (
+    <>
     <div className="jh-page">
       {/* HEADER */}
-      <div className="jh-header">
-        <div className="jh-title">
-          <div className="jh-icon">
-            <Briefcase size={20} />
-          </div>
-          <div>
-            <h2>{t("jobHunting.headerTitle")}</h2>
-            <p>{t("jobHunting.headerSubtitle")}</p>
-          </div>
+       {/* ================= HEADER (ADDED MOTION) ================= */}
+      <motion.div
+        className="jh-header"
+        initial={{ opacity: 0, y: -20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.6, ease: "easeOut" }}
+      >
+        <div className="jh-hero-icon">
+          <Briefcase size={22} />
         </div>
-      </div>
+
+        <h1 className="jh-hero-title">
+          Job Hunting <span>Hub</span>
+        </h1>
+
+        <p className="jh-hero-subtitle">
+          AI-powered career assistance to help you land your dream job
+        </p>
+      </motion.div>
 
       {/* CARD */}
       <div className="jh-card">
-        <h3>
-          <Upload size={20} /> {t("jobHunting.uploadTitle")}
+        <h3 className="jh-upload-title">
+          <span className="jh-upload-title-icon">
+            <Upload size={18} />
+          </span>
+          {t("jobHunting.uploadTitle")}
         </h3>
+
 
         <input
           type="file"
@@ -166,6 +182,7 @@ const JobHunting = () => {
           onClick={handleAnalyze}
           disabled={loading}
         >
+          <Sparkles size={18} style={{ marginRight: "8px" }} />
           {loading ? t("jobHunting.loadingText") : t("jobHunting.analyzeBtn")}
         </button>
 
@@ -286,7 +303,72 @@ const JobHunting = () => {
           </>
         )}
       </div>
+      {/* ================= WHAT YOU’LL GET ================= */}
+<motion.div
+  className="jh-benefits"
+  variants={container}
+  initial="hidden"
+  whileInView="show"
+  viewport={{ once: true }}
+>
+  <motion.h3
+    className="jh-benefits-title"
+    variants={fadeUp}
+  >
+    What You’ll Get
+  </motion.h3>
+
+  <motion.div className="jh-benefits-grid">
+    <motion.div
+      className="jh-benefit-card"
+      variants={fadeUp}
+      whileHover={{ y: -6, scale: 1.02 }}
+      transition={{ type: "spring", stiffness: 200 }}
+    >
+      <div className="jh-benefit-icon success">
+        <Search size={18} />
+      </div>
+      <h4>Resume Analysis</h4>
+      <p>
+        AI evaluates your resume for strengths, gaps, and improvement areas.
+      </p>
+    </motion.div>
+
+    <motion.div
+      className="jh-benefit-card"
+      variants={fadeUp}
+      whileHover={{ y: -6, scale: 1.02 }}
+      transition={{ type: "spring", stiffness: 200 }}
+    >
+      <div className="jh-benefit-icon info">
+        <Briefcase size={18} />
+      </div>
+      <h4>Job Matching</h4>
+      <p>
+        Get matched with relevant job openings based on your skills and
+        experience.
+      </p>
+    </motion.div>
+
+    <motion.div
+      className="jh-benefit-card"
+      variants={fadeUp}
+      whileHover={{ y: -6, scale: 1.02 }}
+      transition={{ type: "spring", stiffness: 200 }}
+    >
+      <div className="jh-benefit-icon warning">
+        <Upload size={18} />
+      </div>
+      <h4>Interview Prep</h4>
+      <p>
+        AI-generated practice questions tailored to your target roles.
+      </p>
+    </motion.div>
+  </motion.div>
+</motion.div>
     </div>
+    <Footer />
+  </>
   );
 };
 

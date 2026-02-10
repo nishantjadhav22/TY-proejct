@@ -5,8 +5,8 @@
   flex-direction: column;
   min-height: 100vh;
   padding: 120px 60px 40px;
-  background: radial-gradient(circle at top, #0b1224, #050914);
-  color: #fff;
+  background: linear-gradient(180deg, #F8FAFC 0%, #EEF2FF 100%);
+  color: #1E293B;
 }
 
 /* ================= HEADER ================= */
@@ -20,17 +20,16 @@
 .college-header h1 {
   font-size: 44px;
   font-weight: 700;
+  color: #0F172A;
 }
 
 .college-header h1 span {
-  background: linear-gradient(90deg, #00f6ff, #ff00c8);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
+  color: #3B82F6;
 }
 
 .college-header p {
   margin-top: 12px;
-  color: #9aa4bf;
+  color: #64748B;
   font-size: 15px;
 }
 
@@ -40,13 +39,10 @@
   width: 90%;
   max-width: 1100px;
   margin: 0 auto 35px;
-
-  background: rgba(15, 23, 42, 0.9);
+  background: #FFFFFF;
   border-radius: 22px;
-
-  border: 1px solid rgba(0, 246, 255, 0.35);
-  box-shadow: 0 0 40px rgba(0, 246, 255, 0.22);
-
+  border: 1px solid #E5E7EB;
+  box-shadow: 0 8px 24px rgba(15, 23, 42, 0.06);
   overflow: hidden;
 }
 
@@ -57,11 +53,12 @@
   align-items: center;
   gap: 14px;
   padding: 18px 22px;
+  background: #F8FAFC;
 }
 
 .search-row i {
   font-size: 20px;
-  color: #22f2ff;
+  color: #3B82F6;
 }
 
 .search-row input {
@@ -69,12 +66,12 @@
   background: transparent;
   border: none;
   outline: none;
-  color: #fff;
+  color: #1E293B;
   font-size: 15px;
 }
 
 .search-row input::placeholder {
-  color: #9aa4bf;
+  color: #94A3B8;
 }
 
 .search-actions {
@@ -87,28 +84,25 @@
   display: flex;
   align-items: center;
   gap: 8px;
-
   padding: 10px 16px;
   border-radius: 14px;
   cursor: pointer;
-
-  background: rgba(0, 246, 255, 0.12);
-  border: 1px solid rgba(0, 246, 255, 0.35);
-  color: #00f6ff;
-
+  background: #3B82F6;
+  border: 1px solid #2563EB;
+  color: #FFFFFF;
   transition: all 0.25s ease;
 }
 
 .filter-btn:hover {
-  background: rgba(0, 246, 255, 0.22);
+  background: #2563EB;
 }
 
-/* ---------- FILTER PANEL (INLINE) ---------- */
+/* ---------- FILTER PANEL ---------- */
 
 .filters-panel {
   padding: 22px;
-  border-top: 1px solid rgba(255, 255, 255, 0.12);
-  animation: slideDown 0.25s ease;
+  border-top: 1px solid #E5E7EB;
+  background: #FFFFFF;
 }
 
 /* Grid */
@@ -120,7 +114,7 @@
 
 .filter-grid label {
   font-size: 13px;
-  color: #9aa4bf;
+  color: #64748B;
 }
 
 .filter-grid select,
@@ -129,10 +123,9 @@
   width: 100%;
   padding: 12px;
   border-radius: 12px;
-
-  background: rgba(255, 255, 255, 0.06);
-  border: 1px solid rgba(255, 255, 255, 0.18);
-  color: #fff;
+  background: #F8FAFC;
+  border: 1px solid #E5E7EB;
+  color: #1E293B;
   outline: none;
 }
 
@@ -146,18 +139,18 @@
 
 .results-count {
   font-size: 14px;
-  color: #9aa4bf;
+  color: #64748B;
 }
 
 .clear-btn {
   background: none;
   border: none;
-  color: #ff4d9d;
+  color: #EF4444;
   font-weight: 600;
   cursor: pointer;
-    display: inline-flex;          /* Align icon + text horizontally */
-  align-items: center;           /* Center vertically */
-  gap: -3px;                      /* Space between X and text */
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
   padding: 6px 12px;
 }
 
@@ -181,16 +174,16 @@
   border: none;
   border-radius: 10px;
   cursor: pointer;
-
-  background: linear-gradient(90deg, #00f6ff, #ff00c8);
-  color: #fff;
+  background: #3B82F6;
+  color: #FFFFFF;
   transition: all 0.3s ease;
 }
 
 .more-colleges-btn:hover {
-  transform: translateY(-3px);
-  box-shadow: 0 8px 20px rgba(0,0,0,0.3);
+  background: #2563EB;
+  transform: translateY(-2px);
 }
+
 .more-btn-wrapper {
   grid-column: 1 / -1;
   display: flex;
@@ -198,18 +191,70 @@
   margin: 30px 0 10px;
 }
 
+/* ================= RATING FILTER ================= */
 
-/* ================= ANIMATION ================= */
+.rating-filter label {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 14px;
+  color: #475569;
+}
 
-@keyframes slideDown {
-  from {
-    opacity: 0;
-    transform: translateY(-8px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
+.rating-value {
+  font-weight: 700;
+  color: #3B82F6;
+}
+
+.rating-slider {
+  width: 100%;
+  margin-top: 17px;
+  appearance: none;
+  height: 6px;
+  border-radius: 6px;
+  background: linear-gradient(90deg, #3B82F6, #60A5FA);
+  outline: none;
+  cursor: pointer;
+}
+
+.rating-slider::-webkit-slider-thumb {
+  appearance: none;
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  background: #FFFFFF;
+  border: 3px solid #3B82F6;
+  box-shadow: 0 4px 10px rgba(59, 130, 246, 0.4);
+  cursor: pointer;
+}
+
+.rating-slider::-moz-range-thumb {
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  background: #FFFFFF;
+  border: 3px solid #3B82F6;
+}
+
+/* ================= SELECT ================= */
+
+.select-wrapper {
+  position: relative;
+  width: 100%;
+}
+
+.select-wrapper select {
+  appearance: none;
+  padding-right: 28px;
+}
+
+.select-icon {
+  position: absolute;
+  right: 8px;
+  top: 60%;
+  transform: translateY(-50%);
+  pointer-events: none;
+  color: #64748B;
 }
 
 /* ================= RESPONSIVE ================= */
@@ -223,254 +268,5 @@
 @media (max-width: 520px) {
   .filter-grid {
     grid-template-columns: 1fr;
-  }
-}
-
-@media (max-width: 1080px) {
-  .colleges-page {
-    padding: 110px 40px 40px;
-  }
-
-  .search-filter-wrapper {
-    width: 95%;
-  }
-
-  .college-header h1 {
-    font-size: 38px;
-  }
-}
-
-@media (max-width: 820px) {
-  .colleges-page {
-    padding: 100px 28px 36px;
-  }
-
-  .search-row {
-    flex-direction: column;
-    align-items: stretch;
-  }
-
-  .search-actions {
-    justify-content: space-between;
-  }
-
-  .filter-btn {
-    width: 100%;
-    justify-content: center;
-  }
-
-  .filters-panel {
-    padding: 20px 18px;
-  }
-
-  .filter-footer {
-    flex-direction: column;
-    align-items: flex-start;
-    gap: 14px;
-  }
-}
-
-@media (max-width: 620px) {
-  .colleges-page {
-    padding: 90px 20px 30px;
-  }
-
-  .college-header {
-    margin-bottom: 30px;
-  }
-
-  .college-header h1 {
-    font-size: 32px;
-  }
-
-  .search-filter-wrapper {
-    width: 100%;
-    border-radius: 18px;
-  }
-
-  .search-row {
-    gap: 12px;
-    padding: 18px 16px;
-  }
-
-  .search-actions {
-    flex-direction: column;
-    gap: 12px;
-  }
-
-  .filter-btn {
-    width: 100%;
-  }
-
-  .filters-panel {
-    padding: 18px 16px;
-  }
-
-  .results-count {
-    font-size: 13px;
-  }
-
-  .more-colleges-btn {
-    width: 100%;
-  }
-}
-
-/* ===== RATING FILTER ===== */
-
-.rating-filter label {
-  display: flex;
-  align-items: center;
-  gap: 6px;
-  font-size: 14px;
-  color: #cbd5f5;
-}
-
-.rating-value {
-  font-weight: 700;
-  color: #00f6ff;
-}
-
-/* Slider base */
-/* ===== CUSTOM GRADIENT SLIDER (IMAGE LIKE) ===== */
-
-.rating-slider {
-  width: 100%;
-  margin-top: 17px;
-  appearance: none;
-  height: 6px;
-  border-radius: 6px;
-  background: linear-gradient(
-    90deg,
-    #00f6ff 0%,
-    #8b5cf6 50%,
-    #ff00c8 100%
-  );
-  outline: none;
-  cursor: pointer;
-}
-
-/* ===== THUMB (CIRCLE) ===== */
-.rating-slider::-webkit-slider-thumb {
-  appearance: none;
-  width: 18px;
-  height: 18px;
-  border-radius: 50%;
-  background: #0b1224;
-  border: 3px solid #00f6ff;
-  box-shadow: 0 0 12px rgba(0, 246, 255, 0.8);
-  cursor: pointer;
-  transition: transform 0.2s ease, box-shadow 0.2s ease;
-}
-
-.rating-slider::-webkit-slider-thumb:hover {
-  transform: scale(1.15);
-  box-shadow: 0 0 18px rgba(255, 0, 200, 0.9);
-}
-
-/* ===== FIREFOX ===== */
-.rating-slider::-moz-range-thumb {
-  width: 18px;
-  height: 18px;
-  border-radius: 50%;
-  background: #0b1224;
-  border: 3px solid #00f6ff;
-  box-shadow: 0 0 12px rgba(0, 246, 255, 0.8);
-  cursor: pointer;
-}
-
-.select-wrapper {
-  position: relative;
-  display: inline-block;
-  width: 100%;
-}
-
-.select-wrapper select {
-  width: 100%;
-  padding-right: 28px; /* space for chevron */
-  appearance: none; /* remove default arrow */
-}
-
-.select-icon {
-  position: absolute;
-  right: 8px;
-  top: 60%;
-  transform: translateY(-50%);
-  pointer-events: none;
-}
-
-/* ------------------------------
-   Container for Saved Colleges Page
----------------------------------*/
-.colleges-container {
-  padding-top: 100px;
-  max-width: 1200px;
-  margin: 0 auto;
-  font-family: 'Inter', sans-serif;
-}
-
-/* Page Title */
-.page-title {
-  font-size: 28px;
-  font-weight: 700;
-  margin-bottom: 24px;
-  color: #111;
-}
-
-/* Grid for College Cards */
-.colleges-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-  gap: 20px;
-}
-
-/* Empty State Styling */
-.empty-state {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  margin-top: 80px;
-  color: #555;
-  text-align: center;
-}
-
-.empty-state h3 {
-  font-size: 22px;
-  margin: 12px 0;
-  font-weight: 600;
-}
-
-.empty-state p {
-  font-size: 16px;
-  color: #777;
-  max-width: 400px;
-}
-
-.empty-state svg {
-  color: #ff6b81; /* nice accent color for empty icon */
-  margin-bottom: 12px;
-}
-
-/* Loader / Loading State */
-.loading {
-  text-align: center;
-  font-size: 18px;
-  color: #666;
-  margin-top: 60px;
-}
-
-/* Responsive adjustments */
-@media (max-width: 768px) {
-  .colleges-container {
-    padding: 16px;
-  }
-  .page-title {
-    font-size: 24px;
-  }
-  .empty-state h3 {
-    font-size: 20px;
-  }
-  .empty-state p {
-    font-size: 14px;
   }
 }

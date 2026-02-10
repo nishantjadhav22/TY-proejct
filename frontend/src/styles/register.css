@@ -1,82 +1,62 @@
-/* ================= THEME ================= */
-:root {
-  --bg-dark: #0b0f1a;
-  --card-bg: rgba(255, 255, 255, 0.06);
-  --border-glass: rgba(255, 255, 255, 0.15);
-  --neon-cyan: #00f6ff;
-  --neon-pink: #ff00c8;
-  --text-light: #ffffff;
-  --text-muted: #9ca3af;
-}
-
 /* ================= PAGE ================= */
 .register-page {
-  position: relative;
   min-height: 100vh;
-  background: var(--bg-dark);
-  background: 
-    linear-gradient(rgba(11,15,26,0.35), rgba(11,15,26,0.35)), /* overlay */
-    url('../assets/register-bg.png'); /* yahan apni image ka path daale */
-    
-  background-size: cover;
-  background-position: center;
-  background-repeat: no-repeat;
+  font-family: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI",
+    Roboto, Helvetica, Arial, sans-serif;
+  background-color: #F8FAFC;
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
   padding: 20px;
-  overflow: hidden;
 }
 
 /* ================= HEADER ================= */
 .register-header {
   text-align: center;
-  color: var(--text-light);
-  margin-bottom: 25px;
-  z-index: 2;
+  margin-bottom: 28px;
 }
 
 .register-logo {
   width: 65px;
   height: 65px;
-  margin: 0 auto 12px;
+  margin: 0 auto 14px;
   border-radius: 50%;
-  background: linear-gradient(135deg, var(--neon-cyan), var(--neon-pink));
-  color: #000;
-  font-weight: 800;
-  font-size: 22px;
+  background-color: #2563EB; /* same as signin */
+  color: #FFFFFF;
+  font-weight: 700;
+  font-size: 20px;
   display: flex;
   align-items: center;
   justify-content: center;
 }
 
 .register-header h2 {
-  font-size: 26px;
+  font-size: 24px;
+  font-weight: 600;
+  color: #0F172A;
   margin-bottom: 6px;
 }
 
 .register-header p {
   font-size: 14px;
-  color: var(--text-muted);
+  color: #64748B;
 }
 
 /* ================= CARD ================= */
 .register-card {
   width: 100%;
   max-width: 400px;
-  background: var(--card-bg);
-  backdrop-filter: blur(18px);
-  border: 1px solid var(--border-glass);
+  background-color: #FFFFFF;
+  border: 1px solid #E5E7EB;
   border-radius: 20px;
-  padding: 30px;
-  box-shadow: 0 0 50px rgba(0, 246, 255, 0.15);
-  z-index: 2;
+  padding: 32px;
+  box-shadow: 0 10px 30px rgba(15, 23, 42, 0.08);
 }
 
 /* ================= INPUT ================= */
 .input-group {
-  margin-bottom: 22px;
+  margin-bottom: 20px;
 }
 
 .input-icon-wrapper {
@@ -86,39 +66,52 @@
 /* INPUT FIELD */
 .input-icon-wrapper input {
   width: 100%;
-  padding: 15px 46px;
-  background: rgba(0, 0, 0, 0.45);
-  border: 1px solid #374151;
-  border-radius: 14px;
-  color: var(--text-light);
-  font-size: 15px;
+  padding: 14px 44px;
+  background-color: #F1F5F9;
+  border: 1px solid #E5E7EB;
+  border-radius: 12px;
+  color: #0F172A;
+  font-size: 14px;
   outline: none;
-  transition: all 0.25s ease;
+  transition: all 0.2s ease;
 }
 
+/* ===== ICON COLOR SAME AS SIGNIN (FINAL FIX) ===== */
+.input-icon svg {
+  color: #94A3B8; /* default grey */
+}
+
+/* focus ke time icon blue */
+.input-icon-wrapper:focus-within .input-icon svg {
+  color: #2563EB;
+}
+
+/* Focus */
 .input-icon-wrapper input:focus {
-  border-color: var(--neon-cyan);
-  box-shadow: 0 0 0 2px rgba(0, 246, 255, 0.25);
+  background-color: #FFFFFF;
+  border-color: #2563EB;
+  box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.15);
 }
 
 /* FLOAT LABEL */
 .input-icon-wrapper label {
   position: absolute;
-  left: 46px;
+  left: 44px;
   top: 50%;
   transform: translateY(-50%);
-  color: var(--text-muted);
-  font-size: 14px;
+  color: #94A3B8;
+  font-size: 13px;
   pointer-events: none;
-  transition: all 0.25s ease;
+  transition: all 0.2s ease;
+  background-color: transparent;
 }
 
 .input-group.filled label,
 .input-icon-wrapper input:focus + label {
-  top: -8px;
+  top: -7px;
   font-size: 12px;
-  color: var(--neon-cyan);
-  background: var(--bg-dark);
+  color: #2563EB;
+  background-color: #FFFFFF;
   padding: 0 6px;
 }
 
@@ -127,9 +120,9 @@
   position: absolute;
   left: 14px;
   top: 50%;
-  transform: translateY(-50%);
+  transform: translateY(-48%);
   font-size: 18px;
-  color: var(--text-muted);
+  color: #94A3B8;
 }
 
 /* RIGHT ICON (EYE) */
@@ -137,52 +130,43 @@
   left: auto;
   right: 14px;
   cursor: pointer;
-  transition: color 0.2s ease;
+  color: #94A3B8;
 }
 
-.input-icon.clickable:hover {
-  color: var(--neon-cyan);
-}
-
-/* ICON GLOW */
 .input-icon-wrapper:focus-within .input-icon {
-  filter: drop-shadow(0 0 6px var(--neon-cyan));
+  color: #2563EB;
 }
 
 /* ================= BUTTON ================= */
 .register-btn {
   width: 100%;
-  padding: 15px;
-  border-radius: 14px;
+  padding: 14px;
+  border-radius: 12px;
   border: none;
-  background: linear-gradient(135deg, var(--neon-cyan), var(--neon-pink));
-  color: #000;
-  font-weight: 800;
-  font-size: 16px;
+  background-color: #2563EB;
+  color: #FFFFFF;
+  font-weight: 600;
+  font-size: 14px;
   cursor: pointer;
-  transition: all 0.25s ease;
+  transition: background-color 0.2s ease, box-shadow 0.2s ease;
 }
 
 .register-btn:hover {
-  transform: translateY(-1px);
-  box-shadow: 0 0 25px rgba(0, 246, 255, 0.5);
+  background-color: #1D4ED8;
+  box-shadow: 0 6px 18px rgba(37, 99, 235, 0.35);
 }
 
 /* ================= SIGN IN TEXT ================= */
 .signin-text {
   margin-top: 22px;
   font-size: 14px;
-  color: var(--text-muted);
+  color: #64748B;
 }
 
 .signin-text span {
-  color: var(--neon-cyan);
-  font-weight: 600;
+  color: #2563EB;
+  font-weight: 500;
   cursor: pointer;
-}
-
-.signin-text span:hover {
-  color: var(--neon-pink);
 }
 
 /* ================= MOBILE ================= */

@@ -1,45 +1,56 @@
+/* ================= CARD ================= */
+
 .college-card {
-  background: linear-gradient(
-    180deg,
-    rgba(20, 26, 45, 0.9),
-    rgba(8, 12, 25, 0.95)
-  );
+  background: #FFFFFF;                 /* bg-card */
   border-radius: 18px;
   padding: 22px;
-  border: 1px solid rgba(255, 255, 255, 0.08);
-  box-shadow: 0 0 0 rgba(34,242,255,0);
+  border: 1px solid #E5E7EB;            /* border-light */
+  box-shadow: 0 8px 24px rgba(15, 23, 42, 0.06);
   transition: all 0.3s ease;
 }
 
 .college-card:hover {
-  box-shadow: 0 0 30px rgba(34,242,255,0.25);
   transform: translateY(-4px);
+  border-color: #3B82F6;               /* primary-blue */
 }
 
-/* ===== TOP ===== */
+/* ================= TOP ================= */
+
 .card-top {
   display: flex;
   justify-content: space-between;
-  align-items: start;
+  align-items: flex-start;
 }
 
 .card-top h3 {
   font-size: 17px;
   line-height: 1.4;
+  color: #0F172A;                      /* text-heading */
 }
 
+.bookmark-icon,
 .heart-icon {
-  color: #9aa4bf;
+  color: #64748B;                      /* text-muted */
   cursor: pointer;
 }
+
+.bookmark-icon.filled {
+  color: #3B82F6;                      /* primary-blue */
+}
+
+/* ================= LOCATION ================= */
 
 .location {
   margin-top: 6px;
   font-size: 13px;
-  color: #9aa4bf;
+  color: #64748B;
+  display: flex;
+  align-items: center;
+  gap: 4px;
 }
 
-/* ===== META ===== */
+/* ================= META ================= */
+
 .meta {
   display: flex;
   align-items: center;
@@ -52,27 +63,29 @@
   padding: 4px 10px;
   border-radius: 20px;
   font-size: 12px;
+  border: 1px solid #E5E7EB;
 }
 
 .badge.government {
-  background: rgba(34, 242, 255, 0.15);
-  color: #22f2ff;
+  background: #EFF6FF;                 /* light blue */
+  color: #2563EB;                      /* primary-blue-dark */
 }
 
 .badge.private {
-  background: rgba(255, 67, 142, 0.15);
-  color: #ff438e;
+  background: #F1F5F9;                 /* bg-light */
+  color: #1E293B;                      /* text-primary */
 }
 
 .rating {
-  color: #ffd369;
+  color: #FACC15;                      /* warning-yellow */
 }
 
 .est {
-  color: #9aa4bf;
+  color: #64748B;
 }
 
-/* ===== STATS ===== */
+/* ================= STATS ================= */
+
 .stats {
   display: flex;
   justify-content: space-between;
@@ -81,20 +94,21 @@
 
 .label {
   font-size: 12px;
-  color: #9aa4bf;
+  color: #64748B;
 }
 
 .value {
-  color: #22f2ff;
+  color: #1E293B;
   font-weight: 600;
 }
 
 .cutoff {
-  color: #ff438e;
+  color: #22C55E;                      /* success-green */
   font-weight: 600;
 }
 
-/* ===== COURSES ===== */
+/* ================= COURSES ================= */
+
 .courses {
   margin-bottom: 18px;
 }
@@ -107,14 +121,15 @@
 }
 
 .course-tags span {
-  background: rgba(255,255,255,0.06);
+  background: #F1F5F9;                 /* bg-light */
   padding: 5px 10px;
   border-radius: 14px;
   font-size: 12px;
-  color: #cbd3ff;
+  color: #475569;
 }
 
-/* ===== ACTIONS ===== */
+/* ================= ACTIONS ================= */
+
 .actions {
   display: flex;
   align-items: center;
@@ -124,15 +139,29 @@
 .actions button {
   background: transparent;
   border: none;
-  color: #9aa4bf;
+  color: #3B82F6;                      /* primary-blue */
   font-size: 13px;
   cursor: pointer;
+  padding: 6px 10px;
+  border-radius: 8px;
+}
+
+.actions button:hover {
+  background: #EFF6FF;
 }
 
 .actions .visit {
-   background: linear-gradient(90deg, #00f6ff, #ff00c8);
-  color: #000;
+  background: #3B82F6;                 /* primary-blue */
+  color: #FFFFFF;
   padding: 6px 14px;
-  border-radius: 8px;
+  border-radius: 10px;
   font-weight: 600;
+}
+
+.actions .visit:hover {
+  background: #2563EB;                 /* primary-blue-dark */
+}
+
+.actions .compare {
+  color: #64748B;
 }
