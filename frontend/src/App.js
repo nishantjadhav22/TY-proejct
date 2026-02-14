@@ -30,6 +30,7 @@ import LearningResources from "./pages/LearningResources";
 import Team from "./pages/Team";
 import QuizHistory from "./pages/QuizHistory";
 import SimplePricingPage from "./pages/SimplePricingPage";
+import CareerTreePage from "./pages/CareerTreePage";
 
 
 /* 🔐 FORGOT PASSWORD PAGES (ADDED ONLY) */
@@ -124,6 +125,7 @@ function AppContent() {
         <Route path="/team" element={<Team />} />
         <Route path="/quiz-history" element={<QuizHistory />} />
         <Route path="/subscription" element={<SimplePricingPage />} />
+        <Route path="/career-tree" element={<CareerTreePage />} />
 
       </Routes>
     </>

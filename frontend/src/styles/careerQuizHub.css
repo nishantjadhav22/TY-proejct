@@ -9,9 +9,9 @@
 }
 
 body {
-  background-color: #0d0e17;
-  color: #fff;
-  min-height: 100vh;
+  background: #F8FAFC !important;
+  color: #1E293B !important;
+min-height: 100vh;
 }
 
 /* PAGE CONTAINER */
@@ -19,7 +19,9 @@ body {
   display: flex;
   flex-direction: column;
   align-items: center;
-  padding: 50px 20px;
+  padding: 80px 20px;
+  background: #F8FAFC;   /* Section bg */
+  min-height: 100vh;
 }
 
 /* HEADER / TITLE */
@@ -43,8 +45,8 @@ body {
   justify-content: center;             /* horizontal center */
   align-items: center;                 /* vertical center */
   margin: 60px auto 20px auto;           /* center & spacing */
-  background: linear-gradient(135deg, #6c63ff, #ff5ca2);  /* gradient background */
-  box-shadow: 0 4px 10px rgba(0,0,0,0.3);                 /* subtle shadow */
+  background: #3B82F6;
+  box-shadow: 0 8px 24px rgba(15, 23, 42, 0.06);                /* subtle shadow */
   transition: transform 0.3s ease;
 }
 
@@ -68,14 +70,13 @@ body {
 }
 
 .cq-title h1 .highlight {
-  background: linear-gradient(90deg, #00e0ff, #ff00ff);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
+  color: #3B82F6;
+
 }
 
 .cq-title p {
   font-size: 18px;
-  color: #b0b0c3;
+  color: #64748B;
 }
 
 /* CARDS CONTAINER */
@@ -90,21 +91,22 @@ body {
 
 /* CARD BASE STYLES */
 .cq-card {
-  background-color: #14141f;
+  background: #FFFFFF;
   border-radius: 15px;
   padding: 30px;
   flex: 1 1 400px;
   max-width: 450px;
   transition: all 0.3s ease;
   cursor: pointer;
-  border: 1px solid transparent;
+  border: 1px solid #E5E7EB;
+  box-shadow: 0 8px 24px rgba(15, 23, 42, 0.06);
   display: flex;
   flex-direction: column;
   gap: 15px;
 }
 
 .cq-card:hover {
-  border: 1px solid #6c63ff;
+  border: 1px solid #3B82F6;
   transform: translateY(-5px);
 }
 
@@ -121,19 +123,21 @@ body {
 }
 
 .play-icon {
-  background: linear-gradient(135deg, #00e0ff, #6c63ff);
-  color: #fff;
+  background: #F1F5F9;
+  color: #3B82F6;
 }
 
 .refresh-icon {
-  background: linear-gradient(135deg, #ff5ca2, #6c63ff);
-  color: #fff;
+ background: #F1F5F9;
+ color: #22C55E;
 }
 
 /* CARD TITLES */
 .cq-card h2 {
   font-size: 24px;
   margin-bottom: 10px;
+  color: #0F172A;
+
 }
 
 /* CARD PARAGRAPH */
@@ -146,7 +150,9 @@ body {
 .cq-card .powered,
 .cq-card .quiz-count {
   font-size: 14px;
-  color: #6c63ff;
+  color: #3B82F6;
+  font-weight: 600;
+
 }
 
 .quiz-history-list {
@@ -167,29 +173,29 @@ body {
   gap: 12px;
   padding: 10px 14px;
   border-radius: 10px;
-  background: rgba(108, 99, 255, 0.08);
-  border: 1px solid rgba(108, 99, 255, 0.18);
+  background: #F1F5F9;
+  border: 1px solid #E5E7EB;
 }
 
 .quiz-history-test {
   font-weight: 600;
-  color: #fff;
+  color: #0F172A;
 }
 
 .quiz-history-topic {
-  color: #d1d1e3;
+  color: #64748B;
   font-size: 15px;
 }
 
 .quiz-history-score {
   font-weight: 700;
-  color: #00e0ff;
+  color: #3B82F6;
 }
 
 .quiz-history-empty {
   display: inline-block;
   margin-top: 12px;
-  color: #898aa6;
+  color: #94A3B8;
 }
 
 /* RESPONSIVE */
