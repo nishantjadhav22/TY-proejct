@@ -25,9 +25,9 @@ const iconMap = {
   }
 };
 
-const RecentActivity = ({ activities = [] }) => {
+const RecentActivity = ({ activities = [], sectionId = "" }) => {
   return (
-    <div className="recent-activity">
+    <div className="recent-activity" id={sectionId || undefined}>
       <div className="activity-header">
         <h3>Recent Activity</h3>
         <span className="view-all">View All</span>

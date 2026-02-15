@@ -11,9 +11,15 @@ import {
 
 ChartJS.register(CategoryScale, LinearScale, PointElement, LineElement, Tooltip);
 
-const WeeklyProgress = ({ data = [] }) => {
+const WeeklyProgress = ({ data = [], sectionId = "" }) => {
   // Agar data empty hai, chart na dikhe ya "No data" dikhe
-  if (!data.length) return <div className="weekly-progress-card"><h3 className="card-title">Weekly Progress</h3><p style={{ color: "#94a3b8" }}>No data yet</p></div>;
+  if (!data.length)
+    return (
+      <div className="weekly-progress-card" id={sectionId || undefined}>
+        <h3 className="card-title">Weekly Progress</h3>
+        <p style={{ color: "#94a3b8" }}>No data yet</p>
+      </div>
+    );
 
   const chartData = {
     labels: data.map((d) => d.day),
@@ -49,7 +55,7 @@ const WeeklyProgress = ({ data = [] }) => {
   };
 
   return (
-    <div className="weekly-progress-card">
+    <div className="weekly-progress-card" id={sectionId || undefined}>
       <h3 className="card-title">Weekly Progress</h3>
       <div className="chart-container">
         <Line data={chartData} options={options} />

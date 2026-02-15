@@ -19,6 +19,11 @@ import {
   Crown,
   Settings,
   Globe,
+  BarChart3,
+  Bookmark,
+  Activity,
+  BellRing,
+  Map,
 } from "lucide-react";
 
 /* ================= NAVBAR ================= */
@@ -102,11 +107,21 @@ const Navbar = ({ user, setUser }) => {
     }
   };
 
-  const closeMenuAndNavigate = (path, needsAuth) => {
+  const closeMenuAndNavigate = (path, needsAuth, hash = "") => {
     if (needsAuth && !user) {
       navigate("/signin");
       return;
     }
+
+    setFeaturesOpen(false);
+    setDropdownOpen(false);
+    setUserMenuOpen(false);
+
+    if (hash) {
+      navigate(`${path}${hash}`);
+      return;
+    }
+
     navigate(path);
   };
 
@@ -221,13 +236,111 @@ const Navbar = ({ user, setUser }) => {
                 onClick={() => closeMenuAndNavigate("/resources")}
               />
 
-             <FeatureItem
-              icon={<Crown size={16} />}
-              title={t("featuresDropdown.subscriptionPlans.title")}
-              desc={t("featuresDropdown.subscriptionPlans.desc")}
-              locked={!user}
-              onClick={() => closeMenuAndNavigate("/subscription", true)}
-            />
+              <FeatureItem
+                icon={<Crown size={16} />}
+                title={t("featuresDropdown.subscriptionPlans.title")}
+                desc={t("featuresDropdown.subscriptionPlans.desc")}
+                locked={!user}
+                onClick={() => closeMenuAndNavigate("/subscription", true)}
+              />
+
+              <FeatureItem
+                icon={<BarChart3 size={16} />}
+                title={t("dashboardNav.overview", "Dashboard Overview")}
+                desc={t(
+                  "dashboardNav.overviewDesc",
+                  "Personalized insights and alerts"
+                )}
+                locked={!user}
+                onClick={() => closeMenuAndNavigate("/dashboard", true)}
+              />
+
+              <FeatureItem
+                icon={<Activity size={16} />}
+                title={t("dashboardNav.stats", "Performance Stats")}
+                desc={t(
+                  "dashboardNav.statsDesc",
+                  "Quizzes, skills, achievements"
+                )}
+                locked={!user}
+                onClick={() =>
+                  closeMenuAndNavigate("/dashboard", true, "#dashboard-stats")
+                }
+              />
+
+              <FeatureItem
+                icon={<Bookmark size={16} />}
+                title={t("dashboardNav.saved", "Saved Colleges")}
+                desc={t(
+                  "dashboardNav.savedDesc",
+                  "Quick jump to your shortlist"
+                )}
+                locked={!user}
+                onClick={() =>
+                  closeMenuAndNavigate(
+                    "/dashboard",
+                    true,
+                    "#dashboard-saved-colleges"
+                  )
+                }
+              />
+
+              <FeatureItem
+                icon={<Activity size={16} />}
+                title={t(
+                  "dashboardNav.weekly",
+                  "Weekly Progress"
+                )}
+                desc={t(
+                  "dashboardNav.weeklyDesc",
+                  "Track growth week by week"
+                )}
+                locked={!user}
+                onClick={() =>
+                  closeMenuAndNavigate(
+                    "/dashboard",
+                    true,
+                    "#dashboard-weekly-progress"
+                  )
+                }
+              />
+
+              <FeatureItem
+                icon={<BellRing size={16} />}
+                title={t(
+                  "dashboardNav.activity",
+                  "Recent Activity"
+                )}
+                desc={t(
+                  "dashboardNav.activityDesc",
+                  "See what changed lately"
+                )}
+                locked={!user}
+                onClick={() =>
+                  closeMenuAndNavigate(
+                    "/dashboard",
+                    true,
+                    "#dashboard-activity"
+                  )
+                }
+              />
+
+              <FeatureItem
+                icon={<Map size={16} />}
+                title={t("dashboardNav.roadmap", "Roadmap Preview")}
+                desc={t(
+                  "dashboardNav.roadmapDesc",
+                  "Jump to your AI roadmap"
+                )}
+                locked={!user}
+                onClick={() =>
+                  closeMenuAndNavigate(
+                    "/dashboard",
+                    true,
+                    "#dashboard-roadmap"
+                  )
+                }
+              />
             </div>
           </li>
 

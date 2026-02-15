@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom"; // ✅ Added
+import { useNavigate, useLocation } from "react-router-dom";
 import "../styles/dashboard.css";
 import { getDashboardData } from "../services/dashboardApi";
 import apiClient from "../services/apiClient";
@@ -14,7 +14,8 @@ import {
 } from "lucide-react";
 
 export default function Dashboard() {
-  const navigate = useNavigate(); // ✅ Added
+  const navigate = useNavigate();
+  const location = useLocation();
   const [data, setData] = useState(null);
   const [error, setError] = useState("");
   const [hasNotification, setHasNotification] = useState(false);
@@ -38,7 +39,11 @@ export default function Dashboard() {
       setHasNotification(dashboardData.notifications > 0);
     } catch (err) {
       console.error(err);
-      setError("Failed to load dashboard. Make sure you are logged in.");
+      if (err.response?.status === 401) {
+        navigate("/signin");
+        return;
+      }
+      setError("Failed to load dashboard. Please try again.");
     }
   };
 
@@ -56,11 +61,20 @@ export default function Dashboard() {
     };
   }, []);
 
+  useEffect(() => {
+    if (!location.hash || !data) return;
+    const targetId = location.hash.replace("#", "");
+    const section = document.getElementById(targetId);
+    if (section) {
+      section.scrollIntoView({ behavior: "smooth", block: "start" });
+    }
+  }, [location.hash, data]);
+
   if (error) return <p className="error">{error}</p>;
   if (!data) return <p className="loading">Loading...</p>;
 
   return (
-    <div className="dashboard-container">
+    <div className="dashboard-container" id="dashboard-overview">
 
       {/* TOP RIGHT ACTIONS */}
       <div className="dashboard-actions">
@@ -74,7 +88,7 @@ export default function Dashboard() {
       </div>
 
       {/* HEADER */}
-      <div className="dashboard-header">
+      <div className="dashboard-header" id="dashboard-header">
         <h1>
           Welcome back, <span>{data.username}</span> !
         </h1>
@@ -82,8 +96,8 @@ export default function Dashboard() {
       </div>
 
       {/* STATS */}
-      <div className="stats-grid">
-        <div className="stat-card">
+      <div className="stats-grid" id="dashboard-stats">
+        <div className="stat-card" id="dashboard-quizzes">
           <div className="icon blue"><GraduationCap /></div>
           <h2>{data.quizzes}</h2>
           <p>Quiz Completions</p>
@@ -92,6 +106,7 @@ export default function Dashboard() {
         {/* ✅ ONLY ADDITION: clickable Saved Colleges */}
         <div
           className="stat-card"
+          id="dashboard-saved-colleges"
           onClick={() => navigate("/saved-colleges")}
           style={{ cursor: "pointer" }}   // ✅ added
         >
@@ -100,13 +115,13 @@ export default function Dashboard() {
           <p>Saved Colleges</p>
         </div>
 
-        <div className="stat-card">
+        <div className="stat-card" id="dashboard-skills">
           <div className="icon purple"><Zap /></div>
           <h2>{data.skills}</h2>
           <p>Skills Acquired</p>
         </div>
 
-        <div className="stat-card">
+        <div className="stat-card" id="dashboard-achievements">
           <div className="icon yellow"><Trophy /></div>
           <h2>{data.achievements}</h2>
           <p>Achievements</p>
@@ -114,7 +129,7 @@ export default function Dashboard() {
       </div>
 
       {/* ROADMAP */}
-      <div className="roadmap-card">
+      <div className="roadmap-card" id="dashboard-roadmap">
         <div className="roadmap-header">
           <h3>Your 3D Roadmap Preview</h3>
           <span className="link">Explore Full Roadmap →</span>
