@@ -43,7 +43,11 @@ import CareerQuizPage from "./pages/CareerQuizPage";
 
 /* HOOKS */
 import useScrollToTop from "./hooks/useScrollToTop";
-import { getStoredUser } from "./services/apiClient";
+import apiClient, {
+  getStoredUser,
+  storeSession,
+  getAccessToken,
+} from "./services/apiClient";
 
 function AppContent() {
   const location = useLocation();
@@ -51,6 +55,7 @@ function AppContent() {
   useScrollToTop();
 
   const [user, setUser] = useState(getStoredUser());
+
   useEffect(() => {
     const handleUserUpdated = (event) => {
       setUser(event.detail);
@@ -66,6 +71,30 @@ function AppContent() {
     return () => {
       window.removeEventListener("auth:user-updated", handleUserUpdated);
       window.removeEventListener("auth:logout", handleLogout);
+    };
+  }, []);
+
+  useEffect(() => {
+    let ignore = false;
+
+    const fetchProfile = async () => {
+      const token = getAccessToken();
+      if (!token) return;
+
+      try {
+        const { data } = await apiClient.get("/api/auth/me");
+        if (!data?.user || ignore) return;
+        storeSession(token, data.user);
+        setUser(data.user);
+      } catch (error) {
+        console.error("Failed to hydrate user from API:", error);
+      }
+    };
+
+    fetchProfile();
+
+    return () => {
+      ignore = true;
     };
   }, []);
 

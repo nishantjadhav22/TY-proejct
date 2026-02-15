@@ -17,8 +17,6 @@ import {
   Layers,
   BookOpen,
   Crown,
-  Menu,
-  X,
   Settings,
   Globe,
 } from "lucide-react";
@@ -32,7 +30,6 @@ const Navbar = ({ user, setUser }) => {
   /* STATE */
   const [dropdownOpen, setDropdownOpen] = useState(false);
   const [userMenuOpen, setUserMenuOpen] = useState(false);
-  const [menuOpen, setMenuOpen] = useState(false);
   const [featuresOpen, setFeaturesOpen] = useState(false);
 
   /* AUTH PAGE CHECK */
@@ -45,6 +42,8 @@ const Navbar = ({ user, setUser }) => {
     { code: "hi", label: "हिन्दी" },
     { code: "mr", label: "मराठी" },
   ];
+
+  const userDisplayName = user?.name || user?.email || t("auth.profile");
 
   /* REFS */
   const dropdownRef = useRef(null);
@@ -68,7 +67,6 @@ const Navbar = ({ user, setUser }) => {
 
   /* RESET STATES ON NAV CHANGE */
   useEffect(() => {
-    setMenuOpen(false);
     setFeaturesOpen(false);
     setDropdownOpen(false);
     setUserMenuOpen(false);
@@ -78,7 +76,6 @@ const Navbar = ({ user, setUser }) => {
   useEffect(() => {
     const handleResize = () => {
       if (window.innerWidth >= 1024) {
-        setMenuOpen(false);
         setFeaturesOpen(false);
       }
     };
@@ -86,13 +83,6 @@ const Navbar = ({ user, setUser }) => {
     window.addEventListener("resize", handleResize);
     return () => window.removeEventListener("resize", handleResize);
   }, []);
-
-  useEffect(() => {
-    if (!menuOpen) {
-      setFeaturesOpen(false);
-      setDropdownOpen(false);
-    }
-  }, [menuOpen]);
 
   /* LOGOUT */
   const handleLogout = async () => {
@@ -114,11 +104,9 @@ const Navbar = ({ user, setUser }) => {
 
   const closeMenuAndNavigate = (path, needsAuth) => {
     if (needsAuth && !user) {
-      setMenuOpen(false);
       navigate("/signin");
       return;
     }
-    setMenuOpen(false);
     navigate(path);
   };
 
@@ -152,15 +140,7 @@ const Navbar = ({ user, setUser }) => {
         <h2 className="logo-text">{t("appName")}</h2>
       </div>
 
-      <button
-        className="menu-toggle"
-        onClick={() => setMenuOpen((prev) => !prev)}
-        aria-label="Toggle navigation menu"
-      >
-        {menuOpen ? <X size={20} /> : <Menu size={20} />}
-      </button>
-
-      <div className={`nav-right ${menuOpen ? "open" : ""}`}>
+      <div className="nav-right">
         {/* ================= NAV LINKS ================= */}
         <ul className="nav-links">
           <li
@@ -285,7 +265,6 @@ const Navbar = ({ user, setUser }) => {
           onClick={() => {
             i18n.changeLanguage(lang.code);
             setDropdownOpen(false);
-            setMenuOpen(false);
           }}
         >
           {lang.label}
@@ -319,7 +298,7 @@ const Navbar = ({ user, setUser }) => {
                 className="user-btn btn-dashboard"
                 onClick={() => setUserMenuOpen(!userMenuOpen)}
               >
-                {user.name}
+                {userDisplayName}
                 <ChevronDown
                   className={`dropdown-icon ${userMenuOpen ? "rotate" : ""}`}
                   size={14}
@@ -333,7 +312,6 @@ const Navbar = ({ user, setUser }) => {
                   </button>
                   <button
                     onClick={() => {
-                      setMenuOpen(false);
                       handleLogout();
                     }}
                   >

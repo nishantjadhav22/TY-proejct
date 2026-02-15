@@ -217,6 +217,19 @@ export const resetPassword = async (req, res) => {
   }
 };
 
+export const getProfile = async (req, res) => {
+  try {
+    if (!req.user) {
+      return res.status(401).json({ message: "User not found" });
+    }
+
+    res.json({ user: buildUserResponse(req.user) });
+  } catch (error) {
+    console.log("Profile fetch error:", error);
+    res.status(500).json({ message: error.message });
+  }
+};
+
 export const refreshAccessToken = async (req, res) => {
   try {
     const refreshToken = req.cookies?.[REFRESH_COOKIE_KEY];

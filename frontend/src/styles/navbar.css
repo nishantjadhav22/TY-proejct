@@ -57,25 +57,6 @@
   gap: 20px;
 }
 
-.menu-toggle {
-  display: none;
-  align-items: center;
-  justify-content: center;
-  width: 40px;
-  height: 40px;
-  border-radius: 50%;
-  border: 1px solid rgba(255, 255, 255, 0.12);
-  background: rgba(5, 10, 20, 0.75);
-  color: #cfd6e4;
-  cursor: pointer;
-  transition: background 0.3s ease, border 0.3s ease;
-}
-
-.menu-toggle:hover {
-  background: rgba(0, 246, 255, 0.1);
-  border-color: rgba(0, 246, 255, 0.4);
-}
-
 .nav-links li {
   font-size: 14px;
   color: #cfd6e4;
@@ -581,41 +562,23 @@
 
 @media (max-width: 1024px) {
   .navbar {
+    flex-direction: column;
+    align-items: flex-start;
     height: auto;
     padding: 16px 20px;
-  }
-
-  .menu-toggle {
-    display: flex;
-    margin-left: auto;
+    gap: 16px;
   }
 
   .nav-right {
-    position: fixed;
-    top: 72px;
-    left: 0;
     width: 100%;
     flex-direction: column;
-    align-items: stretch;
+    align-items: flex-start;
     gap: 20px;
-    padding: 24px 20px 40px;
-    background: rgba(5, 10, 20, 0.94);
-    backdrop-filter: blur(16px);
-    max-height: 0;
-    overflow: hidden;
-    opacity: 0;
-    pointer-events: none;
-    transition: max-height 0.3s ease, opacity 0.3s ease;
-    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
-  }
-
-  .nav-right.open {
-    max-height: calc(100vh - 72px);
-    opacity: 1;
-    pointer-events: auto;
+    margin-left: 0;
   }
 
   .nav-links {
+    width: 100%;
     flex-direction: column;
     align-items: flex-start;
     gap: 18px;
@@ -646,7 +609,7 @@
     visibility: hidden;
     max-height: 0;
     overflow: hidden;
-    transform: translateY(0);
+    transform: none;
     transition: max-height 0.3s ease, opacity 0.3s ease;
   }
 
@@ -656,17 +619,19 @@
     max-height: 480px;
   }
 
-  .language-switcher {
+  .language-switcher,
+  .nav-buttons,
+  .user-dropdown {
     width: 100%;
   }
 
-  .language-btn {
+  .language-btn-next {
     width: 100%;
     justify-content: space-between;
     padding: 12px 0;
   }
 
-  .language-dropdown {
+  .language-dropdown-next {
     position: static;
     width: 100%;
     margin-top: 8px;
@@ -674,23 +639,15 @@
   }
 
   .nav-buttons {
-    width: 100%;
     flex-direction: column;
+    align-items: stretch;
     gap: 12px;
     margin-left: 0;
   }
 
-  .nav-buttons button {
-    width: 100%;
-  }
-
-  .user-dropdown {
-    width: 100%;
-  }
-
+  .nav-buttons button,
   .user-btn {
     width: 100%;
-    justify-content: space-between;
   }
 
   .user-menu {
