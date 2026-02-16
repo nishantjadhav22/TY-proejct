@@ -9,6 +9,18 @@ const UserSchema = new mongoose.Schema(
       trim: true,
     },
 
+    firstName: {
+      type: String,
+      default: "",
+      trim: true,
+    },
+
+    lastName: {
+      type: String,
+      default: "",
+      trim: true,
+    },
+
     email: {
       type: String,
       required: true,
@@ -23,6 +35,11 @@ const UserSchema = new mongoose.Schema(
 
     // ================= PROFILE =================
     avatar: {
+      type: String,
+      default: "",
+    },
+
+    profilePhoto: {
       type: String,
       default: "",
     },

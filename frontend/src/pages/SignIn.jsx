@@ -5,10 +5,12 @@ import { FiMail, FiLock, FiEye, FiEyeOff } from "react-icons/fi";
 import apiClient, { storeSession } from "../services/apiClient";
 import { useTranslation } from "react-i18next";
 import toast from "react-hot-toast";
+import { useUser } from "../context/UserContext";
 
-const SignIn = ({ setUser }) => {
+const SignIn = () => {
   const { t } = useTranslation();
   const navigate = useNavigate();
+  const { setUser } = useUser();
 
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");

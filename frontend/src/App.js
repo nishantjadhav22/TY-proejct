@@ -6,7 +6,7 @@ import {
   useLocation,
   useNavigate,
 } from "react-router-dom";
-import { useState, useEffect } from "react";
+import { useEffect } from "react";
 
 /* 🔥 TOAST */
 import { Toaster } from "react-hot-toast";
@@ -31,6 +31,8 @@ import Team from "./pages/Team";
 import QuizHistory from "./pages/QuizHistory";
 import SimplePricingPage from "./pages/SimplePricingPage";
 import CareerTreePage from "./pages/CareerTreePage";
+import FeaturesPage from "./pages/FeaturesPage";
+import AIRoadmap from "./pages/AIRoadmap";
 
 
 /* 🔐 FORGOT PASSWORD PAGES (ADDED ONLY) */
@@ -43,60 +45,13 @@ import CareerQuizPage from "./pages/CareerQuizPage";
 
 /* HOOKS */
 import useScrollToTop from "./hooks/useScrollToTop";
-import apiClient, {
-  getStoredUser,
-  storeSession,
-  getAccessToken,
-} from "./services/apiClient";
+import { UserProvider, useUser } from "./context/UserContext";
 
 function AppContent() {
   const location = useLocation();
   const navigate = useNavigate();
   useScrollToTop();
-
-  const [user, setUser] = useState(getStoredUser());
-
-  useEffect(() => {
-    const handleUserUpdated = (event) => {
-      setUser(event.detail);
-    };
-
-    const handleLogout = () => {
-      setUser(null);
-    };
-
-    window.addEventListener("auth:user-updated", handleUserUpdated);
-    window.addEventListener("auth:logout", handleLogout);
-
-    return () => {
-      window.removeEventListener("auth:user-updated", handleUserUpdated);
-      window.removeEventListener("auth:logout", handleLogout);
-    };
-  }, []);
-
-  useEffect(() => {
-    let ignore = false;
-
-    const fetchProfile = async () => {
-      const token = getAccessToken();
-      if (!token) return;
-
-      try {
-        const { data } = await apiClient.get("/api/auth/me");
-        if (!data?.user || ignore) return;
-        storeSession(token, data.user);
-        setUser(data.user);
-      } catch (error) {
-        console.error("Failed to hydrate user from API:", error);
-      }
-    };
-
-    fetchProfile();
-
-    return () => {
-      ignore = true;
-    };
-  }, []);
+  const { user } = useUser();
 
 
   // refresh / direct load → Home
@@ -123,7 +78,7 @@ function AppContent() {
       />
 
       {location.pathname === "/" && <Particles />}
-      <Navbar user={user} setUser={setUser} />
+      <Navbar />
 
       <Routes>
         <Route
@@ -136,7 +91,7 @@ function AppContent() {
             </>
           }
         />
-        <Route path="/signin" element={<SignIn setUser={setUser} />} />
+        <Route path="/signin" element={<SignIn />} />
         <Route path="/register" element={<Register />} />
 
         {/* 🔐 FORGOT PASSWORD ROUTES (ONLY ADDITION) */}
@@ -147,6 +102,7 @@ function AppContent() {
         <Route path="/profile" element={<ProfileSettings />} />
         <Route path="/colleges" element={<Colleges />} />
         <Route path="/job-hunting" element={<JobHunting />} />
+        <Route path="/jobs" element={<JobHunting />} />
         <Route path="/career-quiz" element={<CareerQuizHub />} />
         <Route path="/quiz" element={<CareerQuizPage />} />
         <Route path="/resources" element={<LearningResources />} />
@@ -154,7 +110,10 @@ function AppContent() {
         <Route path="/team" element={<Team />} />
         <Route path="/quiz-history" element={<QuizHistory />} />
         <Route path="/subscription" element={<SimplePricingPage />} />
+        <Route path="/pricing" element={<SimplePricingPage />} />
         <Route path="/career-tree" element={<CareerTreePage />} />
+        <Route path="/features" element={<FeaturesPage />} />
+        <Route path="/roadmap" element={<AIRoadmap />} />
 
       </Routes>
     </>
@@ -164,7 +123,9 @@ function AppContent() {
 function App() {
   return (
     <Router>
-      <AppContent />
+      <UserProvider>
+        <AppContent />
+      </UserProvider>
     </Router>
   );
 }

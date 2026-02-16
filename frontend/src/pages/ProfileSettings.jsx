@@ -1,324 +1,219 @@
-import { useState, useEffect } from "react";
+import { useEffect, useState } from "react";
 import {
   User,
   Shield,
   Bell,
   Palette,
-  Save,
   Camera,
-  Eye,
-  EyeOff,
-  Lock,
+  Loader2,
 } from "lucide-react";
-import '../styles/profileSettings.css';
+import toast from "react-hot-toast";
+import apiClient from "../services/apiClient";
+import { useUser } from "../context/UserContext";
+import "../styles/profileSettings.css";
 
+const tabs = [
+  { id: "profile", label: "Profile Info", icon: User },
+  { id: "security", label: "Security", icon: Shield },
+  { id: "notifications", label: "Notifications", icon: Bell },
+  { id: "preferences", label: "Preferences", icon: Palette },
+];
 
-export default function ProfileSettings({ userProfile, onUpdate }) {
-  const [activeSection, setActiveSection] = useState("profile");
-  const [message, setMessage] = useState(null);
-  const [showPassword, setShowPassword] = useState(false);
-  const [loading, setLoading] = useState(false);
+const defaultProfile = {
+  firstName: "",
+  lastName: "",
+  email: "",
+  profilePhoto: "",
+};
 
-  const [profileData, setProfileData] = useState({
-    first_name: userProfile?.first_name || "",
-    last_name: userProfile?.last_name || "",
-    email: userProfile?.email || "",
-    avatar_url: userProfile?.avatar_url || "",
-  });
+const ProfileSettings = () => {
+  const { setUser } = useUser();
+  const [activeTab, setActiveTab] = useState("profile");
+  const [profileForm, setProfileForm] = useState(defaultProfile);
+  const [loading, setLoading] = useState(true);
+  const [saving, setSaving] = useState(false);
+  const [uploading, setUploading] = useState(false);
 
-  const [currentPassword, setCurrentPassword] = useState("");
-  const [newPassword, setNewPassword] = useState("");
-  const [confirmPassword, setConfirmPassword] = useState("");
+  useEffect(() => {
+    const fetchProfile = async () => {
+      try {
+        setLoading(true);
+        const { data } = await apiClient.get("/api/profile");
+        if (data?.profile) {
+          setProfileForm({
+            firstName: data.profile.firstName || "",
+            lastName: data.profile.lastName || "",
+            email: data.profile.email || "",
+            profilePhoto: data.profile.profilePhoto || "",
+          });
+        }
+      } catch (error) {
+        console.error("Profile fetch failed", error);
+        toast.error("Unable to load profile");
+      } finally {
+        setLoading(false);
+      }
+    };
 
-  const [notifications, setNotifications] = useState({
-    email_notifications: true,
-    push_notifications: true,
-    marketing_emails: false,
-    security_alerts: true,
-  });
+    fetchProfile();
+  }, []);
 
-  const [preferences, setPreferences] = useState({
-    theme: "dark",
-    language: "en",
-    timezone: "UTC",
-    currency: "USD",
-  });
-
-  const sections = [
-    { id: "profile", label: "Profile Info", icon: User },
-    { id: "security", label: "Security", icon: Shield },
-    { id: "notifications", label: "Notifications", icon: Bell },
-    { id: "preferences", label: "Preferences", icon: Palette },
-  ];
-
-  const showMessage = (text, type = "success") => {
-    setMessage({ text, type });
-    setTimeout(() => setMessage(null), 4000);
+  const handleProfileChange = (field, value) => {
+    setProfileForm((prev) => ({ ...prev, [field]: value }));
   };
 
-  const handleProfileUpdate = () => {
-    if (!profileData.first_name || !profileData.last_name) {
-      showMessage("First & last name are required", "error");
+  const handlePhotoUpload = async (event) => {
+    const file = event.target.files?.[0];
+    if (!file) return;
+
+    try {
+      setUploading(true);
+      const uploadedUrl = await uploadProfilePhoto(file);
+      setProfileForm((prev) => ({ ...prev, profilePhoto: uploadedUrl }));
+      toast.success("Photo uploaded");
+    } catch (error) {
+      toast.error(error.message || "Upload failed");
+    } finally {
+      setUploading(false);
+    }
+  };
+
+  const handleSaveProfile = async () => {
+    if (!profileForm.firstName || !profileForm.lastName || !profileForm.email) {
+      toast.error("All fields are required");
       return;
     }
-    setLoading(true);
-    // simulate API
-    setTimeout(() => {
-      showMessage("Profile updated successfully!");
-      setLoading(false);
-      if (onUpdate) onUpdate(profileData);
-    }, 800);
+
+    try {
+      setSaving(true);
+      const { data } = await apiClient.put("/api/profile", profileForm);
+      if (data?.profile) {
+        setUser(data.profile);
+        toast.success("Profile updated");
+      }
+    } catch (error) {
+      console.error("Profile update failed", error);
+      const message = error.response?.data?.message || "Unable to save profile";
+      toast.error(message);
+    } finally {
+      setSaving(false);
+    }
   };
 
-  const handlePasswordChange = () => {
-    if (!currentPassword || !newPassword || !confirmPassword) {
-      showMessage("All password fields are required", "error");
-      return;
-    }
-    if (newPassword !== confirmPassword) {
-      showMessage("Passwords do not match", "error");
-      return;
-    }
-    if (newPassword.length < 8) {
-      showMessage("Password must be at least 8 characters", "error");
-      return;
-    }
-    setLoading(true);
-    setTimeout(() => {
-      showMessage("Password updated successfully!");
-      setCurrentPassword("");
-      setNewPassword("");
-      setConfirmPassword("");
-      setLoading(false);
-    }, 800);
-  };
-
-  const handleNotificationsUpdate = () => {
-    showMessage("Notification preferences updated!");
-  };
-
-  const handlePreferencesUpdate = () => {
-    showMessage("Preferences updated!");
-  };
+  if (loading) {
+    return (
+      <div className="profile-page loading-state">
+        <Loader2 className="spin" size={28} />
+        <p>Loading profile...</p>
+      </div>
+    );
+  }
 
   return (
-    <div className="profile-settings">
-      {/* Message */}
-      {message && (
-        <div className={`message ${message.type}`}>{message.text}</div>
-      )}
+    <div className="profile-page">
+      <header className="profile-header">
+        <div>
+          <p className="eyebrow">Profile</p>
+          <h1>Manage your account</h1>
+          <p>Update personal information, manage preferences, and keep everything in sync.</p>
+        </div>
+        <div className="profile-avatar">
+          {profileForm.profilePhoto ? (
+            <img src={profileForm.profilePhoto} alt="Profile avatar" />
+          ) : (
+            <div className="avatar-fallback">
+              {profileForm.firstName?.[0]}
+              {profileForm.lastName?.[0]}
+            </div>
+          )}
+          <label className="avatar-upload">
+            <Camera size={16} />
+            <input type="file" accept="image/*" onChange={handlePhotoUpload} disabled={uploading} />
+            <span>{uploading ? "Uploading..." : "Upload"}</span>
+          </label>
+        </div>
+      </header>
 
-      {/* Section Tabs */}
-      <div className="section-tabs">
-        {sections.map((sec) => (
+      <div className="profile-tabs">
+        {tabs.map((tab) => (
           <button
-            key={sec.id}
-            className={activeSection === sec.id ? "active" : ""}
-            onClick={() => setActiveSection(sec.id)}
+            key={tab.id}
+            className={activeTab === tab.id ? "active" : ""}
+            onClick={() => setActiveTab(tab.id)}
           >
-            <sec.icon size={16} />
-            {sec.label}
+            <tab.icon size={16} /> {tab.label}
           </button>
         ))}
       </div>
 
-      {/* Sections */}
-      <div className="section-content">
-        {/* Profile */}
-        {activeSection === "profile" && (
-          <>
-            <div className="avatar-section">
-              <div className="avatar">
-                {profileData.first_name?.[0]}
-                {profileData.last_name?.[0]}
-                <button className="avatar-btn">
-                  <Camera size={12} />
-                </button>
-              </div>
-              <div>
-                <p>Upload a new avatar or change current one</p>
-              </div>
-            </div>
+      {activeTab === "profile" && (
+        <section className="profile-card">
+          <div className="form-grid">
+            <label>
+              <span>First Name</span>
+              <input
+                type="text"
+                value={profileForm.firstName}
+                onChange={(e) => handleProfileChange("firstName", e.target.value)}
+              />
+            </label>
+            <label>
+              <span>Last Name</span>
+              <input
+                type="text"
+                value={profileForm.lastName}
+                onChange={(e) => handleProfileChange("lastName", e.target.value)}
+              />
+            </label>
+          </div>
+          <label>
+            <span>Email</span>
+            <input
+              type="email"
+              value={profileForm.email}
+              onChange={(e) => handleProfileChange("email", e.target.value)}
+            />
+          </label>
+          <div className="actions">
+            <button onClick={handleSaveProfile} disabled={saving}>
+              {saving ? "Saving..." : "Save Changes"}
+            </button>
+          </div>
+        </section>
+      )}
 
-            <div className="form-grid">
-              <div>
-                <label>First Name *</label>
-                <input
-                  type="text"
-                  value={profileData.first_name}
-                  onChange={(e) =>
-                    setProfileData({ ...profileData, first_name: e.target.value })
-                  }
-                />
-              </div>
-              <div>
-                <label>Last Name *</label>
-                <input
-                  type="text"
-                  value={profileData.last_name}
-                  onChange={(e) =>
-                    setProfileData({ ...profileData, last_name: e.target.value })
-                  }
-                />
-              </div>
-            </div>
-
-            <div>
-              <label>Email</label>
-              <input type="email" value={profileData.email} readOnly />
-            </div>
-
-            <div className="form-actions">
-              <button onClick={handleProfileUpdate} disabled={loading}>
-                <Save size={16} /> {loading ? "Saving..." : "Save Changes"}
-              </button>
-            </div>
-          </>
-        )}
-
-        {/* Security */}
-        {activeSection === "security" && (
-          <>
-            <div className="form-grid">
-              <div>
-                <label>Current Password</label>
-                <div style={{ position: "relative" }}>
-                  <input
-                    type={showPassword ? "text" : "password"}
-                    value={currentPassword}
-                    onChange={(e) => setCurrentPassword(e.target.value)}
-                  />
-                  <button
-                    type="button"
-                    onClick={() => setShowPassword(!showPassword)}
-                    style={{
-                      position: "absolute",
-                      right: 8,
-                      top: "50%",
-                      transform: "translateY(-50%)",
-                      background: "transparent",
-                      border: "none",
-                      cursor: "pointer",
-                    }}
-                  >
-                    {showPassword ? <EyeOff size={14} /> : <Eye size={14} />}
-                  </button>
-                </div>
-              </div>
-              <div>
-                <label>New Password</label>
-                <input
-                  type="password"
-                  value={newPassword}
-                  onChange={(e) => setNewPassword(e.target.value)}
-                />
-              </div>
-              <div>
-                <label>Confirm Password</label>
-                <input
-                  type="password"
-                  value={confirmPassword}
-                  onChange={(e) => setConfirmPassword(e.target.value)}
-                />
-              </div>
-            </div>
-            <div className="form-actions">
-              <button onClick={handlePasswordChange} disabled={loading}>
-                <Lock size={16} /> Update Password
-              </button>
-            </div>
-          </>
-        )}
-
-        {/* Notifications */}
-        {activeSection === "notifications" && (
-          <>
-            {Object.keys(notifications).map((key) => (
-              <div key={key} className="notification-item">
-                <div>{key.replace("_", " ")}</div>
-                <button
-                  onClick={() =>
-                    setNotifications({ ...notifications, [key]: !notifications[key] })
-                  }
-                  className={`toggle-btn ${
-                    notifications[key] ? "on" : "off"
-                  }`}
-                >
-                  <div className="toggle-circle" />
-                </button>
-              </div>
-            ))}
-            <div className="form-actions">
-              <button onClick={handleNotificationsUpdate}>
-                <Save size={16} /> Save Preferences
-              </button>
-            </div>
-          </>
-        )}
-
-        {/* Preferences */}
-        {activeSection === "preferences" && (
-          <>
-            <div className="form-grid">
-              <div>
-                <label>Theme</label>
-                <select
-                  value={preferences.theme}
-                  onChange={(e) =>
-                    setPreferences({ ...preferences, theme: e.target.value })
-                  }
-                >
-                  <option value="dark">Dark</option>
-                  <option value="light">Light</option>
-                  <option value="system">System</option>
-                </select>
-              </div>
-              <div>
-                <label>Language</label>
-                <select
-                  value={preferences.language}
-                  onChange={(e) =>
-                    setPreferences({ ...preferences, language: e.target.value })
-                  }
-                >
-                  <option value="en">English</option>
-                  <option value="hi">Hindi</option>
-                  <option value="es">Spanish</option>
-                </select>
-              </div>
-              <div>
-                <label>Timezone</label>
-                <select
-                  value={preferences.timezone}
-                  onChange={(e) =>
-                    setPreferences({ ...preferences, timezone: e.target.value })
-                  }
-                >
-                  <option value="UTC">UTC</option>
-                  <option value="Asia/Kolkata">India Standard Time</option>
-                </select>
-              </div>
-              <div>
-                <label>Currency</label>
-                <select
-                  value={preferences.currency}
-                  onChange={(e) =>
-                    setPreferences({ ...preferences, currency: e.target.value })
-                  }
-                >
-                  <option value="USD">USD ($)</option>
-                  <option value="INR">INR (₹)</option>
-                </select>
-              </div>
-            </div>
-            <div className="form-actions">
-              <button onClick={handlePreferencesUpdate}>
-                <Save size={16} /> Save Preferences
-              </button>
-            </div>
-          </>
-        )}
-      </div>
+      {activeTab !== "profile" && (
+        <section className="profile-card muted">
+          <p>Coming soon. We are still wiring this section.</p>
+        </section>
+      )}
     </div>
   );
-}
+};
+
+const uploadProfilePhoto = async (file) => {
+  const cloudName = process.env.REACT_APP_CLOUDINARY_CLOUD_NAME;
+  const uploadPreset = process.env.REACT_APP_CLOUDINARY_UPLOAD_PRESET;
+
+  if (!cloudName || !uploadPreset) {
+    throw new Error("Cloudinary configuration missing. Set REACT_APP_CLOUDINARY_* env vars.");
+  }
+
+  const formData = new FormData();
+  formData.append("file", file);
+  formData.append("upload_preset", uploadPreset);
+
+  const response = await fetch(`https://api.cloudinary.com/v1_1/${cloudName}/upload`, {
+    method: "POST",
+    body: formData,
+  });
+
+  const payload = await response.json();
+  if (!response.ok || !payload.secure_url) {
+    throw new Error(payload.error?.message || "Upload failed");
+  }
+
+  return payload.secure_url;
+};
+
+export default ProfileSettings;

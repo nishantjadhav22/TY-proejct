@@ -15,7 +15,10 @@ import {
 const buildUserResponse = (user) => ({
   id: user._id,
   name: user.name,
+  firstName: user.firstName || user.name?.split(" ")[0] || "",
+  lastName: user.lastName || user.name?.split(" ").slice(1).join(" ") || "",
   email: user.email,
+  profilePhoto: user.profilePhoto || user.avatar || "",
 });
 
 const issueSessionTokens = async (user, res) => {
@@ -45,8 +48,14 @@ export const register = async (req, res) => {
 
     const hashedPassword = await bcrypt.hash(password, 10);
 
+    const trimmedName = name.trim();
+    const [firstName, ...rest] = trimmedName.split(" ");
+    const lastName = rest.join(" ");
+
     const user = await User.create({
-      name,
+      name: trimmedName,
+      firstName,
+      lastName,
       email,
       password: hashedPassword,
     });

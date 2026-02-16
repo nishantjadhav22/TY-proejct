@@ -1,0 +1,30 @@
+.features-page {
+  padding-top: 120px;
+  background: linear-gradient(180deg, #f8fbff 0%, #eef2ff 100%);
+}
+
+.features-hero-block {
+  max-width: 800px;
+  margin: 0 auto 60px;
+  text-align: center;
+  padding: 40px 24px;
+}
+
+.features-hero-block h1 {
+  font-size: clamp(32px, 5vw, 48px);
+  color: #0f172a;
+}
+
+.features-hero-block .subtitle {
+  margin-top: 16px;
+  color: #475569;
+  font-size: 16px;
+}
+
+.features-hero-block .eyebrow {
+  text-transform: uppercase;
+  letter-spacing: 0.2em;
+  color: #3b82f6;
+  font-weight: 600;
+  margin-bottom: 14px;
+}

@@ -13,6 +13,8 @@ import resumeRoutes from "./routes/resumeRoutes.js";
 import dashboardRoutes from "./routes/dashboardRoutes.js"; // ✅ FIXED
 import quizRoutes from "./routes/quizRoutes.js";
 import newsletterRoutes from "./routes/newsletterRoutes.js";
+import profileRoutes from "./routes/profileRoutes.js";
+import savedCollegeRoutes from "./routes/savedCollegeRoutes.js";
 
 const app = express();
 
@@ -44,6 +46,8 @@ app.use("/api/resume", resumeRoutes);
 app.use("/api/dashboard", dashboardRoutes); // ✅ NOW WORKS
 app.use("/api/quiz", quizRoutes);
 app.use("/api", newsletterRoutes);
+app.use("/api/profile", profileRoutes);
+app.use("/api/saved-colleges", savedCollegeRoutes);
 
 // ================= HEALTH CHECK =================
 app.get("/", (req, res) => {
