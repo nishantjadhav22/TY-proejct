@@ -8,16 +8,15 @@ const SavedColleges = () => {
   const [savedColleges, setSavedColleges] = useState([]);
   const [loading, setLoading] = useState(true);
 
-  const userId = localStorage.getItem("userId");
-
   useEffect(() => {
     const fetchSaved = async () => {
       try {
-        const res = await apiClient.get(
-          `/api/colleges/bookmark/${userId}`
-        );
+        // Call protected endpoint without passing userId in URL.
+        // `apiClient` attaches the Bearer token from localStorage automatically.
+        const res = await apiClient.get(`/api/colleges/bookmark`);
         setSavedColleges(res.data.savedColleges || []);
       } catch (err) {
+        // Handle auth errors explicitly so UI can respond (e.g., redirect to sign-in)
         console.error("Failed to fetch saved colleges", err);
       } finally {
         setLoading(false);
@@ -25,7 +24,7 @@ const SavedColleges = () => {
     };
 
     fetchSaved();
-  }, [userId]);
+  }, []);
 
   if (loading) {
     return <p className="loading">Loading saved colleges...</p>;

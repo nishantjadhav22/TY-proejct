@@ -1,28 +1,8 @@
 import express from "express";
-import mongoose from "mongoose";
 import { protect } from "../middleware/authMiddleware.js";
+import SavedCollege from "../models/SavedCollege.js";
 const router = express.Router();
-
-/* ===============================
-   🔥 MONGOOSE MODEL (ADDED)
-================================ */
-const savedCollegeSchema = new mongoose.Schema({
-  userId: {
-    type: String,
-    required: true
-  },
-  collegeId: {
-    type: Number,
-    required: true
-  },
-  collegeName: String,
-  createdAt: {
-    type: Date,
-    default: Date.now
-  }
-});
-
-const SavedCollege = mongoose.model("SavedCollege", savedCollegeSchema);
+ 
 
 /* ===============================
    ✅ 50 colleges ka data (UNCHANGED)
@@ -153,6 +133,29 @@ router.get("/bookmark/count", protect, async (req, res) => {
     res.json({ count, savedColleges: savedColleges.map(c => c.collegeId) });
   } catch (err) {
     console.error("Error in count route:", err);
+    res.status(500).json({ message: "Server Error" });
+  }
+});
+
+/* ===============================
+   🔖 GET saved colleges for current user
+   - Protected route
+   - Uses `req.user.id` provided by `protect` middleware
+================================= */
+router.get("/bookmark", protect, async (req, res) => {
+  try {
+    const userId = req.user?._id?.toString();
+
+    if (!userId) {
+      return res.status(401).json({ message: "Not authorized" });
+    }
+
+    const savedColleges = await SavedCollege.find({ userId }).sort({ createdAt: -1 });
+
+    // Return full saved college documents so frontend can render properly
+    res.json({ savedColleges });
+  } catch (err) {
+    console.error("Error fetching saved colleges:", err);
     res.status(500).json({ message: "Server Error" });
   }
 });
